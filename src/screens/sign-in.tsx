@@ -20,18 +20,18 @@ export function SignIn() {
         >
             <VStack flex={1}>
                 <Center flex={1}>
-                    <Image 
+                    <Image
                         w="$full"
                         h={200}
-                        source={BackgroundImg} 
+                        source={BackgroundImg}
                         defaultSource={BackgroundImg}
                         alt="Imagem background"
                         position="absolute"
                     />
-                </Center> 
+                </Center>
 
                 <View px="$4" pb="$4">
-                    <Button title="Acessar" onPress={handleClickGoToHome}/>
+                    <Button title="Acessar" onPress={handleClickGoToHome} />
                 </View>
             </VStack>
         </ScrollView>

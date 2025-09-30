@@ -5,6 +5,8 @@ import { View, VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { HeaderList } from "@components/header-list";
 import ModeloCestaCard from "./components/modelo-cesta-card";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 type ModeloCesta = {
     id: number;
@@ -12,14 +14,20 @@ type ModeloCesta = {
 }
 
 const items: ModeloCesta[] = [
-  { id: 1, name: "Cesta Básica Mensal" },
-  { id: 2, name: "Cesta Emergencial" },
-  { id: 3, name: "Cesta Família com Crianças" },
-  { id: 4, name: "Cesta para Idosos" },
+    { id: 1, name: "Cesta Básica Mensal" },
+    { id: 2, name: "Cesta Emergencial" },
+    { id: 3, name: "Cesta Família com Crianças" },
+    { id: 4, name: "Cesta para Idosos" },
 ];
 
-export function ModeloCestaList() {
+const ModeloTemplateListagem: React.FC = () => {
+    const navigator = useNavigation<AppNavigatorRoutesProps>();
+
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    const handleRedirectToModeloTemplateCadastrar = () => {
+        navigator.navigate("modeloTemplateCadastrar");
+    }
 
     return (
         <View flex={1} bg="$blue100">
@@ -37,6 +45,7 @@ export function ModeloCestaList() {
                     labelButtonPlus="Novo modelo"
                     onSetShowFilter={setIsFilterOpen}
                     showIconFilter
+                    onPress={handleRedirectToModeloTemplateCadastrar}
                 />
 
                 {/* Lista de Famílias */}
@@ -61,3 +70,5 @@ export function ModeloCestaList() {
         </View>
     )
 }
+
+export default ModeloTemplateListagem;

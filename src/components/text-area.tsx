@@ -1,13 +1,14 @@
-import { Input as GluestackInput, InputField } from "@gluestack-ui/themed";
+import { Textarea as GluestackTextArea, TextareaInput } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 
-type Props = ComponentProps<typeof InputField>;
+type Props = ComponentProps<typeof TextareaInput>;
 
-export function Input({ ...rest }: Props) {
+export function TextArea({ ...rest }: Props) {
     return (
-        <GluestackInput
+        <GluestackTextArea
             bg="$white"
-            h="$14"
+            minHeight={120}
+            maxHeight={200}
             px="$1"
             borderWidth="$0"
             borderRadius="$md"
@@ -16,10 +17,10 @@ export function Input({ ...rest }: Props) {
                 borderColor: "$blue300"
             }}
         >
-            <InputField
+            <TextareaInput
                 fontFamily="$body"
                 {...rest}
             />
-        </GluestackInput>
+        </GluestackTextArea>
     )
 }

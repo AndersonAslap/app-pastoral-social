@@ -3,14 +3,15 @@ import { ComponentProps } from "react";
 
 type Props = ComponentProps<typeof InputField>;
 
-export function Input({ ...rest }: Props) {
+export function InputWithBorder({ ...rest }: Props) {
     return (
         <GluestackInput
             bg="$white"
             h="$14"
-            px="$1"
-            borderWidth="$0"
+            px="$4"
+            borderWidth="$1"
             borderRadius="$md"
+            borderColor="$blue300"
             $focus={{
                 borderWidth: 1,
                 borderColor: "$blue300"

@@ -4,23 +4,23 @@ import { config } from "../../../../config/gluestack-ui.config";
 import { useNavigation } from "@react-navigation/native";
 
 const actions = [
-  { 
-    label: "Produtos", 
+  {
+    label: "Produtos",
     icon: Package,
     route: 'product'
   },
-  { 
-    label: "Modelos de cesta", 
+  {
+    label: "Modelos de cesta",
     icon: Boxes,
-    route: 'modelCesta'
+    route: 'modeloTemplateListagem'
   },
-  { 
-    label: "Cestas gerada", 
+  {
+    label: "Cestas gerada",
     icon: ShoppingBasket,
     route: ''
   },
-  { 
-    label: "Relatórios", 
+  {
+    label: "Relatórios",
     icon: BarChart2,
     route: ''
   },
@@ -51,14 +51,14 @@ export default function HomeMenu() {
             shadowRadius={4}
             android_ripple={{ color: config.tokens.colors.green500 }}
             onPress={() => handleGoNavigation(item.route)}
-        >
-          <Center flex={1}>
-            <Icon as={item.icon} size="lg" color="$blue600" mb="$1" />
-            <Text color="$gray400" fontFamily="$heading" fontSize="$sm">
-              {item.label}
-            </Text>
-          </Center>
-        </Pressable>
+          >
+            <Center flex={1}>
+              <Icon as={item.icon} size="lg" color="$blue600" mb="$1" />
+              <Text color="$gray400" fontFamily="$heading" fontSize="$sm">
+                {item.label}
+              </Text>
+            </Center>
+          </Pressable>
         ))}
       </HStack>
     </VStack>

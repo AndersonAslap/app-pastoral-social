@@ -4,6 +4,9 @@ import { useState } from "react";
 import { HeaderList } from "@components/header-list";
 import { FilterList } from "@components/filter-list";
 import ProductCard from "@screens/product/components/product-card";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 type Product = {
   id: number;
@@ -77,45 +80,52 @@ const items: Product[] = [
 
 
 export function ProductList() {
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const navigator = useNavigation<AppNavigatorRoutesProps>();
 
-    return (
-        <View flex={1} bg="$blue100">
-            <ScreenHeader title="Produtos" />
-            <VStack
-                flex={1}
-                bg="$backgroundLight0"
-                borderTopLeftRadius="$3xl"
-                borderTopRightRadius="$3xl"
-                px="$4"
-                pt="$8"
-            >
-                {/* Header com Botões */}
-                <HeaderList
-                    labelButtonPlus="Novo produto"
-                    onSetShowFilter={setIsFilterOpen}
-                    showIconFilter
-                />
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-                {/* Lista de Famílias */}
-                <FlatList
-                    data={items}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <ProductCard item={item} />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 16 }}
-                />
+  const handleClickGoRegisterProduct = () => {
+    navigator.navigate("productRegister");
+  }
 
-                {/* Drawer de Filtros */}
-                <FilterList
-                    onFilterOpen={isFilterOpen}
-                    onSetIsFilterOpen={setIsFilterOpen}
-                >
-                    <View />
-                </FilterList>
-            </VStack>
-        </View>
-    );
+  return (
+    <View flex={1} bg="$blue100">
+      <ScreenHeader title="Produtos" />
+      <VStack
+        flex={1}
+        bg="$backgroundLight0"
+        borderTopLeftRadius="$3xl"
+        borderTopRightRadius="$3xl"
+        px="$4"
+        pt="$8"
+      >
+        {/* Header com Botões */}
+        <HeaderList
+          labelButtonPlus="Novo produto"
+          onSetShowFilter={setIsFilterOpen}
+          showIconFilter
+          onPress={handleClickGoRegisterProduct}
+        />
+
+        {/* Lista de Famílias */}
+        <FlatList
+          data={items}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <ProductCard item={item} />
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 16 }}
+        />
+
+        {/* Drawer de Filtros */}
+        <FilterList
+          onFilterOpen={isFilterOpen}
+          onSetIsFilterOpen={setIsFilterOpen}
+        >
+          <View />
+        </FilterList>
+      </VStack>
+    </View>
+  );
 }

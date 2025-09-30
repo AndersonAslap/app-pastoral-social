@@ -8,7 +8,8 @@ import { HeartHandshakeIcon, HomeIcon, UsersRoundIcon } from "lucide-react-nativ
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 import { ProductList } from "@screens/product/list";
-import { ModeloCestaList } from "@screens/modeloCesta/list";
+import { ProductRegister } from "@screens/product/register";
+import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/modeloTemplate";
 
 type AppRoutes = {
     home: undefined;
@@ -17,8 +18,10 @@ type AppRoutes = {
     familyRegister: undefined;
     familyMenu: undefined;
     product: undefined;
-    modelCesta: undefined;
+    productRegister: undefined;
     cesta: undefined;
+    modeloTemplateListagem: undefined;
+    modeloTemplateCadastrar: undefined;
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -32,8 +35,8 @@ export function AppRoutes() {
     const iconSize = tokens.space["6"];
 
     return (
-        <Navigator 
-            screenOptions={{ 
+        <Navigator
+            screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: true,
                 tabBarActiveTintColor: tokens.colors.blue500,
@@ -46,67 +49,83 @@ export function AppRoutes() {
                 }
             }}
         >
-            <Screen 
-                name="home" 
-                component={Home} 
+            <Screen
+                name="home"
+                component={Home}
                 options={{
                     tabBarLabel: "Home",
-                    tabBarIcon: ({color}) => <HomeIcon size={iconSize} color={color} />
+                    tabBarIcon: ({ color }) => <HomeIcon size={iconSize} color={color} />
                 }}
             />
 
-            <Screen 
-                name="help" 
+            <Screen
+                name="help"
                 component={HelpList}
                 options={{
                     tabBarLabel: "Home",
-                    tabBarIcon: ({color}) => <HeartHandshakeIcon size={24} color={color} />
+                    tabBarIcon: ({ color }) => <HeartHandshakeIcon size={24} color={color} />
                 }}
             />
-            <Screen 
-                name="family" 
-                component={FamilyList} 
+            <Screen
+                name="family"
+                component={FamilyList}
                 options={{
                     tabBarLabel: "Home",
-                    tabBarIcon: ({color}) => <UsersRoundIcon size={24} color={color} />
+                    tabBarIcon: ({ color }) => <UsersRoundIcon size={24} color={color} />
                 }}
             />
 
-            <Screen 
-                name="familyRegister" 
-                component={FamilyRegister} 
+            <Screen
+                name="familyRegister"
+                component={FamilyRegister}
                 options={{
                     tabBarButton: () => null
                 }}
             />
 
-            <Screen 
-                name="familyMenu" 
-                component={FamilyMenu} 
+            <Screen
+                name="familyMenu"
+                component={FamilyMenu}
                 options={{
                     tabBarButton: () => null
                 }}
             />
 
-            <Screen 
-                name="product" 
-                component={ProductList} 
+            <Screen
+                name="product"
+                component={ProductList}
                 options={{
                     tabBarButton: () => null
                 }}
             />
 
-            <Screen 
-                name="modelCesta" 
-                component={ModeloCestaList} 
+            <Screen
+                name="productRegister"
+                component={ProductRegister}
                 options={{
                     tabBarButton: () => null
                 }}
             />
 
-            <Screen 
-                name="cesta" 
-                component={ProductList} 
+            <Screen
+                name="modeloTemplateListagem"
+                component={ModeloTemplateListagem}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            <Screen
+                name="modeloTemplateCadastrar"
+                component={ModeloTemplateCadastrarForm}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            <Screen
+                name="cesta"
+                component={ProductList}
                 options={{
                     tabBarButton: () => null
                 }}

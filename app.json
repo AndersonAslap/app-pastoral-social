@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "app-pastoral-social",
+    "name": "Pastoral Social",
     "slug": "app-pastoral-social",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.aslap.apppastoralsocial"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a5aa10e9-b5ee-4750-a018-a1789d9bfbfc"
+      }
     }
   }
 }
