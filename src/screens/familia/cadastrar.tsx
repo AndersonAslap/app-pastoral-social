@@ -39,7 +39,7 @@ const dificuldadeOptions = [
     { label: "Educação", value: "3" }
 ];
 
-export function FamilyRegister() {
+export function FamiliaCadastrarForm() {
     const [form, setForm] = useState(initialState);
 
     const handleChange = (field: string, value: any) => {

@@ -1,6 +1,6 @@
 import { Center, ScrollView, Text } from "@gluestack-ui/themed";
 
-export function FamilyMenu() {
+export function FamiliaMenu() {
     return (
         <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
@@ -8,7 +8,7 @@ export function FamilyMenu() {
         >
             <Center flex={1}>
                 <Text>Family Menu</Text>
-            </Center> 
+            </Center>
         </ScrollView>
     )
 }

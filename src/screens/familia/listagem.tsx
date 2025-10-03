@@ -1,5 +1,5 @@
 import { Button, FlatList, Text, View, VStack } from "@gluestack-ui/themed";
-import FamilyCard from "@screens/family/components/family-card";
+import FamilyCard from "@screens/familia/components/family-card";
 import { ScreenHeader } from "@components/screen-header";
 import { useState } from "react";
 import { FilterList } from "@components/filter-list";
@@ -22,13 +22,13 @@ const items: Family[] = [
     { id: 6, name: "Luciana Rocha", address: "Rua Verde, 50 - Porto Alegre" },
 ];
 
-export function FamilyList() {
+export function FamiliaListagem() {
     const navigator = useNavigation<AppNavigatorRoutesProps>();
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const handleOpenNewFamily = () => {
-        navigator.navigate("familyRegister");
+        navigator.navigate("familiaCadastrar");
     }
 
     return (

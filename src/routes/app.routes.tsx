@@ -1,7 +1,4 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FamilyList } from "@screens/family/list";
-import { FamilyMenu } from "@screens/family/menu";
-import { FamilyRegister } from "@screens/family/register";
 import { HelpList } from "@screens/help/list";
 import { Home } from "@screens/home";
 import { HeartHandshakeIcon, HomeIcon, UsersRoundIcon } from "lucide-react-native";
@@ -9,17 +6,22 @@ import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 import { ProductList } from "@screens/product/list";
 import { ProductRegister } from "@screens/product/register";
+
 import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/modeloTemplate";
+import { FamiliaCadastrarForm, FamiliaListagem, FamiliaMenu } from "@screens/familia";
 
 type AppRoutes = {
     home: undefined;
     help: undefined;
-    family: undefined;
-    familyRegister: undefined;
-    familyMenu: undefined;
+
+    familiaListagem: undefined;
+    familiaCadastrar: undefined;
+    familiaMenu: undefined;
+
     product: undefined;
     productRegister: undefined;
     cesta: undefined;
+
     modeloTemplateListagem: undefined;
     modeloTemplateCadastrar: undefined;
 }
@@ -67,8 +69,8 @@ export function AppRoutes() {
                 }}
             />
             <Screen
-                name="family"
-                component={FamilyList}
+                name="familiaListagem"
+                component={FamiliaListagem}
                 options={{
                     tabBarLabel: "Home",
                     tabBarIcon: ({ color }) => <UsersRoundIcon size={24} color={color} />
@@ -76,16 +78,16 @@ export function AppRoutes() {
             />
 
             <Screen
-                name="familyRegister"
-                component={FamilyRegister}
+                name="familiaCadastrar"
+                component={FamiliaCadastrarForm}
                 options={{
                     tabBarButton: () => null
                 }}
             />
 
             <Screen
-                name="familyMenu"
-                component={FamilyMenu}
+                name="familiaMenu"
+                component={FamiliaMenu}
                 options={{
                     tabBarButton: () => null
                 }}
