@@ -10,7 +10,7 @@ import { Input } from "@components/input";
 export function SignIn() {
     const navigator = useNavigation<AuthNavigatorRoutesProps>();
 
-    const handleClickGoToHome = () => {
+    const signIn = async () => {
         navigator.navigate("home");
     };
 
