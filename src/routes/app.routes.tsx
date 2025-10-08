@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HelpList } from "@screens/help/list";
 import { Home } from "@screens/home";
-import { HeartHandshakeIcon, HomeIcon, UsersRoundIcon } from "lucide-react-native";
+import { HeartHandshakeIcon, HomeIcon, SettingsIcon, UsersRoundIcon } from "lucide-react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 import { ProductList } from "@screens/product/list";
@@ -13,6 +13,8 @@ import { FamiliaCadastrarForm, FamiliaListagem, FamiliaMenu } from "@screens/fam
 type AppRoutes = {
     home: undefined;
     help: undefined;
+
+    perfilUsuario: undefined;
 
     familiaListagem: undefined;
     familiaCadastrar: undefined;
@@ -68,12 +70,21 @@ export function AppRoutes() {
                     tabBarIcon: ({ color }) => <HeartHandshakeIcon size={24} color={color} />
                 }}
             />
+
+            <Screen
+                name="perfilUsuario"
+                component={HelpList}
+                options={{
+                    tabBarLabel: "Home",
+                    tabBarIcon: ({ color }) => <SettingsIcon size={24} color={color} />
+                }}
+            />
+
             <Screen
                 name="familiaListagem"
                 component={FamiliaListagem}
                 options={{
-                    tabBarLabel: "Home",
-                    tabBarIcon: ({ color }) => <UsersRoundIcon size={24} color={color} />
+                    tabBarButton: () => null
                 }}
             />
 

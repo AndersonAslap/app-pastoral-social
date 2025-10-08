@@ -1,18 +1,21 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthRoutes } from "./auth.routes";
 import { Box } from "@gluestack-ui/themed";
 import { AppRoutes } from "./app.routes";
-import { useContext } from "react";
-import AuthContext from "@contexts/auth.context";
+import { AuthRoutes } from "./auth.routes";
+import { useAuth } from "@hooks/useAuth";
+import { Loading } from "@components/loading";
 
 export function Routes() {
+    const { user, isLoadingUserStorageData } = useAuth();
 
-    const contextData = useContext(AuthContext);
+    if (isLoadingUserStorageData) {
+        return <Loading />;
+    }
 
     return (
         <Box flex={1}>
             <NavigationContainer>
-                <AppRoutes />
+                {user?.userId ? <AppRoutes /> : <AuthRoutes />}
             </NavigationContainer>
         </Box>
     )

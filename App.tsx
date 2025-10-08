@@ -8,7 +8,7 @@ import { GluestackUIProvider, Text } from '@gluestack-ui/themed';
 import { config } from './config/gluestack-ui.config';
 import { Loading } from '@components/loading';
 import { Routes } from '@routes/index';
-import AuthContext from '@contexts/auth.context';
+import { AuthContext, AuthContextProvider } from '@contexts/auth.context';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_700Bold, Roboto_400Regular });
@@ -20,9 +20,9 @@ export default function App() {
         translucent
       />
 
-      <AuthContext.Provider value={{ id: null, name: "", }}>
+      <AuthContextProvider>
         {fontsLoaded ? <Routes /> : <Loading />}
-      </AuthContext.Provider>
+      </AuthContextProvider>
     </GluestackUIProvider>
   );
 }

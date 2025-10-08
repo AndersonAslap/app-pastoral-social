@@ -2,7 +2,7 @@ import { AppError } from "@utils/app.error";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.URL_API,
+  baseURL: "http://192.168.0.107:5000",
 });
 
 api.interceptors.response.use(

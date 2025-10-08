@@ -1,9 +1,14 @@
 import { VStack, HStack, Text, Pressable, Icon, Center } from "@gluestack-ui/themed";
-import { Package, Boxes, ShoppingBasket, BarChart2, User } from "lucide-react-native";
+import { Package, Boxes, ShoppingBasket, BarChart2, User, UsersRoundIcon } from "lucide-react-native";
 import { config } from "../../../../config/gluestack-ui.config";
 import { useNavigation } from "@react-navigation/native";
 
 const actions = [
+  {
+    label: "Familias",
+    icon: UsersRoundIcon,
+    route: 'familiaListagem'
+  },
   {
     label: "Produtos",
     icon: Package,

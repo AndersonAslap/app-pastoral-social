@@ -7,8 +7,13 @@ import CustomSwitch from "@components/swtch";
 import { TextArea } from "@components/text-area";
 import { HStack } from "@gluestack-ui/themed";
 import { VStack, ScrollView } from "@gluestack-ui/themed";
-import { useState } from "react";
-import { Alert } from "react-native";
+import { useAppToast } from "@hooks/useAppToast";
+import { listarDificuldadeService } from "@services/dificuldade.service";
+import { createFamiliaService } from "@services/familia.service";
+import { AppError } from "@utils/app.error";
+import { MESSAGES_ERROR } from "@utils/constantes";
+import { useEffect, useState } from "react";
+
 
 const initialState = {
     nomeRepresentante: "",
@@ -33,14 +38,12 @@ const comunidadeOptions = [
     { label: "Outra comunidade", value: "2" }
 ];
 
-const dificuldadeOptions = [
-    { label: "Financeira", value: "1" },
-    { label: "Saúde", value: "2" },
-    { label: "Educação", value: "3" }
-];
-
 export function FamiliaCadastrarForm() {
+    const { showErrorToast, showSuccessToast } = useAppToast();
+
     const [form, setForm] = useState(initialState);
+    const [formSubmitting, setFormSubmitting] = useState(false);
+    const [dificuldadeOptions, setDificuldadeOptions] = useState<{ label: string, value: string }[]>([]);
 
     const handleChange = (field: string, value: any) => {
         setForm(prev => ({
@@ -49,9 +52,43 @@ export function FamiliaCadastrarForm() {
         }));
     };
 
-    const handleSubmit = () => {
-        Alert.alert("Dados do formulário", JSON.stringify(form, null, 2));
+    const handleSubmit = async () => {
+        setFormSubmitting(true);
+        try {
+            const payload = { ...form };
+            await createFamiliaService(payload);
+            setForm(initialState);
+            showSuccessToast({ title: "Família cadastrada com sucesso!" });
+        } catch (error) {
+            const isAppError = error instanceof AppError;
+            const title = isAppError ? error.message : MESSAGES_ERROR.DEFAULT_REGISTER;
+            showErrorToast({ title });
+        } finally {
+            setFormSubmitting(false);
+        }
     };
+
+    const fetchDificuldades = async () => {
+        try {
+            const data = await listarDificuldadeService();
+            return data;
+        } catch (error) {
+            const isAppError = error instanceof AppError;
+            const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_DIFFICULDADES;
+            showErrorToast({ title });
+            return;
+        }
+    };
+
+    useEffect(() => {
+        const loadDataSelects = async () => {
+            const promises = [fetchDificuldades()];
+            const [dificuldades] = await Promise.all(promises);
+
+            setDificuldadeOptions(dificuldades);
+        };
+        loadDataSelects();
+    }, []);
 
     return (
         <ScrollView
@@ -91,7 +128,7 @@ export function FamiliaCadastrarForm() {
                     size="md"
                     variant="underlined"
                     selectedValue={form.idComunidade}
-                    onValueChange={value => handleChange("idComunidade", value)}
+                    onValueChange={(value: string) => handleChange("idComunidade", value)}
                 />
 
                 <CustomSelect
@@ -100,7 +137,7 @@ export function FamiliaCadastrarForm() {
                     size="md"
                     variant="underlined"
                     selectedValue={form.idDificuldade}
-                    onValueChange={value => handleChange("idDificuldade", value)}
+                    onValueChange={(value: string) => handleChange("idDificuldade", value)}
                 />
 
                 <Input
@@ -173,7 +210,12 @@ export function FamiliaCadastrarForm() {
 
                 <HStack flex={1} gap="$1">
                     <ButtonCancel w="$1/2" title="Cancelar" />
-                    <Button w="$1/2" title="Salvar" onPress={handleSubmit} />
+                    <Button
+                        w="$1/2"
+                        title="Salvar"
+                        onPress={handleSubmit}
+                        isLoading={formSubmitting}
+                    />
                 </HStack>
             </VStack>
         </ScrollView>
