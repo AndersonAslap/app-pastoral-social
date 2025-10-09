@@ -12,7 +12,7 @@ const actions = [
   {
     label: "Produtos",
     icon: Package,
-    route: 'product'
+    route: 'estoqueListagem'
   },
   {
     label: "Modelos de cesta",

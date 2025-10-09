@@ -8,6 +8,7 @@ import { TextArea } from "@components/text-area";
 import { HStack } from "@gluestack-ui/themed";
 import { VStack, ScrollView } from "@gluestack-ui/themed";
 import { useAppToast } from "@hooks/useAppToast";
+import { listarComunidadeService } from "@services/comunidade.service";
 import { listarDificuldadeService } from "@services/dificuldade.service";
 import { createFamiliaService } from "@services/familia.service";
 import { AppError } from "@utils/app.error";
@@ -33,19 +34,16 @@ const initialState = {
     outros: ""
 };
 
-const comunidadeOptions = [
-    { label: "São gonçalo", value: "1" },
-    { label: "Outra comunidade", value: "2" }
-];
-
 export function FamiliaCadastrarForm() {
     const { showErrorToast, showSuccessToast } = useAppToast();
 
     const [form, setForm] = useState(initialState);
     const [formSubmitting, setFormSubmitting] = useState(false);
     const [dificuldadeOptions, setDificuldadeOptions] = useState<{ label: string, value: string }[]>([]);
+    const [comunidadeOptions, setComunidadeOptions] = useState<{ label: string, value: string }[]>([]);
 
     const handleChange = (field: string, value: any) => {
+        console.log(field, value);
         setForm(prev => ({
             ...prev,
             [field]: value
@@ -56,6 +54,7 @@ export function FamiliaCadastrarForm() {
         setFormSubmitting(true);
         try {
             const payload = { ...form };
+            console.log(JSON.stringify(payload, null, 2));
             await createFamiliaService(payload);
             setForm(initialState);
             showSuccessToast({ title: "Família cadastrada com sucesso!" });
@@ -76,16 +75,27 @@ export function FamiliaCadastrarForm() {
             const isAppError = error instanceof AppError;
             const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_DIFFICULDADES;
             showErrorToast({ title });
-            return;
+        }
+    };
+
+    const fetchComunidades = async () => {
+        try {
+            const data = await listarComunidadeService();
+            return data;
+        } catch (error) {
+            const isAppError = error instanceof AppError;
+            const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_COMUNIDADES;
+            showErrorToast({ title });
         }
     };
 
     useEffect(() => {
         const loadDataSelects = async () => {
-            const promises = [fetchDificuldades()];
-            const [dificuldades] = await Promise.all(promises);
+            const promises = [fetchDificuldades(), fetchComunidades()];
+            const [dificuldades, comunidades] = await Promise.all(promises);
 
             setDificuldadeOptions(dificuldades);
+            setComunidadeOptions(comunidades);
         };
         loadDataSelects();
     }, []);

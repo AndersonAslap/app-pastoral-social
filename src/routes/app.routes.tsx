@@ -4,11 +4,12 @@ import { Home } from "@screens/home";
 import { HeartHandshakeIcon, HomeIcon, SettingsIcon, UsersRoundIcon } from "lucide-react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
-import { ProductList } from "@screens/product/list";
-import { ProductRegister } from "@screens/product/register";
+
+import { ProductRegister } from "@screens/estoque/register";
 
 import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/modeloTemplate";
 import { FamiliaCadastrarForm, FamiliaListagem, FamiliaMenu } from "@screens/familia";
+import { EstoqueListagem } from "@screens/estoque";
 
 type AppRoutes = {
     home: undefined;
@@ -20,8 +21,10 @@ type AppRoutes = {
     familiaCadastrar: undefined;
     familiaMenu: undefined;
 
-    product: undefined;
+    estoqueListagem: undefined;
+
     productRegister: undefined;
+
     cesta: undefined;
 
     modeloTemplateListagem: undefined;
@@ -105,8 +108,8 @@ export function AppRoutes() {
             />
 
             <Screen
-                name="product"
-                component={ProductList}
+                name="estoqueListagem"
+                component={EstoqueListagem}
                 options={{
                     tabBarButton: () => null
                 }}
@@ -138,7 +141,7 @@ export function AppRoutes() {
 
             <Screen
                 name="cesta"
-                component={ProductList}
+                component={EstoqueListagem}
                 options={{
                     tabBarButton: () => null
                 }}

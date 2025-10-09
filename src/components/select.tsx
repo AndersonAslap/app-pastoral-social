@@ -6,11 +6,12 @@ interface CustomSelectProps {
     placeholder?: string;
     size?: "sm" | "md" | "lg";
     variant?: "underlined" | "outline" | "rounded";
+    onValueChange: (value: string) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = "Select option", size = "md", variant = "underlined" }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder = "Select option", size = "md", variant = "underlined", onValueChange }) => {
     return (
-        <Select px="$1">
+        <Select px="$1" onValueChange={onValueChange}>
             <SelectTrigger variant={variant} size={size}>
                 <SelectInput placeholder={placeholder} px="$2" />
                 <SelectIcon as={ChevronDownIcon} mr="$3" />
