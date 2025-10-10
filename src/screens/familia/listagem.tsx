@@ -1,28 +1,24 @@
 import { Button, FlatList, Text, View, VStack } from "@gluestack-ui/themed";
 import FamilyCard from "@screens/familia/components/family-card";
 import { ScreenHeader } from "@components/screen-header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilterList } from "@components/filter-list";
 import { HeaderList } from "@components/header-list";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { listarFamiliaService } from "@services/familia.service";
+import { useAppToast } from "@hooks/useAppToast";
+import { AppError } from "@utils/app.error";
+import { MESSAGES_ERROR } from "@utils/constantes";
 
-type Family = {
+export type Family = {
     id: number;
-    name: string;
-    address: string;
+    nomeRepresentante: string;
+    endereco: string;
 };
 
-const items: Family[] = [
-    { id: 1, name: "João Silva", address: "Rua das Flores, 123 - São Paulo" },
-    { id: 2, name: "Maria Oliveira", address: "Av. Brasil, 456 - Rio de Janeiro" },
-    { id: 3, name: "Carlos Souza", address: "Rua A, 78 - Belo Horizonte" },
-    { id: 4, name: "Ana Lima", address: "Av. Central, 90 - Salvador" },
-    { id: 5, name: "Pedro Santos", address: "Rua da Paz, 321 - Curitiba" },
-    { id: 6, name: "Luciana Rocha", address: "Rua Verde, 50 - Porto Alegre" },
-];
-
 export function FamiliaListagem() {
+    const { showErrorToast, showSuccessToast } = useAppToast();
     const navigator = useNavigation<AppNavigatorRoutesProps>();
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -30,6 +26,30 @@ export function FamiliaListagem() {
     const handleOpenNewFamily = () => {
         navigator.navigate("familiaCadastrar");
     }
+
+    const [items, setItems] = useState<Family[]>([]);
+    
+    const fetchItens = async () => {
+        try {
+            const data = await listarFamiliaService();
+            console.log(data);
+            return data;
+        } catch (error) {
+            const isAppError = error instanceof AppError;
+            const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_ITENS;
+            showErrorToast({ title });
+        }
+    };
+
+    useEffect(() => {
+        const loadData = async () => {
+            const promises = [fetchItens()];
+            const [familias] = await Promise.all(promises);
+            setItems(familias);
+        };
+
+        loadData();
+    }, []);
 
     return (
         <View flex={1} bg="$blue100">
@@ -53,9 +73,9 @@ export function FamiliaListagem() {
                 {/* Lista de Famílias */}
                 <FlatList
                     data={items}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item, _index) => (item as Family).id.toString()}
                     renderItem={({ item }) => (
-                        <FamilyCard name={item.name} address={item.address} />
+                        <FamilyCard item={item as Family}/>
                     )}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 16 }}

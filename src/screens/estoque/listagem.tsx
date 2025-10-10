@@ -44,7 +44,6 @@ export function EstoqueListagem() {
     const loadDataSelects = async () => {
         const promises = [fetchItens()];
         const [itensProduto] = await Promise.all(promises);
-        console.log(`@log >> itensProduto`, itensProduto);
         setItems(itensProduto);
     };
     loadDataSelects();
