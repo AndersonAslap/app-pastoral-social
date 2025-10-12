@@ -1,6 +1,6 @@
 export type UserDTO = {
   userId: number;
   nickName: string;
-  name: string;
+  nome: string;
   permissions: string[];
 };

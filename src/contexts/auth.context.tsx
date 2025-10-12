@@ -32,6 +32,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
 
     const storageUserAndSecuritySave = async (user: UserDTO, security: SecutiryDTO) => {
         try {
+            console.log(user);
             await storageUserSave(user);
             await storageAuthTokenSave(security);
         } catch (error) {
@@ -95,6 +96,13 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
     useEffect(() => {
         loadUserData();
     }, []);
+
+    useEffect(() => {
+        const subscribe = api.registerInterceptTokenManager(signOut);   
+        return () => {
+            subscribe();
+        }   
+    }, [signOut]);
 
     return (
         <AuthContext.Provider

@@ -12,13 +12,14 @@ const listarFamiliaService = async () => {
   try {
     let parseData: any = [];
     const response = await api.get("/familia/listar");
-    console.log(response);
     const { data } = response.data;
     if (data && Array.isArray(data)) {
       parseData = data.map((item: any) => ({
         id: item.id,
         nomeRepresentante: item.nomeRepresentante,
         endereco: item.endereco,
+        qtdPessoasResidencia: item.qtdPessoasResidencia,
+        qtdPessoasEmpregadas: item.qtdPessoasEmpregadas,
       }));
     }
     return parseData;

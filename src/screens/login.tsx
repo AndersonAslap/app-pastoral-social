@@ -1,5 +1,6 @@
-import { VStack, Image, Center, View, ScrollView } from "@gluestack-ui/themed";
+import { VStack, Image, Center, View, Text, Box, HStack, Pressable } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
+import { Eye, EyeOff, Lock, User, Shield } from "lucide-react-native";
 
 import BackgroundImg from "@assets/background.png";
 import { Button } from "@components/button";
@@ -16,7 +17,7 @@ export function Login() {
 
     const [nickName, setNickName] = useState('');
     const [senha, setSenha] = useState('');
-
+    const [showPassword, setShowPassword] = useState(false);
     const [formSubmitting, setFormSubmitting] = useState(false);
 
     const handleClickSignIn = async () => {
@@ -37,56 +38,202 @@ export function Login() {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
-        <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            showsVerticalScrollIndicator={false}
-        >
+        <View flex={1}>
             <LinearGradient
-                colors={["#4facfe", "#00f2fe"]}
+                colors={["#1e3a8a", "#3b82f6", "#60a5fa"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
                 style={{ flex: 1 }}
             >
-                <VStack flex={1} px="$6" pt="$10" justifyContent="center">
-                    <Center>
-                        <Image
-                            w={320}
-                            h={320}
-                            source={BackgroundImg}
-                            alt="Logo"
-                            borderRadius={60}
-                        />
+                <VStack flex={1} px="$6" justifyContent="center" space="xl">
+                    {/* Header - Mais compacto */}
+                    <Center mb="$8">
+                        <VStack space="sm" alignItems="center">
+                            <Box 
+                                bg="rgba(255, 255, 255, 0.1)" 
+                                p="$4" 
+                                borderRadius="$2xl"
+                                borderWidth={1}
+                                borderColor="rgba(255, 255, 255, 0.2)"
+                            >
+                                <Image
+                                    w={100}
+                                    h={100}
+                                    source={BackgroundImg}
+                                    alt="Logo Pastoral Social"
+                                    borderRadius={20}
+                                />
+                            </Box>
+                            
+                            <VStack space="xs" alignItems="center" mt="$2">
+                                <Text 
+                                    color="$white" 
+                                    fontSize="$lg" 
+                                    fontWeight="$semibold"
+                                    fontFamily="$body"
+                                    opacity={0.9}
+                                >
+                                    PASTORAL SOCIAL
+                                </Text>
+                                <Text 
+                                    color="$blue100" 
+                                    fontSize="$sm" 
+                                    opacity={0.8}
+                                    textAlign="center"
+                                >
+                                    Sistema de Gestão Social
+                                </Text>
+                            </VStack>
+                        </VStack>
                     </Center>
 
-                    <View gap="$2">
-                        <Input
-                            placeholder="Usuário"
-                            value={nickName}
-                            onChangeText={setNickName}
-                        />
-                        <Input
-                            placeholder="Senha"
-                            secureTextEntry
-                            value={senha}
-                            onChangeText={setSenha}
-                        />
-                    </View>
+                    {/* Card do Formulário - Mais compacto */}
+                    <Box 
+                        bg="$white" 
+                        p="$5" 
+                        borderRadius="$2xl" 
+                        shadow="2xl"
+                        mx="$1"
+                    >
+                        <VStack space="lg">
+                            {/* Título do Form */}
+                            <VStack space="xs" alignItems="center">
+                                <Text 
+                                    fontSize="$xl" 
+                                    fontWeight="$bold" 
+                                    color="$textDark800"
+                                >
+                                    Acesso ao Sistema
+                                </Text>
+                                <Text 
+                                    fontSize="$sm" 
+                                    color="$textDark500"
+                                    textAlign="center"
+                                >
+                                    Entre com suas credenciais
+                                </Text>
+                            </VStack>
 
-                    <Button
-                        title="Acessar"
-                        onPress={handleClickSignIn}
-                        mt="$6"
-                        style={{
-                            borderRadius: 30,
-                            shadowColor: "#000",
-                            shadowOffset: { width: 0, height: 4 },
-                            shadowOpacity: 0.2,
-                            shadowRadius: 4,
-                            elevation: 5,
-                        }}
-                        isLoading={formSubmitting}
-                    />
+                            {/* Campos do Formulário */}
+                            <VStack space="md">
+                                {/* Campo Usuário */}
+                                <VStack space="xs">
+                                    <Text 
+                                        fontSize="$sm" 
+                                        fontWeight="$medium" 
+                                        color="$textDark700"
+                                    >
+                                        Usuário
+                                    </Text>
+                                    <Box position="relative" alignItems="center">
+                                        <Input
+                                            placeholder="Digite seu usuário"
+                                            value={nickName}
+                                            onChangeText={setNickName}
+                                            pl="$10"
+                                            size="md"
+                                            borderRadius="$lg"
+                                            bg="$backgroundLight50"
+                                        />
+                                        <Box 
+                                            position="absolute" 
+                                            left="$3" 
+                                            top="$4.5"
+                                        >
+                                            <User size={18} color="#64748b" />
+                                        </Box>
+                                    </Box>
+                                </VStack>
+
+                                {/* Campo Senha */}
+                                <VStack space="xs">
+                                    <Text 
+                                        fontSize="$sm" 
+                                        fontWeight="$medium" 
+                                        color="$textDark700"
+                                    >
+                                        Senha
+                                    </Text>
+                                    <Box position="relative">
+                                        <Input
+                                            placeholder="Digite sua senha"
+                                            secureTextEntry={!showPassword}
+                                            value={senha}
+                                            onChangeText={setSenha}
+                                            pl="$10"
+                                            pr="$10"
+                                            size="md"
+                                            borderRadius="$lg"
+                                            bg="$backgroundLight50"
+                                        />
+                                        <Box 
+                                            position="absolute" 
+                                            left="$3" 
+                                            top="$4.5"
+                                        >
+                                            <Lock size={18} color="#64748b" />
+                                        </Box>
+                                        <Pressable
+                                            position="absolute" 
+                                            right="$3" 
+                                            top="$4.5"
+                                            onPress={togglePasswordVisibility}
+                                        >
+                                            {showPassword ? (
+                                                <EyeOff size={18} color="#64748b" />
+                                            ) : (
+                                                <Eye size={18} color="#64748b" />
+                                            )}
+                                        </Pressable>
+                                    </Box>
+                                </VStack>
+                            </VStack>
+
+                            {/* Botão de Acesso */}
+                            <Button
+                                onPress={handleClickSignIn}
+                                size="md"
+                                borderRadius="$lg"
+                                bg="$primary600"
+                                mt="$2"
+                                isLoading={formSubmitting}
+                                title={formSubmitting ? "Entrando..." : "Acessar Sistema"}
+                            />
+                                
+
+                            {/* Footer do Card */}
+                            <Center mt="$2">
+                                <Text 
+                                    fontSize="$xs" 
+                                    color="$textDark400"
+                                    textAlign="center"
+                                >
+                                    © 2024 Pastoral Social • Versão 1.0
+                                </Text>
+                            </Center>
+                        </VStack>
+                    </Box>
+
+                    {/* Informação de Segurança - Mais discreta */}
+                    <Center mt="$4">
+                        <HStack space="sm" alignItems="center" bg="rgba(255, 255, 255, 0.1)" px="$3" py="$2" borderRadius="$full">
+                            <Shield size={14} color="#dbeafe" />
+                            <Text 
+                                color="$blue100" 
+                                fontSize="$xs" 
+                                opacity={0.8}
+                            >
+                                Sistema seguro e criptografado
+                            </Text>
+                        </HStack>
+                    </Center>
                 </VStack>
             </LinearGradient>
-        </ScrollView>
+        </View>
     );
 }

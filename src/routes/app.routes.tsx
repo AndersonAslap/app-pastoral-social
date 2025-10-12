@@ -1,19 +1,24 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HelpList } from "@screens/help/list";
 import { Home } from "@screens/home";
-import { HeartHandshakeIcon, HomeIcon, SettingsIcon, UsersRoundIcon } from "lucide-react-native";
+import { HomeIcon, SettingsIcon } from "lucide-react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 
-import { ProductRegister } from "@screens/estoque/register";
+import { EstoqueCadastrar } from "@screens/estoque/cadastrar";
 
 import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/modeloTemplate";
 import { FamiliaCadastrarForm, FamiliaListagem, FamiliaMenu } from "@screens/familia";
-import { EstoqueListagem } from "@screens/estoque";
+import { EstoqueDetalhes, EstoqueListagem } from "@screens/estoque";
+import { AjudaListagem } from "@screens/ajuda";
+import { Perfil } from "@screens/perfil";
+import { CestaListagem } from "@screens/cesta";
+import { Relatorio } from "@screens/relatorio";
+import { AcoesListagem } from "@screens/acoes";
 
-type AppRoutes = {
+
+export type AppRoutes = {
     home: undefined;
-    help: undefined;
+    ajudaListagem: undefined;
 
     perfilUsuario: undefined;
 
@@ -22,13 +27,17 @@ type AppRoutes = {
     familiaMenu: undefined;
 
     estoqueListagem: undefined;
+    estoqueCadastrar: undefined;
+    estoqueDetalhes: { productId: number, nome: string };
 
-    productRegister: undefined;
-
-    cesta: undefined;
+    cestaListagem: undefined;
 
     modeloTemplateListagem: undefined;
     modeloTemplateCadastrar: undefined;
+
+    acoesListagem: undefined;
+
+    relatorio: undefined;
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -66,20 +75,19 @@ export function AppRoutes() {
             />
 
             <Screen
-                name="help"
-                component={HelpList}
+                name="perfilUsuario"
+                component={Perfil}
                 options={{
-                    tabBarLabel: "Home",
-                    tabBarIcon: ({ color }) => <HeartHandshakeIcon size={24} color={color} />
+                    tabBarLabel: "Perfil",
+                    tabBarIcon: ({ color }) => <SettingsIcon size={24} color={color} />
                 }}
             />
 
             <Screen
-                name="perfilUsuario"
-                component={HelpList}
+                name="ajudaListagem"
+                component={AjudaListagem}
                 options={{
-                    tabBarLabel: "Home",
-                    tabBarIcon: ({ color }) => <SettingsIcon size={24} color={color} />
+                    tabBarButton: () => null
                 }}
             />
 
@@ -116,8 +124,16 @@ export function AppRoutes() {
             />
 
             <Screen
-                name="productRegister"
-                component={ProductRegister}
+                name="estoqueCadastrar"
+                component={EstoqueCadastrar}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            <Screen
+                name="estoqueDetalhes"
+                component={EstoqueDetalhes}
                 options={{
                     tabBarButton: () => null
                 }}
@@ -140,12 +156,30 @@ export function AppRoutes() {
             />
 
             <Screen
-                name="cesta"
-                component={EstoqueListagem}
+                name="cestaListagem"
+                component={CestaListagem}
                 options={{
                     tabBarButton: () => null
                 }}
             />
+
+            <Screen
+                name="relatorio"
+                component={Relatorio}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            <Screen
+                name="acoesListagem"
+                component={AcoesListagem}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            
         </Navigator>
     )
 }

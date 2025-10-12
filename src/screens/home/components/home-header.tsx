@@ -5,8 +5,21 @@ import { useAuth } from "@hooks/useAuth";
 
 export function HomeHeader() {
     const { user, signOut } = useAuth();
-    const { nickName } = user;
+    const { nickName, nome } = user;
 
+    let userName = "";
+
+    if (nome.trim().length > 0) {
+        let chunksName = nome?.split(" ") || [];
+        if (chunksName.length > 1) {
+        userName = chunksName[0] + " " + chunksName[chunksName.length - 1];
+        } else {
+            userName = nome;
+        }
+    } else {
+        userName = nickName;
+    }
+    
     return (
         <HStack
             bg="$white"
@@ -18,7 +31,7 @@ export function HomeHeader() {
         >
             <VStack flex={1}>
                 <Text color="$gray500">Olá,</Text>
-                <Heading color="$gray500">{nickName}</Heading>
+                <Heading color="$gray500">{userName}</Heading>
             </VStack>
 
             <LogOut

@@ -5,13 +5,14 @@ type Props = ComponentProps<typeof GluestackButton> & {
     title: string;
     variant?: "solid" | "outline"
     w?: string;
+    h?: string;
 }
 
-export function ButtonCancel({ title, variant = "solid", w = "$full", ...rest }: Props) {
+export function ButtonCancel({ title, variant = "solid", w = "$full", h = "$14", ...rest }: Props) {
     return (
         <GluestackButton
             w={w}
-            h="$14"
+            h={h}
             bg={variant === "outline" ? "transparent" : "$red400"}
             borderWidth={variant === "outline" ? "$1" : "$0"}
             borderColor="$red300"
