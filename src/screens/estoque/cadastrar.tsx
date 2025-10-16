@@ -93,7 +93,7 @@ export function EstoqueCadastrar() {
 
     return (
         <View flex={1} bg="$blue100">
-            <ScreenHeader title="Cadastrar Produtos" />
+            <ScreenHeader title="Cadastrar Produtos" backTo="estoqueListagem"/>
             
             <ScrollView 
                 flex={1}

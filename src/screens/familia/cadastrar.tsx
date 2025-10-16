@@ -106,7 +106,7 @@ export function FamiliaCadastrarForm() {
             pb="$8"
             flex={1}
         >
-            <ScreenHeader title="Famílias" />
+            <ScreenHeader title="Famílias" backTo="familiaListagem"/>
             <VStack
                 flex={1}
                 bg="$backgroundLight50"

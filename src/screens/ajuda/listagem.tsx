@@ -4,28 +4,31 @@ import { ScreenHeader } from "@components/screen-header";
 import { FlatList, View, VStack, HStack, Text, Box, Badge, BadgeText, ScrollView, Button } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { HeaderList } from "@components/header-list";
-import { Calendar, Users, Package, Filter, TrendingUp } from "lucide-react-native";
+import { Calendar, Users, Package, Filter, TrendingUp, Eye, X, Check, CheckCircle, Flag, AlertTriangle, MapPin } from "lucide-react-native";
 
 type Help = {
     id: number;
     familyName: string;
+    representative: string;
     helpName: string;
     status: string;
     date?: string;
     itemsCount?: number;
+    priority?: 'alta' | 'media' | 'baixa';
+    address?: string;
 }
 
 const items: Help[] = [
-  { id: 1, familyName: "Família Silva", helpName: "Cesta básica", status: "pendente", date: "2024-01-15", itemsCount: 12 },
-  { id: 2, familyName: "Família Oliveira", helpName: "Cesta básica", status: "em andamento", date: "2024-01-14", itemsCount: 10 },
-  { id: 3, familyName: "Família Santos", helpName: "Cesta básica", status: "concluído", date: "2024-01-13", itemsCount: 15 },
-  { id: 4, familyName: "Família Souza", helpName: "Cesta básica", status: "pendente", date: "2024-01-16", itemsCount: 8 },
-  { id: 5, familyName: "Família Costa", helpName: "Cesta básica", status: "concluído", date: "2024-01-12", itemsCount: 14 },
-  { id: 6, familyName: "Família Pereira", helpName: "Cesta básica", status: "em andamento", date: "2024-01-15", itemsCount: 11 },
-  { id: 7, familyName: "Família Lima", helpName: "Cesta básica", status: "pendente", date: "2024-01-17", itemsCount: 9 },
-  { id: 8, familyName: "Família Martins", helpName: "Cesta básica", status: "concluído", date: "2024-01-11", itemsCount: 13 },
-  { id: 9, familyName: "Família Rocha", helpName: "Cesta básica", status: "em andamento", date: "2024-01-14", itemsCount: 16 },
-  { id: 10, familyName: "Família Almeida", helpName: "Cesta básica", status: "pendente", date: "2024-01-16", itemsCount: 7 },
+  { id: 1, familyName: "Silva", representative: "Maria Silva", helpName: "Cesta básica", status: "pendente", date: "2024-01-15", itemsCount: 12, priority: 'alta', address: "Rua das Flores, 123 - Centro" },
+  { id: 2, familyName: "Oliveira", representative: "João Oliveira", helpName: "Cesta básica", status: "em andamento", date: "2024-01-14", itemsCount: 10, priority: 'media', address: "Av. Principal, 456 - Jardim" },
+  { id: 3, familyName: "Santos", representative: "Ana Santos", helpName: "Cesta básica", status: "concluído", date: "2024-01-13", itemsCount: 15, priority: 'baixa', address: "Travessa da Paz, 789 - Vila Nova" },
+  { id: 4, familyName: "Souza", representative: "Carlos Souza", helpName: "Cesta básica", status: "pendente", date: "2024-01-16", itemsCount: 8, priority: 'alta', address: "Rua do Comércio, 321 - Centro" },
+  { id: 5, familyName: "Costa", representative: "Paula Costa", helpName: "Cesta básica", status: "concluído", date: "2024-01-12", itemsCount: 14, priority: 'media', address: "Alameda das Árvores, 654 - Parque" },
+  { id: 6, familyName: "Pereira", representative: "Roberto Pereira", helpName: "Cesta básica", status: "em andamento", date: "2024-01-15", itemsCount: 11, priority: 'baixa', address: "Praça Central, 987 - Centro" },
+  { id: 7, familyName: "Lima", representative: "Fernanda Lima", helpName: "Cesta básica", status: "pendente", date: "2024-01-17", itemsCount: 9, priority: 'alta', address: "Rua dos Ipês, 147 - Jardim" },
+  { id: 8, familyName: "Martins", representative: "José Martins", helpName: "Cesta básica", status: "concluído", date: "2024-01-11", itemsCount: 13, priority: 'media', address: "Av. das Nações, 258 - Centro" },
+  { id: 9, familyName: "Rocha", representative: "Sandra Rocha", helpName: "Cesta básica", status: "em andamento", date: "2024-01-14", itemsCount: 16, priority: 'baixa', address: "Travessa do Sol, 369 - Vila" },
+  { id: 10, familyName: "Almeida", representative: "Pedro Almeida", helpName: "Cesta básica", status: "pendente", date: "2024-01-16", itemsCount: 7, priority: 'media', address: "Rua das Palmeiras, 753 - Parque" },
 ];
 
 export function AjudaListagem() {
@@ -34,13 +37,46 @@ export function AjudaListagem() {
     const getStatusConfig = (status: string) => {
         switch (status) {
             case 'pendente':
-                return { color: '$orange500', bgColor: '$orange100', label: 'Pendente', icon: '⏳' };
+                return { color: '$orange500', bgColor: '$orange100', label: 'Pendente' };
             case 'em andamento':
-                return { color: '$blue500', bgColor: '$blue100', label: 'Em Andamento', icon: '🔄' };
+                return { color: '$blue500', bgColor: '$blue100', label: 'Em Andamento' };
             case 'concluído':
-                return { color: '$green500', bgColor: '$green100', label: 'Concluído', icon: '✅' };
+                return { color: '$green500', bgColor: '$green100', label: 'Concluído' };
             default:
-                return { color: '$gray500', bgColor: '$gray100', label: status, icon: '❓' };
+                return { color: '$gray500', bgColor: '$gray100', label: status };
+        }
+    };
+
+    const getPriorityConfig = (priority: string) => {
+        switch (priority) {
+            case 'alta':
+                return { 
+                    color: '$red500', 
+                    bgColor: '$red100', 
+                    label: 'Alta', 
+                    icon: AlertTriangle 
+                };
+            case 'media':
+                return { 
+                    color: '$yellow500', 
+                    bgColor: '$yellow100', 
+                    label: 'Média', 
+                    icon: Flag 
+                };
+            case 'baixa':
+                return { 
+                    color: '$green500', 
+                    bgColor: '$green100', 
+                    label: 'Baixa', 
+                    icon: Flag 
+                };
+            default:
+                return { 
+                    color: '$gray500', 
+                    bgColor: '$gray100', 
+                    label: 'Sem', 
+                    icon: Flag 
+                };
         }
     };
 
@@ -53,6 +89,8 @@ export function AjudaListagem() {
 
     const EnhancedHelpCard = ({ item }: { item: Help }) => {
         const statusConfig = getStatusConfig(item.status);
+        const priorityConfig = getPriorityConfig(item.priority || 'baixa');
+        const PriorityIcon = priorityConfig.icon;
         
         return (
             <Box
@@ -64,23 +102,40 @@ export function AjudaListagem() {
                 borderColor="$borderLight200"
                 shadow="sm"
             >
-                <HStack justifyContent="space-between" alignItems="flex-start" space="md">
-                    {/* Informações Principais */}
-                    <VStack flex={1} space="sm">
-                        {/* Header com Família e Status */}
-                        <HStack justifyContent="space-between" alignItems="flex-start">
-                            <VStack flex={1}>
-                                <HStack space="sm" alignItems="center">
-                                    <Users size={16} color="#64748b" />
-                                    <Text fontWeight="$bold" size="lg" color="$textDark800" numberOfLines={1}>
-                                        {item.familyName}
-                                    </Text>
-                                </HStack>
-                                <Text size="sm" color="$textDark500" mt="$1">
-                                    Solicitação de ajuda
+                <VStack space="sm">
+                    {/* Header com Representante e Status */}
+                    <HStack justifyContent="space-between" alignItems="flex-start">
+                        <VStack flex={1}>
+                            <HStack space="sm" alignItems="center">
+                                <Users size={16} color="#64748b" />
+                                <Text fontWeight="$bold" size="lg" color="$textDark800">
+                                    Família {item.familyName}
                                 </Text>
-                            </VStack>
+                            </HStack>
+                            <Text size="sm" color="$textDark500" mt="$1">
+                                {item.representative}
+                            </Text>
+                        </VStack>
+                        
+                        <VStack alignItems="flex-end" space="xs">
+                            {/* Badge de Prioridade */}
+                            <Badge 
+                                size="sm" 
+                                variant="solid" 
+                                bg={priorityConfig.bgColor}
+                                borderColor={priorityConfig.color}
+                                borderWidth={1}
+                                borderRadius="$full"
+                            >
+                                <HStack space="xs" alignItems="center">
+                                    <PriorityIcon size={10} color={priorityConfig.color} />
+                                    <BadgeText color={priorityConfig.color} fontWeight="$bold" size="xs">
+                                        {priorityConfig.label}
+                                    </BadgeText>
+                                </HStack>
+                            </Badge>
                             
+                            {/* Badge de Status */}
                             <Badge 
                                 size="md" 
                                 variant="solid" 
@@ -89,62 +144,135 @@ export function AjudaListagem() {
                                 borderWidth={1}
                                 borderRadius="$full"
                             >
-                                <HStack space="xs" alignItems="center">
-                                    <Text size="xs">{statusConfig.icon}</Text>
-                                    <BadgeText color={statusConfig.color} fontWeight="$bold" size="xs">
-                                        {statusConfig.label}
-                                    </BadgeText>
-                                </HStack>
+                                <BadgeText color={statusConfig.color} fontWeight="$bold" size="xs">
+                                    {statusConfig.label}
+                                </BadgeText>
                             </Badge>
+                        </VStack>
+                    </HStack>
+
+                    {/* Endereço da Família */}
+                    {item.address && (
+                        <HStack space="sm" alignItems="flex-start">
+                            <MapPin size={14} color="#64748b" mt="$0.5" />
+                            <Text size="sm" color="$textDark600" flex={1}>
+                                {item.address}
+                            </Text>
+                        </HStack>
+                    )}
+
+                    {/* Detalhes da Ajuda */}
+                    <VStack space="xs" mt="$2">
+                        <HStack space="sm" alignItems="center">
+                            <Package size={14} color="#64748b" />
+                            <Text size="sm" color="$textDark600" fontWeight="$medium">
+                                {item.helpName}
+                            </Text>
                         </HStack>
 
-                        {/* Detalhes da Ajuda */}
-                        <VStack space="xs">
-                            <HStack space="sm" alignItems="center">
-                                <Package size={14} color="#64748b" />
-                                <Text size="sm" color="$textDark600" fontWeight="$medium">
-                                    {item.helpName}
+                    </VStack>
+
+                    {/* Barra de Progresso Visual para status */}
+                    {item.status === 'em andamento' && (
+                        <Box mt="$3">
+                            <HStack justifyContent="space-between" mb="$1">
+                                <Text size="xs" color="$textDark500">Progresso</Text>
+                                <Text size="xs" color="$blue600" fontWeight="$medium">60%</Text>
+                            </HStack>
+                            <Box w="100%" h="$2" bg="$borderLight200" borderRadius="$full" overflow="hidden">
+                                <Box 
+                                    h="100%" 
+                                    bg="$blue500"
+                                    width="60%"
+                                    borderRadius="$full"
+                                />
+                            </Box>
+                        </Box>
+                    )}
+
+                    {/* Botões de Ação */}
+                    <HStack space="sm" mt="$3" justifyContent="flex-end">
+                        {/* Botão Detalhes - Sempre visível */}
+                        <Button 
+                            size="sm" 
+                            variant="outline" 
+                            borderColor="$primary500"
+                            onPress={() => console.log(`Detalhes da ajuda ${item.id}`)}
+                        >
+                            <HStack space="xs" alignItems="center">
+                                <Eye size={14} color="#3b82f6" />
+                                <Text size="xs" color="$primary500">
+                                    Detalhes
                                 </Text>
                             </HStack>
-                            
-                            <HStack space="md" alignItems="center">
-                                <HStack space="xs" alignItems="center">
-                                    <Calendar size={14} color="#64748b" />
-                                    <Text size="xs" color="$textDark500">
-                                        {item.date || 'Data não informada'}
-                                    </Text>
-                                </HStack>
-                                
-                                {item.itemsCount && (
+                        </Button>
+
+                        {/* Botões Condicionais por Status */}
+                        {item.status === 'pendente' && (
+                            <>
+                                <Button 
+                                    size="sm" 
+                                    variant="solid" 
+                                    bg="$red500"
+                                    onPress={() => console.log(`Cancelar ajuda ${item.id}`)}
+                                >
                                     <HStack space="xs" alignItems="center">
-                                        <Box w="$1" h="$1" borderRadius="$full" bg="$primary500" />
-                                        <Text size="xs" color="$textDark500">
-                                            {item.itemsCount} itens
+                                        <X size={14} color="white" />
+                                        <Text size="xs" color="white">
+                                            Cancelar
                                         </Text>
                                     </HStack>
-                                )}
-                            </HStack>
-                        </VStack>
-                    </VStack>
-                </HStack>
+                                </Button>
+                                
+                                <Button 
+                                    size="sm" 
+                                    variant="solid" 
+                                    bg="$green500"
+                                    onPress={() => console.log(`Aprovar ajuda ${item.id}`)}
+                                >
+                                    <HStack space="xs" alignItems="center">
+                                        <Check size={14} color="white" />
+                                        <Text size="xs" color="white">
+                                            Aprovar
+                                        </Text>
+                                    </HStack>
+                                </Button>
+                            </>
+                        )}
 
-                {/* Barra de Progresso Visual para status */}
-                {item.status === 'em andamento' && (
-                    <Box mt="$3">
-                        <HStack justifyContent="space-between" mb="$1">
-                            <Text size="xs" color="$textDark500">Progresso</Text>
-                            <Text size="xs" color="$blue600" fontWeight="$medium">60%</Text>
-                        </HStack>
-                        <Box w="100%" h="$2" bg="$borderLight200" borderRadius="$full" overflow="hidden">
-                            <Box 
-                                h="100%" 
-                                bg="$blue500"
-                                width="60%"
-                                borderRadius="$full"
-                            />
-                        </Box>
-                    </Box>
-                )}
+                        {item.status === 'em andamento' && (
+                            <Button 
+                                size="sm" 
+                                variant="solid" 
+                                bg="$emerald500"
+                                onPress={() => console.log(`Marcar como realizada ${item.id}`)}
+                            >
+                                <HStack space="xs" alignItems="center">
+                                    <CheckCircle size={14} color="white" />
+                                    <Text size="xs" color="white">
+                                        Realizada
+                                    </Text>
+                                </HStack>
+                            </Button>
+                        )}
+
+                        {item.status === 'concluído' && (
+                            <Button 
+                                size="sm" 
+                                variant="outline" 
+                                borderColor="$green500"
+                                onPress={() => console.log(`Reabrir ajuda ${item.id}`)}
+                            >
+                                <HStack space="xs" alignItems="center">
+                                    <CheckCircle size={14} color="#10b981" />
+                                    <Text size="xs" color="$green500">
+                                        Concluída
+                                    </Text>
+                                </HStack>
+                            </Button>
+                        )}
+                    </HStack>
+                </VStack>
             </Box>
         );
     };

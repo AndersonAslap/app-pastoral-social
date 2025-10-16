@@ -121,11 +121,11 @@ export const CestaListagem = () => {
 
   const getStatusConfig = (status: Cesta['status']) => {
     const config = {
-      pendente: { color: "$orange", bg: "$orange100", text: "$orange700", icon: Clock, label: "Pendente" },
-      preparando: { color: "$blue", bg: "$blue100", text: "$blue700", icon: Package, label: "Preparando" },
-      pronta: { color: "$green", bg: "$green100", text: "$green700", icon: CheckCircle, label: "Pronta" },
-      entregue: { color: "$purple", bg: "$purple100", text: "$purple700", icon: Truck, label: "Entregue" },
-      cancelada: { color: "$red", bg: "$red100", text: "$red700", icon: AlertTriangle, label: "Cancelada" }
+      pendente: { color: "$orange", bg: "$orange100", text: "$orange700", iconColor: "orange", icon: Clock, label: "Pendente" },
+      preparando: { color: "$blue", bg: "$blue100", text: "$blue700", iconColor: "blue", icon: Package, label: "Preparando" },
+      pronta: { color: "$green", bg: "$green100", text: "$green700", iconColor: "green", icon: CheckCircle, label: "Pronta" },
+      entregue: { color: "$purple", bg: "$purple100", text: "$purple700", iconColor: "purple", icon: Truck, label: "Entregue" },
+      cancelada: { color: "$red", bg: "$red100", text: "$red700", iconColor: "red", icon: AlertTriangle, label: "Cancelada" }
     };
     return config[status];
   };
@@ -228,9 +228,9 @@ export const CestaListagem = () => {
                 borderLeftColor={statusConfig.color + "500"}
               >
                 {/* Header */}
-                <HStack justifyContent="space-between" alignItems="flex-start" mb="$3">
+                <HStack alignItems="flex-start" mb="$3">
                   <VStack flex={1}>
-                    <HStack alignItems="center" space="sm" mb="$1">
+                    <HStack alignItems="center" justifyContent="space-between"  space="sm" mb="$1">
                       <Text fontSize="$lg" fontWeight="bold" color="$textDark800">
                         {cesta.codigo}
                       </Text>
@@ -240,25 +240,13 @@ export const CestaListagem = () => {
                         borderWidth="$1"
                         borderColor={statusConfig.color + "300"}
                       >
-                        <StatusIcon size={12} color={statusConfig.text} />
+                        <StatusIcon size={12} color={statusConfig.iconColor} />
                         <BadgeText color={statusConfig.text} ml="$1" fontSize="$2xs" fontWeight="bold">
                           {statusConfig.label}
                         </BadgeText>
                       </Badge>
                     </HStack>
-                    <Text fontSize="$sm" color="$textDark500">{cesta.destinatario}</Text>
                   </VStack>
-
-                  <Badge 
-                    size="sm" 
-                    bg={prioridadeConfig.color + "100"}
-                    borderWidth="$1"
-                    borderColor={prioridadeConfig.color + "300"}
-                  >
-                    <BadgeText color={prioridadeConfig.color + "700"} fontSize="$2xs" fontWeight="bold">
-                      {prioridadeConfig.label}
-                    </BadgeText>
-                  </Badge>
                 </HStack>
 
                 {/* Progress Bar */}
@@ -272,29 +260,12 @@ export const CestaListagem = () => {
                   </Progress>
                 </Box>
 
-                {/* Informações */}
-                <HStack space="md" mb="$3">
-                  <HStack alignItems="center" flex={1}>
-                    <Calendar size={14} color="#6B7280" />
-                    <Text fontSize="$xs" color="$textDark500" ml="$1">
-                      Entrega: {formatDate(cesta.dataEntrega)}
-                    </Text>
-                  </HStack>
-                  
-                  <HStack alignItems="center" flex={1}>
-                    <MapPin size={14} color="#6B7280" />
-                    <Text fontSize="$xs" color="$textDark500" ml="$1" numberOfLines={1}>
-                      {cesta.endereco.split(' - ')[1]}
-                    </Text>
-                  </HStack>
-                </HStack>
-
                 {/* Produtos */}
                 <Box bg="$backgroundLight50" p="$3" borderRadius="$lg" mb="$3">
                   <HStack alignItems="center" mb="$2">
                     <Package size={14} color="#6B7280" />
                     <Text fontSize="$sm" fontWeight="medium" color="$textDark600" ml="$1">
-                      {cesta.quantidadeItens} itens • {cesta.pesoTotal}kg
+                      {cesta.quantidadeItens} itens
                     </Text>
                   </HStack>
                   

@@ -173,7 +173,7 @@ const ModeloTemplateCadastrarForm = () => {
             bg="$blue100"
             flex={1}
         >
-            <ScreenHeader title="Cadastrar Modelo de Template" />
+            <ScreenHeader title="Cadastrar Modelo de Template" backTo="modeloTemplateListagem"/>
             <VStack
                 flex={1}
                 bg="$backgroundLight50"
