@@ -119,37 +119,6 @@ const ModeloCestaCard = ({ item, onPressDetalhes, onPressGerar }: {
         </Badge>
       </HStack>
 
-      {/* Preview dos Itens */}
-      <Box bg="$backgroundLight50" p="$3" borderRadius="$lg" mb="$3">
-        <Text fontSize="$sm" fontWeight="medium" color="$textDark600" mb="$2">
-          Itens incluídos:
-        </Text>
-        <HStack flexWrap="wrap">
-          {item.items.slice(0, 3).map((produto, index) => (
-            <Badge 
-              key={index} 
-              size="sm" 
-              variant="outline" 
-              mr="$1" 
-              mb="$1" 
-              bg="$white"
-              borderColor="$blue200"
-            >
-              <BadgeText fontSize="$2xs" color="$blue700">
-                {produto.nome} ({produto.valor}{produto.medida})
-              </BadgeText>
-            </Badge>
-          ))}
-          {item.items.length > 3 && (
-            <Badge size="sm" variant="outline" bg="$white" borderColor="$gray200">
-              <BadgeText fontSize="$2xs" color="$gray600">
-                +{item.items.length - 3}
-              </BadgeText>
-            </Badge>
-          )}
-        </HStack>
-      </Box>
-
       {/* Botões de Ação */}
       <HStack space="sm">
         <Button 
@@ -167,7 +136,7 @@ const ModeloCestaCard = ({ item, onPressDetalhes, onPressGerar }: {
         {item.qtdPossivelGeracao > 0 && (
           <Button 
             size="sm" 
-            bg="$green600"
+            bg="$blue600"
             flex={1}
             onPress={onPressGerar}
           >
