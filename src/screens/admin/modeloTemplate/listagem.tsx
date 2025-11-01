@@ -2,16 +2,19 @@ import { FilterList } from "@components/filter-list";
 import { ScreenHeader } from "@components/screen-header";
 import { FlatList, Button, ButtonText, ButtonIcon, Badge, BadgeText } from "@gluestack-ui/themed";
 import { View, VStack, HStack, Box, Text } from "@gluestack-ui/themed";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { HeaderList } from "@components/header-list";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Eye, Package, Plus, Filter } from "lucide-react-native";
+import { listarTemplates } from "@services/template.service";
+import { MESSAGES_ERROR } from "@utils/constantes";
+import { AppError } from "@utils/app.error";
+import { gerarCestaService } from "@services/cesta.service";
 
 type ItemCesta = {
   nome: string;
-  valor: number;
-  medida: string;
+  quantidade: number;
 }
 
 type ModeloCesta = {
@@ -20,56 +23,6 @@ type ModeloCesta = {
   qtdPossivelGeracao: number;
   items: ItemCesta[];
 }
-
-// Dados mockados
-const modelosCesta: ModeloCesta[] = [
-  {
-    idTemplate: 1,
-    descricao: "Cesta Básica Familiar",
-    qtdPossivelGeracao: 5,
-    items: [
-      { nome: "Arroz", valor: 5, medida: "kg" },
-      { nome: "Feijão", valor: 2, medida: "kg" },
-      { nome: "Açúcar", valor: 2, medida: "kg" },
-      { nome: "Óleo", valor: 1, medida: "L" },
-      { nome: "Macarrão", valor: 2, medida: "kg" }
-    ]
-  },
-  {
-    idTemplate: 2,
-    descricao: "Cesta Emergencial",
-    qtdPossivelGeracao: 0,
-    items: [
-      { nome: "Arroz", valor: 2, medida: "kg" },
-      { nome: "Feijão", valor: 1, medida: "kg" },
-      { nome: "Óleo", valor: 1, medida: "L" },
-      { nome: "Sal", valor: 1, medida: "kg" }
-    ]
-  },
-  {
-    idTemplate: 3,
-    descricao: "Cesta com Produtos de Higiene",
-    qtdPossivelGeracao: 3,
-    items: [
-      { nome: "Sabonete", valor: 4, medida: "un" },
-      { nome: "Shampoo", valor: 2, medida: "un" },
-      { nome: "Pasta de Dente", valor: 2, medida: "un" },
-      { nome: "Papel Higiênico", valor: 4, medida: "un" }
-    ]
-  },
-  {
-    idTemplate: 4,
-    descricao: "Cesta para Idosos",
-    qtdPossivelGeracao: 8,
-    items: [
-      { nome: "Arroz", valor: 3, medida: "kg" },
-      { nome: "Feijão", valor: 1, medida: "kg" },
-      { nome: "Farinha", valor: 1, medida: "kg" },
-      { nome: "Leite", valor: 6, medida: "L" },
-      { nome: "Biscoito", valor: 2, medida: "pacotes" }
-    ]
-  }
-];
 
 // Componente do Card do Modelo de Cesta
 const ModeloCestaCard = ({ item, onPressDetalhes, onPressGerar }: { 
@@ -195,7 +148,7 @@ const DetalhesModeloDrawer = ({
                 </Text>
                 <Badge size="sm" bg="$blue100">
                   <BadgeText color="$blue700" fontSize="$2xs" fontWeight="bold">
-                    {item.valor} {item.medida}
+                    {item.quantidade}
                   </BadgeText>
                 </Badge>
               </HStack>
@@ -229,6 +182,13 @@ const ModeloTemplateListagem: React.FC = () => {
   const [isDetalhesOpen, setIsDetalhesOpen] = useState(false);
   const [modeloSelecionado, setModeloSelecionado] = useState<ModeloCesta | null>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [items, setItems] = useState<ModeloCesta[]>([]);
+  const [error, setError] = useState({
+    isError: false,
+    message: ""
+  });
+
   const handleRedirectToModeloTemplateCadastrar = () => {
     navigator.navigate("modeloTemplateCadastrar");
   }
@@ -238,16 +198,45 @@ const ModeloTemplateListagem: React.FC = () => {
     setIsDetalhesOpen(true);
   }
 
-  const handleGerarCestas = (modelo: ModeloCesta) => {
-    // Navegar para tela de geração de cestas ou abrir modal
-    console.log("Gerar cestas para:", modelo.descricao);
-    // navigator.navigate("gerarCestas", { modeloId: modelo.idTemplate });
+  const handleGerarCestas = async (modelo: ModeloCesta) => {
+    try {
+      setIsLoading(true);
+      await gerarCestaService({idTemplate: modelo.idTemplate});
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_ITENS;
+      setError({ isError: true, message: title });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleCloseDetalhes = () => {
     setIsDetalhesOpen(false);
     setModeloSelecionado(null);
   }
+
+  
+  
+  const fetchItens = async () => {
+    try {
+      setIsLoading(true);
+      const data = await listarTemplates();
+      setItems(data);
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_ITENS;
+      setError({ isError: true, message: title });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchItens();
+    }, [])
+  );
 
   return (
     <View flex={1} bg="$blue100">
@@ -270,7 +259,7 @@ const ModeloTemplateListagem: React.FC = () => {
 
         {/* Lista de Modelos de Cesta */}
         <FlatList
-          data={modelosCesta}
+          data={items}
           keyExtractor={(item) => item.idTemplate.toString()}
           renderItem={({ item }) => (
             <ModeloCestaCard 

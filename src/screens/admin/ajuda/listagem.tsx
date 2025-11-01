@@ -1,5 +1,4 @@
 import { FilterList } from "@components/filter-list";
-import HelpCard from "@screens/help/components/help-card";
 import { ScreenHeader } from "@components/screen-header";
 import { FlatList, View, VStack, HStack, Text, Box, Badge, BadgeText, ScrollView, Button } from "@gluestack-ui/themed";
 import { useState } from "react";

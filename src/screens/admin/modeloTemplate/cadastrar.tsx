@@ -3,7 +3,6 @@ import { Input } from "@components/input";
 import { ScreenHeader } from "@components/screen-header";
 import CustomSelect from "@components/select";
 import CustomSwitch from "@components/swtch";
-import { TextArea } from "@components/text-area";
 import { ButtonIcon, Badge, BadgeText, ButtonSpinner } from "@gluestack-ui/themed";
 import { ScrollView, View, VStack, Button, Icon, Text, HStack, Box } from "@gluestack-ui/themed";
 import { useAppToast } from "@hooks/useAppToast";

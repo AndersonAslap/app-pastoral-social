@@ -12,9 +12,10 @@ type Props = {
     onFilterOpen: boolean;
     onSetIsFilterOpen: (open: boolean) => void;
     children: ReactNode;
+    title: string;
 }
 
-export function FilterList({onFilterOpen, onSetIsFilterOpen, children} : Props) {
+export function FilterList({onFilterOpen, onSetIsFilterOpen, title = "Filtros", children} : Props) {
     return (
         <Actionsheet isOpen={onFilterOpen} onClose={() => onSetIsFilterOpen(false)}>
             <ActionsheetBackdrop />
@@ -24,7 +25,7 @@ export function FilterList({onFilterOpen, onSetIsFilterOpen, children} : Props) 
                 </ActionsheetDragIndicatorWrapper>
 
                 <Text fontSize="$lg" fontWeight="bold" mb="$4">
-                    Filtros
+                    {title}
                 </Text>
 
                 {children}

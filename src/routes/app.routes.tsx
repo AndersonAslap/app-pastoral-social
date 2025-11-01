@@ -1,19 +1,19 @@
 import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home } from "@screens/home";
+import { Home } from "@screens/admin/home";
 import { HomeIcon, SettingsIcon } from "lucide-react-native";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 import { Platform } from "react-native";
 
-import { EstoqueCadastrar } from "@screens/estoque/cadastrar";
+import { EstoqueCadastrar } from "@screens/admin/estoque/cadastrar";
 
-import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/modeloTemplate";
-import { FamiliaCadastrarForm, FamiliaListagem, FamiliaMenu } from "@screens/familia";
-import { EstoqueDetalhes, EstoqueListagem } from "@screens/estoque";
-import { AjudaListagem } from "@screens/ajuda";
-import { Perfil } from "@screens/perfil";
-import { CestaListagem } from "@screens/cesta";
-import { Relatorio } from "@screens/relatorio";
-import { AcoesListagem } from "@screens/acoes";
+import { ModeloTemplateCadastrarForm, ModeloTemplateListagem } from "@screens/admin/modeloTemplate";
+import { FamiliaCadastrarForm, FamiliaListagem } from "@screens/admin/familia";
+import { EstoqueDetalhes, EstoqueListagem } from "@screens/admin/estoque";
+import { AjudaListagem } from "@screens/admin/ajuda";
+import { Perfil } from "@screens/admin/perfil";
+import { CestaListagem } from "@screens/admin/cesta";
+import { Relatorio } from "@screens/admin/relatorio";
+import { AcoesListagem } from "@screens/admin/acoes";
 
 
 export type AppRoutes = {
@@ -24,7 +24,6 @@ export type AppRoutes = {
 
     familiaListagem: undefined;
     familiaCadastrar: undefined;
-    familiaMenu: undefined;
 
     estoqueListagem: undefined;
     estoqueCadastrar: undefined;
@@ -102,14 +101,6 @@ export function AppRoutes() {
             <Screen
                 name="familiaCadastrar"
                 component={FamiliaCadastrarForm}
-                options={{
-                    tabBarButton: () => null
-                }}
-            />
-
-            <Screen
-                name="familiaMenu"
-                component={FamiliaMenu}
                 options={{
                     tabBarButton: () => null
                 }}

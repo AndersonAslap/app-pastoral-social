@@ -1,6 +1,6 @@
 import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { LogOut } from "lucide-react-native";
-import { config } from "../../../../config/gluestack-ui.config";
+import { config } from "../../../../../config/gluestack-ui.config";
 import { useAuth } from "@hooks/useAuth";
 
 export function HomeHeader() {

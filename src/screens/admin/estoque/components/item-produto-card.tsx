@@ -1,6 +1,6 @@
 import { Heading, HStack, Text, VStack, Pressable } from "@gluestack-ui/themed";
 import { BarcodeIcon, TrashIcon } from "lucide-react-native";
-import { config } from "../../../../config/gluestack-ui.config";
+import { config } from "../../../../../config/gluestack-ui.config";
 import { Box } from "@gluestack-ui/themed";
 import { Product } from "../listagem";
 

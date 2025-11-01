@@ -1,4 +1,4 @@
-import { FlatList, View, VStack, HStack, Text, Box, Badge, BadgeText, ScrollView, Button, Pressable } from "@gluestack-ui/themed";
+import { FlatList, View, VStack, HStack, Text, Box, Badge, BadgeText, Button, Pressable } from "@gluestack-ui/themed";
 import { ScreenHeader } from "@components/screen-header";
 import { useCallback, useEffect, useState } from "react";
 import { HeaderList } from "@components/header-list";

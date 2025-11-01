@@ -1,7 +1,7 @@
 import { ScreenHeader } from "@components/screen-header";
 import { Text, VStack, HStack, Box, Button, ButtonText, Badge, BadgeText, Progress, ProgressFilledTrack } from "@gluestack-ui/themed";
 import { ScrollView } from "@gluestack-ui/themed";
-import { Calendar, MapPin, Users, Package, Clock, CheckCircle, AlertTriangle, Truck, Edit, Eye } from "lucide-react-native";
+import { Package, Clock, CheckCircle, AlertTriangle, Truck, Edit, Eye } from "lucide-react-native";
 import { useState } from "react";
 
 type Cesta = {

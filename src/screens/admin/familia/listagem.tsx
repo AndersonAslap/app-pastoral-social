@@ -1,5 +1,4 @@
 import { Button, FlatList, Text, View, VStack, HStack, Box, Badge, BadgeText } from "@gluestack-ui/themed";
-import FamilyCard from "@screens/familia/components/family-card";
 import { ScreenHeader } from "@components/screen-header";
 import { useCallback, useState } from "react";
 import { FilterList } from "@components/filter-list";
@@ -83,18 +82,6 @@ export function FamiliaListagem() {
                             Representante familiar
                         </Text>
                     </VStack>
-                    
-                    {/* Badge de status */}
-                    <Badge 
-                        size="md" 
-                        variant="solid" 
-                        bg={item.qtdPessoasEmpregadas && item.qtdPessoasEmpregadas > 0 ? "$green500" : "$orange500"}
-                        borderRadius="$full"
-                    >
-                        <BadgeText color="$white" fontWeight="$bold" size="xs">
-                            {item.qtdPessoasEmpregadas && item.qtdPessoasEmpregadas > 0 ? "Ativa" : "Necessita apoio"}
-                        </BadgeText>
-                    </Badge>
                 </HStack>
 
                 {/* Informações de contato e localização */}
@@ -177,14 +164,6 @@ export function FamiliaListagem() {
                                                     cadastradas no sistema
                                                 </Text>
                                             </VStack>
-                                            
-                                            <HStack space="sm" alignItems="center">
-                                                <Badge size="md" bg="$green100">
-                                                    <BadgeText color="$green800">
-                                                        {items.filter(item => item.qtdPessoasEmpregadas && item.qtdPessoasEmpregadas > 0).length} ativas
-                                                    </BadgeText>
-                                                </Badge>
-                                            </HStack>
                                         </HStack>
                                     </Box>
 

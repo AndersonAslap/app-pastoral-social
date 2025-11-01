@@ -1,6 +1,6 @@
 import { VStack, HStack, Text, Pressable, Icon, Center, Box } from "@gluestack-ui/themed";
 import { Package, Boxes, ShoppingBasket, BarChart2, User, Users, HomeIcon, HeartHandshakeIcon, Calendar } from "lucide-react-native";
-import { config } from "../../../../config/gluestack-ui.config";
+import { config } from "../../../../../config/gluestack-ui.config";
 import { useNavigation } from "@react-navigation/native";
 
 const actions = [
