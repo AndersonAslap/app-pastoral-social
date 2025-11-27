@@ -3,16 +3,18 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@dtos/*": ["./src/dtos/*"],
+      "@dtos/*": ["src/@shared/dtos/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
-      "@screens/*": ["./src/screens/*"],
-      "@storage/*": ["./src/storage/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@services/*": ["./src/services/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@contexts/*": ["./src/contexts/*"],
-      "@routes/*": ["./src/routes/*"]
+      "@modules/*": ["src/modules/*"],
+      "@storage/*": ["src/@shared/storage/*"],
+      "@utils/*": ["src/@shared/utils/*"],
+      "@services/*": ["src/@shared/services/*"],
+      "@hooks/*": ["src/@shared/hooks/*"],
+      "@contexts/*": ["src/@shared/contexts/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@helper/*": ["src/@shared/helper/*"],
+      "@shared/*": ["./src/@shared/*"]
     }
   }
 }
