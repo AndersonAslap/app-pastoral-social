@@ -2,12 +2,16 @@ export type AcaoSocialStatus = 'planejada' | 'em_andamento' | 'concluida' | 'can
 
 export interface AcaoSocial {
   id: number;
-  nome: string;
+  titulo: string;
   descricao: string;
-  data: string;
-  local: string;
-  itensArrecadacao: string[];
-  status: AcaoSocialStatus;
+  tipoAcao: string;
+  totalAcaoSocial: number;
+  dataConclusaoAcao: string;
+  percentualRecebido: string;
+  itensRecebidos: number;
+  qtdDoadores: number;
+  itensGerados: number;
+  itens: string[];
 }
 
 export interface AcaoSocialStats {
@@ -22,4 +26,13 @@ export interface StatusConfig {
   bg: string;
   text: string;
   label: string;
+}
+
+export interface AcaoSocialFormData {
+  titulo: string;
+  descricao: string;
+  dataEvento: string;
+  tipoAcao: string;
+  qtdAcaoSocial: number;
+  itens: Array<{ itemProdutoId: number, quantidade: number }>;
 }

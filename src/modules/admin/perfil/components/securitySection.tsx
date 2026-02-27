@@ -21,8 +21,8 @@ export const SecuritySection: React.FC<PerfilFormProps> = ({
         <VStack gap="$4">
           <PasswordInput
             label="Nova Senha"
-            value={form.senha}
-            onChangeText={(text: string) => onFormChange("senha", text)}
+            value={form.novaSenha}
+            onChangeText={(text: string) => onFormChange("novaSenha", text)}
             showPassword={showPassword}
             onToggleVisibility={onTogglePasswordVisibility}
             placeholder="Digite sua nova senha"

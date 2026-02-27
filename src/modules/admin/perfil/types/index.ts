@@ -1,6 +1,7 @@
 export interface PerfilFormData {
   nome: string;
-  senha: string;
+  nickName: string;
+  novaSenha: string;
   confirmarSenha: string;
 }
 

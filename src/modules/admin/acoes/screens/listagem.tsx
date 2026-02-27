@@ -8,18 +8,25 @@ import { AcoesHeader } from "../components/acoesHeader";
 import { AcoesStats } from "../components/acoesStats";
 import { AcoesCard } from "../components/acoesCard";
 import { AcoesEmptyList } from "../components/acoesEmptyList";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
+import { useAcaoListagem } from "../hooks/useAcaoListagem";
 
 export const AcoesListagem = () => {
-  const [acoes] = useState<AcaoSocial[]>(mockAcoesSociais);
+  const navigator = useNavigation<AppNavigatorRoutesProps>();
 
-  const stats = calculateStats(acoes);
+  const { loading, items } = useAcaoListagem();
+
+  const handleOpenAcoesCadastrar = () => navigator.navigate("acoesCadastrar");
+
+  const stats = calculateStats(items);
 
   const handleFiltrar = () => {
     console.log("Abrir filtros");
   };
 
   const handleNovaAcao = () => {
-    console.log("Nova ação social");
+    handleOpenAcoesCadastrar();
   };
 
   const handleDetalhes = (acao: AcaoSocial) => {
@@ -58,9 +65,9 @@ export const AcoesListagem = () => {
         <AcoesStats stats={stats} />
 
         {/* Lista de Ações */}
-        {acoes.length > 0 ? (
+        {items.length > 0 ? (
           <VStack space="md">
-            {acoes.map((acao) => (
+            {items.map((acao) => (
               <AcoesCard
                 key={acao.id}
                 acao={acao}

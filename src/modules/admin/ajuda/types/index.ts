@@ -4,20 +4,16 @@ export type HelpStatus = 'pendente' | 'em andamento' | 'concluído';
 
 export interface Help {
   id: number;
-  familyName: string;
-  representative: string;
-  helpName: string;
-  status: HelpStatus;
-  date?: string;
-  itemsCount?: number;
-  priority?: HelpPriority;
-  address?: string;
+  representante: string;
+  statusAjuda: string;
+  tipoAjuda: string;
+  endereco?: string;
+  dataEntrega?: string | null;
 }
 
 export interface HelpStats {
   total: number;
   pending: number;
-  inProgress: number;
   completed: number;
 }
 
@@ -32,4 +28,11 @@ export interface PriorityConfig {
   bgColor: string;
   label: string;
   icon: React.ComponentType<any>;
+}
+
+export interface AjudaFormData {
+  idFamilia: string;
+  idTipoAjuda: string;
+  observacao: string;
+  idTemplate: string;
 }

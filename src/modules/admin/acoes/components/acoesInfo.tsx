@@ -15,12 +15,5 @@ export const AcoesInfo = ({ data, local }: AcaoInfoProps) => (
         {formatDate(data)}
       </Text>
     </HStack>
-    
-    <HStack alignItems="center" space="sm">
-      <MapPin size={14} color="#6B7280" />
-      <Text fontSize="$sm" color="$textDark500" flex={1}>
-        {local}
-      </Text>
-    </HStack>
   </VStack>
 );

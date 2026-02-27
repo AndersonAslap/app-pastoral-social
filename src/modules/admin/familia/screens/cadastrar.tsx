@@ -32,7 +32,6 @@ export function FamiliaCadastrarForm() {
     const [comunidadeOptions, setComunidadeOptions] = useState<{ label: string, value: string }[]>([]);
 
     const handleChange = (field: string, value: any) => {
-        console.log(field, value);
         if (field === "idDificuldade") {
             setForm(prev => ({
                 ...prev,
@@ -50,6 +49,7 @@ export function FamiliaCadastrarForm() {
         setFormSubmitting(true);
         try {
             const payload = { ...form } as ICriarFamiliaPayload;
+            console.log("Payload para criação da família:", JSON.stringify(payload, null, 2));
             await createFamiliaService(payload);
             setForm({} as ICriarFamiliaPayload);
             showSuccessToast({ title: "Família cadastrada com sucesso!" });
@@ -173,7 +173,6 @@ export function FamiliaCadastrarForm() {
                                 options={comunidadeOptions}
                                 placeholder="Selecione a comunidade"
                                 size="md"
-                                variant="outline"
                                 selectedValue={form.idComunidade}
                                 onValueChange={(value: string) => handleChange("idComunidade", value)}
                             />
@@ -182,7 +181,6 @@ export function FamiliaCadastrarForm() {
                                 options={dificuldadeOptions}
                                 placeholder="Selecione a dificuldade"
                                 size="md"
-                                variant="outline"
                                 selectedValue={form.idDificuldade}
                                 onValueChange={(value: string) => handleChange("idDificuldade", value)}
                             />
@@ -263,13 +261,12 @@ export function FamiliaCadastrarForm() {
                 </VStack>
 
                 {/* Seção: Observações e Outros */}
-                <VStack gap="$4">
+                <VStack gap="$4" mb="$8">
                     <Text size="xl" fontWeight="$bold" color="$textDark800">
                         Observações
                     </Text>
                     
-                    <Box bg="$backgroundLight0" p="$4" borderRadius="$2xl">
-                        <VStack gap="$4">
+                    <VStack gap="$4">
                             <TextArea
                                 placeholder="Observações sobre a família..."
                                 value={form.observacao}
@@ -284,7 +281,6 @@ export function FamiliaCadastrarForm() {
                                 minHeight="$20"
                             />
                         </VStack>
-                    </Box>
                 </VStack>
 
                 {/* Botões de Ação */}

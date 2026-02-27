@@ -1,7 +1,8 @@
-import { ScreenHeader } from "@components/screen-header";
+
 import { Text } from "@gluestack-ui/themed";
 import { VStack } from "@gluestack-ui/themed";
 import { ScrollView } from "@gluestack-ui/themed";
+import { ScreenHeader } from "@shared/components";
 
 export const Example = () => {
     return (
@@ -11,7 +12,7 @@ export const Example = () => {
             bg="$blue100"
             flex={1}
         >
-            <ScreenHeader title="Exeplo" />
+            <ScreenHeader title="Exemplo" />
             <VStack
                 flex={1}
                 bg="$backgroundLight50"

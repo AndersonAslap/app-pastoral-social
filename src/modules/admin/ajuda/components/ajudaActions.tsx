@@ -26,17 +26,15 @@ export const AjudaActions = ({
       variant="outline" 
       borderColor="$primary500"
       onPress={() => onDetalhes(item)}
+      mr="auto"
     >
       <HStack space="xs" alignItems="center">
         <Eye size={14} color="#3b82f6" />
-        <Text size="xs" color="$primary500">
-          Detalhes
-        </Text>
       </HStack>
     </Button>
 
     {/* Botões Condicionais por Status */}
-    {item.status === 'pendente' && (
+    {item.statusAjuda === 'AGUARDANDO_APROVACAO' && (
       <>
         <Button 
           size="sm" 
@@ -68,7 +66,7 @@ export const AjudaActions = ({
       </>
     )}
 
-    {item.status === 'em andamento' && (
+    {item.statusAjuda === 'EM_ENTREGA' && (
       <Button 
         size="sm" 
         variant="solid" 
@@ -84,7 +82,7 @@ export const AjudaActions = ({
       </Button>
     )}
 
-    {item.status === 'concluído' && (
+    {item.statusAjuda === 'ENTREGUE' && (
       <Button 
         size="sm" 
         variant="outline" 

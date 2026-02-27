@@ -14,11 +14,15 @@ import { Perfil } from "../../modules/admin/perfil";
 import { CestaListagem } from "../../modules/admin/cesta";
 import { Relatorio } from "../../modules/admin/relatorio";
 import { AcoesListagem } from "../../modules/admin/acoes";
+import { AjudaCadastrar } from "@modules/admin/ajuda/screens/cadastrar";
+import { AcoesCadastrar } from "@modules/admin/acoes/screens/cadastrar";
 
 
 export type AppRoutes = {
     home: undefined;
+
     ajudaListagem: undefined;
+    ajudaCadastrar: undefined;
 
     perfilUsuario: undefined;
 
@@ -35,6 +39,7 @@ export type AppRoutes = {
     modeloTemplateCadastrar: undefined;
 
     acoesListagem: undefined;
+    acoesCadastrar: undefined;
 
     relatorio: undefined;
 }
@@ -85,6 +90,14 @@ export function AppRoutes() {
             <Screen
                 name="ajudaListagem"
                 component={AjudaListagem}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
+
+            <Screen
+                name="ajudaCadastrar"
+                component={AjudaCadastrar}
                 options={{
                     tabBarButton: () => null
                 }}
@@ -170,6 +183,13 @@ export function AppRoutes() {
                 }}
             />
 
+            <Screen
+                name="acoesCadastrar"
+                component={AcoesCadastrar}
+                options={{
+                    tabBarButton: () => null
+                }}
+            />
             
         </Navigator>
     )

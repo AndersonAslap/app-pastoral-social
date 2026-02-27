@@ -1,3 +1,7 @@
 gerar build interna 
 
 > eas build -p android --profile preview
+
+gerar build produção 
+
+> eas build -p android --profile production --message "<mensagem>"

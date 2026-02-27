@@ -6,10 +6,11 @@ interface AcoesItensArrecadacaoProps {
 }
 
 export const AcoesItensArrecadacao = ({ itens }: AcoesItensArrecadacaoProps) => {
+  console.log("Itens para arrecadar:", itens);
   if (itens.length === 0) return null;
 
   return (
-    <HStack alignItems="flex-start" space="sm">
+    <HStack alignItems="flex-start" space="sm" mb="$3">
       <Package size={14} color="#6B7280" style={{ marginTop: 2 }} />
       <VStack flex={1}>
         <Text fontSize="$sm" color="$textDark500" mb="$1">

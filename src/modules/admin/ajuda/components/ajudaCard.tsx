@@ -2,9 +2,8 @@ import { Box, VStack, HStack, Text } from "@gluestack-ui/themed";
 import { Users, MapPin, Package } from "lucide-react-native";
 import { Help } from "../types";
 import { AjudaBadges } from "./ajudaBadges";
-import { AjudaProgressBar } from "./ajudaProgressBar";
 import { AjudaActions } from "./ajudaActions";
-import { getStatusConfig, getPriorityConfig } from "../helper/ajuda.helper";
+import { getStatusConfig } from "../helper/ajuda.helper";
 
 interface AjudaCardProps {
   item: Help;
@@ -23,8 +22,7 @@ export const AjudaCard = ({
   onRealizada, 
   onReabrir 
 }: AjudaCardProps) => {
-  const statusConfig = getStatusConfig(item.status);
-  const priorityConfig = getPriorityConfig(item.priority || 'baixa');
+  const statusConfig = getStatusConfig(item.statusAjuda);
 
   return (
     <Box
@@ -42,26 +40,22 @@ export const AjudaCard = ({
             <HStack space="sm" alignItems="center">
               <Users size={16} color="#64748b" />
               <Text fontWeight="$bold" size="lg" color="$textDark800">
-                Família {item.familyName}
+                {item.representante}
               </Text>
             </HStack>
-            <Text size="sm" color="$textDark500" mt="$1">
-              {item.representative}
-            </Text>
           </VStack>
           
           <AjudaBadges 
             statusConfig={statusConfig}
-            priorityConfig={priorityConfig}
           />
         </HStack>
 
         {/* Endereço da Família */}
-        {item.address && (
+        {item.endereco && (
           <HStack space="sm" alignItems="flex-start">
             <MapPin size={14} color="#64748b" />
             <Text size="sm" color="$textDark600" flex={1}>
-              {item.address}
+              {item.endereco}
             </Text>
           </HStack>
         )}
@@ -71,15 +65,10 @@ export const AjudaCard = ({
           <HStack space="sm" alignItems="center">
             <Package size={14} color="#64748b" />
             <Text size="sm" color="$textDark600" fontWeight="$medium">
-              {item.helpName}
+              {item.tipoAjuda}
             </Text>
           </HStack>
         </VStack>
-
-        {/* Barra de Progresso Visual para status */}
-        {item.status === 'em andamento' && (
-          <AjudaProgressBar progress={60} />
-        )}
 
         {/* Botões de Ação */}
         <AjudaActions

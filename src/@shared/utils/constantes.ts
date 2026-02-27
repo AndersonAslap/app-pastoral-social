@@ -8,6 +8,7 @@ export const MESSAGES_ERROR = {
     "Não foi possível carregar as comunidades. Tente novamente mais tarde.",
   FETCH_ITENS:
     "Não foi possível carregar os itens. Tente novamente mais tarde.",
+  DEFAULT_UPDATE: "Não foi possível atualizar. Tente novamente mais tarde.",
 };
 
 export const templateTypesOptions = [

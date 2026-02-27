@@ -3,32 +3,11 @@ import { StatusConfig, PriorityConfig } from "../types";
 
 interface AjudaBadgesProps {
   statusConfig: StatusConfig;
-  priorityConfig: PriorityConfig;
 }
 
-export const AjudaBadges = ({ statusConfig, priorityConfig }: AjudaBadgesProps) => {
-  const PriorityIcon = priorityConfig.icon;
-
+export const AjudaBadges = ({ statusConfig }: AjudaBadgesProps) => {
   return (
     <VStack alignItems="flex-end" space="xs">
-      {/* Badge de Prioridade */}
-      <Badge 
-        size="sm" 
-        variant="solid" 
-        bg={priorityConfig.bgColor}
-        borderColor={priorityConfig.color}
-        borderWidth={1}
-        borderRadius="$full"
-      >
-        <HStack space="xs" alignItems="center">
-          <PriorityIcon size={10} color={priorityConfig.color} />
-          <BadgeText color={priorityConfig.color} fontWeight="$bold" size="xs">
-            {priorityConfig.label}
-          </BadgeText>
-        </HStack>
-      </Badge>
-      
-      {/* Badge de Status */}
       <Badge 
         size="md" 
         variant="solid" 

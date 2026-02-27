@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { PerfilFormData } from "../types";
 import { useAuth } from "@shared/hooks/useAuth";
+import { useAppToast } from "@hooks/useAppToast";
+import { AppError } from "@utils/app.error";
+import { MESSAGES_ERROR } from "@utils/constantes";
+import { atualizarPerfil } from "../services";
 
 export const usePerfil = () => {
+  const { showErrorToast, showSuccessToast } = useAppToast();
   const { user } = useAuth();
-  const { nome } = user;
+  const { nome, nickName } = user;
 
   const [form, setForm] = useState<PerfilFormData>({
     nome: nome || "",
-    senha: "",
-    confirmarSenha: "",
+    nickName: nickName ||"",
+    novaSenha: "",
+    confirmarSenha: ""
   });
   
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -26,10 +32,19 @@ export const usePerfil = () => {
   const handleSubmit = async () => {
     setFormSubmitting(true);
     try {
-      // Lógica de submit aqui
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const payload = { ...form };
+
+      if (payload.novaSenha !== "" && payload.novaSenha !== payload.confirmarSenha) {
+        showErrorToast({ title: "As senhas não coincidem!" });
+        return;
+      }
+
+      await atualizarPerfil(payload);
+      showSuccessToast({ title: "Dados atualizados com sucesso!" });
     } catch (error) {
-      console.error(error);
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : MESSAGES_ERROR.DEFAULT_UPDATE;
+      showErrorToast({ title });
     } finally {
       setFormSubmitting(false);
     }

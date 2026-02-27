@@ -11,7 +11,7 @@ interface AcoesCardProps {
 }
 
 export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
-  const statusConfig = getStatusConfig(acao.status);
+  const statusConfig = getStatusConfig("planejada");
 
   return (
     <Box
@@ -38,7 +38,7 @@ export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
           </Badge>
           
           <Text fontSize="$lg" fontWeight="bold" color="$textDark800">
-            {acao.nome}
+            {acao.titulo}
           </Text>
           
           <Text fontSize="$sm" color="$textDark600" numberOfLines={2}>
@@ -48,10 +48,10 @@ export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
       </HStack>
 
       {/* Informações da Ação */}
-      <AcoesInfo data={acao.data} local={acao.local} />
+      <AcoesInfo data={acao.dataConclusaoAcao} local={acao.tipoAcao} />
 
       {/* Itens para Arrecadar */}
-      <AcoesItensArrecadacao itens={acao.itensArrecadacao} />
+      <AcoesItensArrecadacao itens={acao.itens} />
 
       {/* Ações */}
       <HStack space="sm">
@@ -66,7 +66,8 @@ export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
           <ButtonText fontSize="$sm" color="$blue600">Detalhes</ButtonText>
         </Button>
         
-        {acao.status !== 'concluida' && acao.status !== 'cancelada' && (
+        
+        {/*acao.status !== 'concluida' && acao.status !== 'cancelada' && (
           <Button 
             size="sm" 
             variant="outline" 
@@ -77,7 +78,8 @@ export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
           >
             <ButtonText fontSize="$sm" color="$green600">Editar</ButtonText>
           </Button>
-        )}
+        )*/}
+        
       </HStack>
     </Box>
   );

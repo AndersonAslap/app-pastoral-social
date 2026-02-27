@@ -15,6 +15,7 @@ import { FamilyFilter } from "../components/familia-filter";
 import { FamiliaStats } from "../components/familia-stats";
 import { useFamiliaData } from "../hooks/useFamilyData";
 import { useEmptyStateConfig } from "@shared/hooks/useEmptyStateConfig";
+import { FamilyCardSkeleton } from "../components/familia-card-enhanced-skeleton";
 
 export function FamiliaListagem() {
     const navigator = useNavigation<AppNavigatorRoutesProps>();

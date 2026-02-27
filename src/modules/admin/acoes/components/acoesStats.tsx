@@ -6,7 +6,7 @@ interface AcoesStatsProps {
 }
 
 export const AcoesStats = ({ stats }: AcoesStatsProps) => (
-  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false} maxHeight="$24">
     <HStack space="md" pb="$4">
       <Box bg="$white" p="$4" borderRadius="$xl" minWidth={140}>
         <Text fontSize="$2xl" fontWeight="bold" color="$blue600" textAlign="center">
