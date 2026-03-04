@@ -22,22 +22,55 @@ import { MESSAGES_ERROR } from "@shared/utils/constantes";
 import { useEffect, useState } from "react";
 import { ICriarFamiliaPayload } from "../../../../@shared/types/payload";
 import { createFamiliaService } from "../services";
+import { Masks } from "@utils/masks";
+
+const initialState = {
+    nomeRepresentante: "",
+    idade: "",
+    idComunidade: undefined,
+    idDificuldade: undefined,
+    dificuldades: [],
+    cpfRg: "",
+    telefone: "",
+    endereco: "",
+    qtdPessoasResidencia: "",
+    qtdPessoasEmpregadas: "",
+    criancasFrequentamEscola: false,
+    membroComProblemaSaude: false,
+    jaRecebeuAjuda: false,
+    desejaParticiparCursos: false,
+    observacao: "",
+    outros: ""
+};
 
 export function FamiliaCadastrarForm() {
     const { showErrorToast, showSuccessToast } = useAppToast();
 
-    const [form, setForm] = useState({} as ICriarFamiliaPayload);
+    const [form, setForm] = useState<ICriarFamiliaPayload>({...initialState});
     const [formSubmitting, setFormSubmitting] = useState(false);
     const [dificuldadeOptions, setDificuldadeOptions] = useState<{ label: string, value: string }[]>([]);
     const [comunidadeOptions, setComunidadeOptions] = useState<{ label: string, value: string }[]>([]);
+
+    const { cpfOrRg, phone, unmask } = Masks;
 
     const handleChange = (field: string, value: any) => {
         if (field === "idDificuldade") {
             setForm(prev => ({
                 ...prev,
+                [field]: value,
                 dificuldades: [value]
             }));
         } else {
+
+            switch(field) {
+                case "cpfRg":
+                    value = cpfOrRg(value);
+                    break;
+                case "telefone":
+                    value = phone(value);
+                    break;
+            }
+
             setForm(prev => ({
                 ...prev,
                 [field]: value
@@ -48,10 +81,14 @@ export function FamiliaCadastrarForm() {
     const handleSubmit = async () => {
         setFormSubmitting(true);
         try {
-            const payload = { ...form } as ICriarFamiliaPayload;
+            const payload = { 
+                ...form, 
+                cpfRg: unmask(form.cpfRg),  
+                telefone: unmask(form.telefone)
+            } as ICriarFamiliaPayload;
             console.log("Payload para criação da família:", JSON.stringify(payload, null, 2));
             await createFamiliaService(payload);
-            setForm({} as ICriarFamiliaPayload);
+            setForm({...initialState});
             showSuccessToast({ title: "Família cadastrada com sucesso!" });
         } catch (error) {
             const isAppError = error instanceof AppError;
@@ -142,6 +179,7 @@ export function FamiliaCadastrarForm() {
                                         placeholder="CPF/RG"
                                         value={form.cpfRg}
                                         onChangeText={text => handleChange("cpfRg", text)}
+                                        keyboardType="numeric"
                                     />
                                 </Box>
                             </HStack>
@@ -150,6 +188,7 @@ export function FamiliaCadastrarForm() {
                                 placeholder="Telefone"
                                 value={form.telefone}
                                 onChangeText={text => handleChange("telefone", text)}
+                                keyboardType="numeric"
                             />
 
                             <Input

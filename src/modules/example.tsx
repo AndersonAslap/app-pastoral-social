@@ -5,6 +5,29 @@ import { ScrollView } from "@gluestack-ui/themed";
 import { ScreenHeader } from "@shared/components";
 
 export const Example = () => {
+    /*
+    const fadeAnim = useRef(new Animated.Value(0.3)).current;
+    
+        useEffect(() => {
+            Animated.loop(
+                Animated.sequence([
+                    Animated.timing(fadeAnim, {
+                        toValue: 0.8,
+                        duration: 1000,
+                        useNativeDriver: true,
+                    }),
+                    Animated.timing(fadeAnim, {
+                        toValue: 0.3,
+                        duration: 1000,
+                        useNativeDriver: true,
+                    }),
+                ])
+            ).start();
+    
+            return () => fadeAnim.stopAnimation();
+        }, []);
+    */
+
     return (
         <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}

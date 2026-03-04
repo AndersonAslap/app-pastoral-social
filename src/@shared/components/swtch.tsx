@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HStack, Switch, Text } from "@gluestack-ui/themed";
 
 interface CustomSwitchProps {
@@ -8,14 +8,25 @@ interface CustomSwitchProps {
 }
 
 export const CustomSwitch: React.FC<CustomSwitchProps> = ({ label, isChecked = false, onChange }) => {
+    const [checked, setChecked] = useState(isChecked);
+
+    useEffect(() => {
+        setChecked(isChecked);
+    }, [isChecked]);
+
+    const handleChange = () => {
+        const newValue = !checked;
+        setChecked(newValue);
+        onChange?.(newValue);
+    };
 
     return (
         <HStack space="md" style={{ flexDirection: "row", alignItems: "center" }}>
             <Switch
-                isChecked={isChecked}
-                onChange={event => onChange?.(event.nativeEvent.value)}
+                value={checked}
+                onValueChange={handleChange}
             />
-            <Text size="sm">{label}</Text>
+            <Text size="sm" onPress={handleChange}>{label}</Text>
         </HStack>
     );
 };

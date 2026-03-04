@@ -85,10 +85,6 @@ export const FamilyCardSkeleton: React.FC<SkeletonSimpleProps> = ({ quantidade =
                         <Box h="$3" w="40%" bg="$backgroundLight300" borderRadius="$md" />
                     </Animated.View>
                 </VStack>
-                
-                <Animated.View style={{ opacity: smallElements }}>
-                    <Box h="$6" w="$6" bg="$backgroundLight300" borderRadius="$lg" />
-                </Animated.View>
             </HStack>
 
             {/* Informações */}
@@ -112,37 +108,7 @@ export const FamilyCardSkeleton: React.FC<SkeletonSimpleProps> = ({ quantidade =
                         <Box h="$3" w="60%" bg="$backgroundLight300" borderRadius="$md" />
                     </Animated.View>
                 </HStack>
-
-                {/* Telefone */}
-                <HStack alignItems="center" space="sm">
-                    <Animated.View style={{ opacity: smallElements }}>
-                        <Box h="$4" w="$4" bg="$backgroundLight300" borderRadius="$sm" />
-                    </Animated.View>
-                    <Animated.View style={{ opacity: mediumElements, flex: 1 }}>
-                        <Box h="$3" w="45%" bg="$backgroundLight300" borderRadius="$md" />
-                    </Animated.View>
-                </HStack>
             </VStack>
-
-            {/* Footer */}
-            <HStack justifyContent="space-between" alignItems="center">
-                <HStack alignItems="center" space="sm">
-                    <Animated.View style={{ opacity: smallElements }}>
-                        <Box h="$3" w="$3" bg="$backgroundLight300" borderRadius="$sm" />
-                    </Animated.View>
-                    <Animated.View style={{ opacity: smallElements }}>
-                        <Box h="$3" w="50px" bg="$backgroundLight300" borderRadius="$md" />
-                    </Animated.View>
-                </HStack>
-                
-                <Animated.View style={{ opacity: mediumElements }}>
-                    <Box h="$3" w="60px" bg="$backgroundLight300" borderRadius="$md" />
-                </Animated.View>
-                
-                <Animated.View style={{ opacity: largeElements }}>
-                    <Box h="$4" w="45px" bg="$backgroundLight300" borderRadius="$md" />
-                </Animated.View>
-            </HStack>
         </Box>
     );
 

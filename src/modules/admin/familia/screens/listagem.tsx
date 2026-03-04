@@ -2,7 +2,6 @@ import { FlatList, View, VStack} from "@gluestack-ui/themed";
 import {
     ScreenHeader,
     HeaderList,
-    Loading,
     EmptyStateLottie,
     ErrorStateLottie
 } from "@shared/components";
@@ -15,12 +14,28 @@ import { FamilyFilter } from "../components/familia-filter";
 import { FamiliaStats } from "../components/familia-stats";
 import { useFamiliaData } from "../hooks/useFamilyData";
 import { useEmptyStateConfig } from "@shared/hooks/useEmptyStateConfig";
-import { FamilyCardSkeleton } from "../components/familia-card-enhanced-skeleton";
+import { FamiliaListagemSkeleton } from "../components/familia-listagem-skeleton";
+import { usePagination } from "@hooks/usePagination";
+import { Pagination } from "@shared/components/pagination";
 
 export function FamiliaListagem() {
     const navigator = useNavigation<AppNavigatorRoutesProps>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const { data, isLoading, error, fetchData } = useFamiliaData();
+    
+    // Hook de paginação
+    const {
+        currentPage,
+        itemsPerPage,
+        totalPages,
+        totalItems,
+        paginatedData,
+        handlePageChange,
+        handleItemsPerPageChange
+    } = usePagination({
+        data: data || [],
+        initialItemsPerPage: 10
+    });
     
     const handleOpenNewFamily = () => navigator.navigate("familiaCadastrar");
 
@@ -52,24 +67,24 @@ export function FamiliaListagem() {
                 borderTopLeftRadius="$3xl"
                 borderTopRightRadius="$3xl"
                 px="$4"
-                pt="$8"
+                pt="$8" 
             >
                 {isLoading ? (
-                    <Loading />
+                    <FamiliaListagemSkeleton />
                 ) : (
                     <>
-                        <FamiliaStats count={data.length} />
+                        <FamiliaStats count={totalItems} />
 
                         <HeaderList
                             labelButtonPlus="Nova família"
                             onSetShowFilter={setIsFilterOpen}
-                            showIconFilter
+                            showIconFilter={false}
                             onPress={handleOpenNewFamily}
                         />
 
                         <FlatList
-                            data={data}
-                            keyExtractor={(item, _index) => (item as IResponseListarFamilias).id.toString()}
+                            data={paginatedData}
+                            keyExtractor={(item) => (item as IResponseListarFamilias).id.toString()}
                             renderItem={({ item }) => (
                                 <FamilyCardEnhancede familia={item as IResponseListarFamilias}/>
                             )}
@@ -81,6 +96,21 @@ export function FamiliaListagem() {
                                     title={EMPTY_STATE_CONFIG.title}
                                     description={EMPTY_STATE_CONFIG.description}
                                 />
+                            }
+                            ListFooterComponent={
+                                totalItems > 0 ? (
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        totalItems={totalItems}
+                                        itemsPerPage={itemsPerPage}
+                                        onPageChange={handlePageChange}
+                                        onItemsPerPageChange={handleItemsPerPageChange}
+                                        showItemsPerPage={true}
+                                        showFirstLastButtons={true}
+                                        showTotalItems={true}
+                                    />
+                                ) : null
                             }
                         />
 
@@ -94,3 +124,5 @@ export function FamiliaListagem() {
         </View>
     );
 }
+
+

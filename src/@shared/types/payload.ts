@@ -1,9 +1,9 @@
 interface ICriarFamiliaPayload {
     nomeRepresentante: string;
     idade: string;
-    idComunidade: string;
-    idDificuldade: string;
-    dificuldades: [string];
+    idComunidade: string | undefined;
+    idDificuldade: string | undefined;
+    dificuldades: string[];
     cpfRg: string;
     telefone: string;
     endereco: string;
