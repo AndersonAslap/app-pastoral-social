@@ -5,8 +5,11 @@ import { useAppToast } from "@hooks/useAppToast";
 import { AppError } from "@utils/app.error";
 import { MESSAGES_ERROR } from "@utils/constantes";
 import { atualizarPerfil } from "../services";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 
 export const usePerfil = () => {
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { showErrorToast, showSuccessToast } = useAppToast();
   const { user } = useAuth();
   const { nome, nickName } = user;
@@ -58,6 +61,8 @@ export const usePerfil = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const onCancel = () => navigation.navigate("home");
+
   return {
     form,
     formSubmitting,
@@ -67,6 +72,7 @@ export const usePerfil = () => {
     handleSubmit,
     togglePasswordVisibility,
     toggleConfirmPasswordVisibility,
-    user
+    user,
+    onCancel
   };
 };

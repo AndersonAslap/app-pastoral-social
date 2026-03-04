@@ -17,7 +17,8 @@ export const Perfil: React.FC = () => {
     handleSubmit,
     togglePasswordVisibility,
     toggleConfirmPasswordVisibility,
-    user
+    user,
+    onCancel
   } = usePerfil();
 
   return (
@@ -61,6 +62,7 @@ export const Perfil: React.FC = () => {
         <ActionButtons
           formSubmitting={formSubmitting}
           onSubmit={handleSubmit}
+          onCancel={onCancel}
         />
 
         {/* Espaço extra para scroll */}
