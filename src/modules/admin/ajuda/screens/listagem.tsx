@@ -52,7 +52,7 @@ export function AjudaListagem() {
               <HeaderList
                 labelButtonPlus="Nova ajuda"
                 onSetShowFilter={setIsFilterOpen}
-                showIconFilter={true}
+                showIconFilter={false}
                 onPress={handleOpenAjudaCadastrar}
               />
 

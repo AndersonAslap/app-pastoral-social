@@ -24,24 +24,29 @@ export const AcoesHeader = ({ totalAcoes, onFiltrar, onNovaAcao }: AcoesHeaderPr
     <HStack space="sm">
       <Button 
         size="sm" 
-        variant="outline" 
-        bg="$white"
-        borderColor="$borderLight300"
-        flex={1}
-        onPress={onFiltrar}
-      >
-        <ButtonIcon as={Filter} size="sm" mr="$1" />
-        <ButtonText fontSize="$sm">Filtrar</ButtonText>
-      </Button>
-      <Button 
-        size="sm" 
         bg="$green600"
-        flex={1}
+        gap={8}
         onPress={onNovaAcao}
       >
         <ButtonIcon as={Plus} size="sm" mr="$1" />
         <ButtonText fontSize="$sm" color="$white">Nova Ação</ButtonText>
       </Button>
+
+      {
+        /*
+          <Button 
+          size="sm" 
+          variant="outline" 
+          bg="$white"
+          borderColor="$borderLight300"
+          flex={1}
+          onPress={onFiltrar}
+        >
+          <ButtonIcon as={Filter} size="sm" mr="$1" />
+          <ButtonText fontSize="$sm">Filtrar</ButtonText>
+        </Button>
+        */
+      }
     </HStack>
   </VStack>
 );

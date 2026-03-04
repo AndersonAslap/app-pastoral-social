@@ -61,7 +61,7 @@ const ModeloTemplateListagem: React.FC = () => {
         <HeaderList
           labelButtonPlus="Novo modelo"
           onSetShowFilter={setIsFilterOpen}
-          showIconFilter
+          showIconFilter={false}
           onPress={handleRedirectToModeloTemplateCadastrar}
         />
 
