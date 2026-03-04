@@ -87,7 +87,6 @@ export const CestaCard = ({ cesta, onDetalhes, onEditar, onEntregar }: CestaCard
       {/* Ações */}
       <HStack space="sm">
         <Button 
-          flex={1} 
           size="sm" 
           variant="outline" 
           bg="$white"
@@ -97,19 +96,19 @@ export const CestaCard = ({ cesta, onDetalhes, onEditar, onEntregar }: CestaCard
           <ButtonText color="$textDark600" ml="$1">Detalhes</ButtonText>
         </Button>
         
-        {cesta.status !== 'ENTREGUE' && cesta.status !== 'CANCELADA' && onEditar && (
+        {/*cesta.status !== 'ENTREGUE' && cesta.status !== 'CANCELADA' && onEditar && (
           <Button flex={1} size="sm" variant="outline" bg="$white" onPress={() => onEditar(cesta)}>
             <Edit size={14} color="#6B7280" />
             <ButtonText color="$textDark600" ml="$1">Editar</ButtonText>
           </Button>
-        )}
+        )*/}
         
-        {cesta.status === 'RESERVADA' && onEntregar && (
+        {/*cesta.status === 'RESERVADA' && onEntregar && (
           <Button flex={1} size="sm" bg="$green600" onPress={() => onEntregar(cesta)}>
             <Truck size={14} color="white" />
             <ButtonText color="white" ml="$1">Entregar</ButtonText>
           </Button>
-        )}
+        )*/}
       </HStack>
     </Box>
   );

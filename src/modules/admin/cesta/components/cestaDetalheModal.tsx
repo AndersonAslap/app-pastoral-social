@@ -149,19 +149,19 @@ export const CestaDetalhesModal = ({
               <ButtonText color="$textDark600">Fechar</ButtonText>
             </Button>
             
-            {cesta.status !== 'ENTREGUE' && cesta.status !== 'CANCELADA' && onEditar && (
+            {/*cesta.status !== 'ENTREGUE' && cesta.status !== 'CANCELADA' && onEditar && (
               <Button flex={1} size="sm" variant="outline" bg="$white" onPress={onEditar}>
                 <Edit size={14} color="#6B7280" />
                 <ButtonText color="$textDark600" ml="$1">Editar</ButtonText>
               </Button>
-            )}
+            )*/}
             
-            {cesta.status === 'RESERVADA' && onEntregar && (
+            {/*cesta.status === 'RESERVADA' && onEntregar && (
               <Button flex={1} size="sm" bg="$green600" onPress={onEntregar}>
                 <Truck size={14} color="white" />
                 <ButtonText color="white" ml="$1">Entregar</ButtonText>
               </Button>
-            )}
+            )*/}
           </HStack>
         </ModalFooter>
       </ModalContent>

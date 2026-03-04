@@ -33,7 +33,6 @@ export const ModeloTemplateProdutoItemSection = ({
           options={produtosOptions}
           placeholder="Produto"
           size="lg"
-          variant="outline"
           selectedValue={item.itemProdutoId}
           onValueChange={value => onItemChange(index, "itemProdutoId", value)}
         />
