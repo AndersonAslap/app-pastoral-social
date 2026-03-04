@@ -1,4 +1,4 @@
-import { FilterList, ScreenHeader, HeaderList, Loading } from "@shared/components";
+import { FilterList, ScreenHeader, HeaderList, Loading, EmptyStateLottie } from "@shared/components";
 import { FlatList, View, VStack } from "@gluestack-ui/themed";
 import { AjudaStats } from "../components/ajudaStats";
 import { AjudaCard } from "../components/ajudaCard";
@@ -7,6 +7,7 @@ import { AjudaFiltros } from "../components/ajudaFiltros";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { useAjudaListagem } from "../hooks/useAjudaListagem";
+import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
 
 export function AjudaListagem() {
   const navigator = useNavigation<AppNavigatorRoutesProps>();
@@ -30,6 +31,8 @@ export function AjudaListagem() {
   } = useAjudaListagem();
 
   const handleOpenAjudaCadastrar = () => navigator.navigate("ajudaCadastrar");
+
+  const EMPTY_STATE_CONFIG = useEmptyStateConfig('ajuda');
 
   return (
     <View flex={1} bg="$blue100">
@@ -71,7 +74,14 @@ export function AjudaListagem() {
                 )}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 16, paddingTop: 8 }}
-                ListEmptyComponent={<AjudaEmptyList />}
+                ListEmptyComponent={
+                  <EmptyStateLottie
+                    animationSource={EMPTY_STATE_CONFIG.animation}
+                    title={EMPTY_STATE_CONFIG.title}
+                    description={EMPTY_STATE_CONFIG.description}
+                    py="$0"
+                  />
+                }
               />
 
               <FilterList

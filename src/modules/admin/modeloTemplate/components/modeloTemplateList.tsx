@@ -1,6 +1,8 @@
 import { FlatList, VStack } from "@gluestack-ui/themed";
 import { ModeloTemplateCestaCard } from "./modeloTemplateCestaCard";
 import { ModeloTemplateCesta } from "../types";
+import { EmptyStateLottie } from "@shared/components";
+import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
 
 interface ModeloListProps {
   items: ModeloTemplateCesta[];
@@ -15,6 +17,9 @@ export const ModeloTemplateList = ({
   onDetalhes, 
   onGerarCestas 
 }: ModeloListProps) => {
+
+  const EMPTY_STATE_CONFIG = useEmptyStateConfig('modelo');
+
   return (
     <FlatList
       data={items}
@@ -29,6 +34,13 @@ export const ModeloTemplateList = ({
       )}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingBottom: 16, paddingTop: 16 }}
+      ListEmptyComponent={
+        <EmptyStateLottie
+          animationSource={EMPTY_STATE_CONFIG.animation}
+          title={EMPTY_STATE_CONFIG.title}
+          description={EMPTY_STATE_CONFIG.description}
+        />
+      }
     />
   );
 };

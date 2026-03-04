@@ -8,6 +8,7 @@ type EmptyStateLottieProps = {
   animationSource: any; // pode ser require(...) ou um JSON remoto
   buttonLabel?: string;
   onPressButton?: () => void;
+  py?: string
 };
 
 export function EmptyStateLottie({
@@ -16,6 +17,8 @@ export function EmptyStateLottie({
   animationSource,
   buttonLabel,
   onPressButton,
+  py = "$10"
+
 }: EmptyStateLottieProps) {
   const animationRef = useRef<LottieView>(null);
 
@@ -29,7 +32,7 @@ export function EmptyStateLottie({
       alignItems="center"
       justifyContent="center"
       px="$6"
-      py="$10"
+      py={py}
       space="md"
     >
       <LottieView

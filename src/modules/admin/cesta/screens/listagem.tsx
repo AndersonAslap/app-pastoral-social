@@ -55,47 +55,39 @@ export const CestaListagem = () => {
   }
 
   return (
-    <>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        bg="$blue100"
+    <View flex={1} bg="$blue100">
+      <ScreenHeader title="Cestas Básicas" /> 
+      <VStack
         flex={1}
+        bg="$backgroundLight50"
+        borderTopLeftRadius="$3xl"
+        borderTopRightRadius="$3xl"
+        px="$4"
+        pt="$6"
+        pb="$16"
       >
-        <ScreenHeader title="Cestas Básicas" />
-        
-        <VStack
-          flex={1}
-          bg="$backgroundLight50"
-          borderTopLeftRadius="$3xl"
-          borderTopRightRadius="$3xl"
-          px="$4"
-          pt="$6"
-          pb="$16"
-        >
-          {
-            isLoading
-            ? <Loading />
-            : (
-              <>
-                <CestaStats
-                  totalCestas={dados.totalCestas} 
-                  cestasEntregues={dados.cestasEntregues} 
-                />
+        {
+          isLoading
+          ? <Loading />
+          : (
+            <>
+              <CestaStats
+                totalCestas={dados.totalCestas} 
+                cestasEntregues={dados.cestasEntregues} 
+              />
 
-                <CestaFiltros onFiltroChange={handleFiltroChange} />
+              <CestaFiltros onFiltroChange={handleFiltroChange} />
 
-                <CestaList
-                  cestas={dados.cestas || []}
-                  onDetalhes={abrirDetalhes}
-                  onEditar={handleEditarCesta}
-                  onEntregar={handleEntregarCesta}
-                />
-              </>
-            )
-          }
-        </VStack>
-      </ScrollView>
+              <CestaList
+                cestas={dados.cestas || []}
+                onDetalhes={abrirDetalhes}
+                onEditar={handleEditarCesta}
+                onEntregar={handleEntregarCesta}
+              />
+            </>
+          )
+        }
+      </VStack>
 
       <CestaDetalhesModal
         isOpen={modalVisible}
@@ -104,6 +96,6 @@ export const CestaListagem = () => {
         onEditar={() => cestaSelecionada && handleEditarCesta(cestaSelecionada)}
         onEntregar={() => cestaSelecionada && handleEntregarCesta(cestaSelecionada)}
       />
-    </>
+    </View>
   );
 };
