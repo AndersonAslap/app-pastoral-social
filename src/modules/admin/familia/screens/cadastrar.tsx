@@ -23,6 +23,8 @@ import { useEffect, useState } from "react";
 import { ICriarFamiliaPayload } from "../../../../@shared/types/payload";
 import { createFamiliaService } from "../services";
 import { Masks } from "@utils/masks";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 
 const initialState = {
     nomeRepresentante: "",
@@ -52,6 +54,13 @@ export function FamiliaCadastrarForm() {
     const [comunidadeOptions, setComunidadeOptions] = useState<{ label: string, value: string }[]>([]);
 
     const { cpfOrRg, phone, unmask } = Masks;
+
+    const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+    const handleCancel = () => {
+        resetForm();
+        navigation.navigate("familiaListagem");
+    };
 
     const handleChange = (field: string, value: any) => {
         if (field === "idDificuldade") {
@@ -88,7 +97,7 @@ export function FamiliaCadastrarForm() {
             } as ICriarFamiliaPayload;
             console.log("Payload para criação da família:", JSON.stringify(payload, null, 2));
             await createFamiliaService(payload);
-            setForm({...initialState});
+            resetForm();
             showSuccessToast({ title: "Família cadastrada com sucesso!" });
         } catch (error) {
             const isAppError = error instanceof AppError;
@@ -120,6 +129,10 @@ export function FamiliaCadastrarForm() {
             showErrorToast({ title });
         }
     };
+
+    const resetForm = () => {
+        setForm({...initialState});
+    }
 
     useEffect(() => {
         const loadDataSelects = async () => {
@@ -324,7 +337,7 @@ export function FamiliaCadastrarForm() {
 
                 {/* Botões de Ação */}
                 <HStack space="md" mt="$4">
-                    <ButtonCancel flex={1} title="Cancelar" />
+                    <ButtonCancel flex={1} title="Cancelar" onPress={handleCancel}/>
                     <Button
                         flex={1}
                         title="Salvar Família"

@@ -6,6 +6,8 @@ import { AppError } from "@shared/utils/app.error";
 import { MESSAGES_ERROR } from "@shared/utils/constantes";
 import { EstoqueStatus, Product, TemplateForm, TemplateItem } from '../types';
 import { useFetchData } from '@hooks/useFetchData';
+import { useNavigation } from '@react-navigation/native';
+import { AppNavigatorRoutesProps } from '@shared/routes/app.routes';
 
 export const initialState: TemplateForm = {
   qtdGeracaoPossivel: 0,
@@ -22,6 +24,8 @@ export const useModeloTemplateForm = () => {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [calculatingGenerations, setCalculatingGenerations] = useState(false);
   const [qtdGeracaoPossivelShow, setQtdGeracaoPossivelShow] = useState(false);
+
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   // Hook genérico para fetch de produtos
   const { 
@@ -135,6 +139,7 @@ export const useModeloTemplateForm = () => {
   const resetForm = useCallback(() => {
     setForm(initialState);
     setQtdGeracaoPossivelShow(false);
+    navigation.navigate("modeloTemplateListagem");
   }, []);
 
   return {

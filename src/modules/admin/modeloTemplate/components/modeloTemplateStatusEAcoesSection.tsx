@@ -22,6 +22,7 @@ export const ModeloTemplateStatusEAcoesSection = ({
   onSubmit,
   onCancel
 }: ModeloTemplateStatusEAcoesSectionProps) => (
+
   <VStack gap="$4">
     {/* Status das Gerações */}
     {qtdGeracaoPossivelShow && form.qtdGeracaoPossivel >= 0 && (

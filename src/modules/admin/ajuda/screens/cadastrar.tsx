@@ -10,9 +10,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useAjudaHandles } from "../hooks/useAjudaHandles";
 import { FamiliaInfoSection } from "../components/familiaInfoSection";
 import { TemplateObservacaoSection } from "../components/templateObservacaoSection";
+import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 
 export function AjudaCadastrar() {
-    const navigation = useNavigation();
+    const navigation = useNavigation<AppNavigatorRoutesProps>();
     
     const {
         form,
@@ -28,7 +29,7 @@ export function AjudaCadastrar() {
 
     const handleCancel = () => {
         resetForm();
-        navigation.goBack();
+        navigation.navigate("ajudaListagem");
     };
 
     return (
