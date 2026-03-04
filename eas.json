@@ -12,6 +12,9 @@
         "buildType": "app-bundle",
         "autoIncrement": true,
         "gradleCommand": ":app:bundleRelease"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://pastoral-social-back.vercel.app/api"
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Text } from "@gluestack-ui/themed";
+import { Text, View } from "@gluestack-ui/themed";
 import { VStack } from "@gluestack-ui/themed";
 import { HStack } from "@gluestack-ui/themed";
 import { Box } from "@gluestack-ui/themed";
@@ -6,6 +6,7 @@ import { Pressable } from "@gluestack-ui/themed";
 import { ScrollView } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { ApiStatusBlock } from "@shared/components/api-status-block";
 
 export const Jornada = () => {
     const [selectedJourney, setSelectedJourney] = useState(null);
@@ -225,6 +226,8 @@ export const Jornada = () => {
                         </Box>
                     )}
                 </Pressable>
+                
+                <ApiStatusBlock />
             </VStack>
         </ScrollView>
     );
