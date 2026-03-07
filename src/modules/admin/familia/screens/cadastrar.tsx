@@ -12,7 +12,8 @@ import {
     Box, 
     VStack, 
     ScrollView, 
-    Text 
+    Text, 
+    KeyboardAvoidingView
 } from "@gluestack-ui/themed";
 import { useAppToast } from "@shared/hooks/useAppToast";
 import { listarComunidadeService } from "@shared/services/comunidade.service";
@@ -25,6 +26,7 @@ import { createFamiliaService } from "../services";
 import { Masks } from "@utils/masks";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
+import { Platform } from "react-native";
 
 const initialState = {
     nomeRepresentante: "",
@@ -146,13 +148,17 @@ export function FamiliaCadastrarForm() {
     }, []);
 
     return (
-        <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            showsVerticalScrollIndicator={false}
-            bg="$blue100"
-            pb="$8"
-            flex={1}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                showsVerticalScrollIndicator={false}
+                bg="$blue100"
+                pb="$8"
+                flex={1}
+             >
             <ScreenHeader title="Famílias" backTo="familiaListagem"/>
             <VStack
                 flex={1}
@@ -347,5 +353,6 @@ export function FamiliaCadastrarForm() {
                 </HStack>
             </VStack>
         </ScrollView>
+        </KeyboardAvoidingView>
     );
 }

@@ -55,33 +55,29 @@ export function useAjudaListagem() {
         setIsFilterOpen(false);
       };
 
-    useEffect(() => {
-        const fetchAjudas = async () => {
-            setLoading(true);
-            try {
-                const output = await listarAjuda();
-                setItems(output.data);
-                setStats({
-                    total: output.stats?.total || 0,
-                    pending: output.stats?.pendentes || 0,
-                    completed: output.stats?.concluidas || 0,
-                });
-            } catch (error) {
-                showErrorToast({ title: "Erro ao carregar ajudas." });
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchAjudas();
-    }, []);
-
+      const fetchAjudas = async () => {
+        setLoading(true);
+        try {
+            const output = await listarAjuda();
+            setItems(output.data);
+            setStats({
+                total: output.stats?.total || 0,
+                pending: output.stats?.pendentes || 0,
+                completed: output.stats?.concluidas || 0,
+            });
+        } catch (error) {
+            showErrorToast({ title: "Erro ao carregar ajudas." });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return {
         loading,
         items,
         stats,
         isFilterOpen,
+        fetchAjudas,
         setIsFilterOpen,
         handleDetalhes,
         handleCancelar,

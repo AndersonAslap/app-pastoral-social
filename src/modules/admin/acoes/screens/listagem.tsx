@@ -5,15 +5,16 @@ import { calculateStats } from "../helper/acoes.helper";
 import { AcoesHeader } from "../components/acoesHeader";
 import { AcoesStats } from "../components/acoesStats";
 import { AcoesCard } from "../components/acoesCard";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { useAcaoListagem } from "../hooks/useAcaoListagem";
 import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
+import { useCallback } from "react";
 
 export const AcoesListagem = () => {
   const navigator = useNavigation<AppNavigatorRoutesProps>();
 
-  const { loading, items } = useAcaoListagem();
+  const { loading, items, fetchAcoes } = useAcaoListagem();
 
   const handleOpenAcoesCadastrar = () => navigator.navigate("acoesCadastrar");
 
@@ -36,6 +37,12 @@ export const AcoesListagem = () => {
   const handleEditar = (acao: AcaoSocial) => {
     console.log("Editar ação:", acao);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchAcoes();
+    }, [])
+  );
 
   return (
     <View

@@ -226,6 +226,8 @@ export const Jornada = () => {
                         </Box>
                     )}
                 </Pressable>
+
+                <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
                 
                 <ApiStatusBlock />
             </VStack>

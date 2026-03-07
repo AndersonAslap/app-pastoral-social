@@ -29,7 +29,7 @@ export const CestaList = ({ cestas, onDetalhes, onEditar, onEntregar }: CestaLis
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 16, paddingTop: 16 }}
+        contentContainerStyle={{ paddingBottom: 120, paddingTop: 16 }}
         ListEmptyComponent={
           <EmptyStateLottie
             animationSource={EMPTY_STATE_CONFIG.animation}

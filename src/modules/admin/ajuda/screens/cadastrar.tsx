@@ -5,12 +5,13 @@ import {
     Loading,
     ScreenHeader,
 } from "@shared/components";
-import { View, VStack, HStack, ScrollView, Text } from "@gluestack-ui/themed";
+import { View, VStack, HStack, ScrollView, Text, KeyboardAvoidingView } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useAjudaHandles } from "../hooks/useAjudaHandles";
 import { FamiliaInfoSection } from "../components/familiaInfoSection";
 import { TemplateObservacaoSection } from "../components/templateObservacaoSection";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
+import { Platform } from "react-native";
 
 export function AjudaCadastrar() {
     const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -33,6 +34,10 @@ export function AjudaCadastrar() {
     };
 
     return (
+        <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
         <View flex={1} bg="$blue100">
             <ScreenHeader title="Cadastrar Ajuda Familiar" backTo="ajudaListagem"/>
             <ScrollView 
@@ -101,5 +106,6 @@ export function AjudaCadastrar() {
                 </VStack>
             </ScrollView>
         </View>
+        </KeyboardAvoidingView>
     );
 }

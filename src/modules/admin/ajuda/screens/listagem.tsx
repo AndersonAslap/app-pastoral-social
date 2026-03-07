@@ -4,10 +4,11 @@ import { AjudaStats } from "../components/ajudaStats";
 import { AjudaCard } from "../components/ajudaCard";
 import { AjudaEmptyList } from "../components/ajudaEmptyList";
 import { AjudaFiltros } from "../components/ajudaFiltros";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { useAjudaListagem } from "../hooks/useAjudaListagem";
 import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
+import { useCallback} from "react";
 
 export function AjudaListagem() {
   const navigator = useNavigation<AppNavigatorRoutesProps>();
@@ -27,12 +28,19 @@ export function AjudaListagem() {
     handleFiltroFamilia, 
     handleFiltroData, 
     handleLimparFiltros, 
-    handleAplicarFiltros 
+    handleAplicarFiltros,
+    fetchAjudas
   } = useAjudaListagem();
 
   const handleOpenAjudaCadastrar = () => navigator.navigate("ajudaCadastrar");
 
   const EMPTY_STATE_CONFIG = useEmptyStateConfig('ajuda');
+
+  useFocusEffect(
+      useCallback(() => {
+          fetchAjudas();
+      }, [])
+  );
 
   return (
     <View flex={1} bg="$blue100">

@@ -4,13 +4,16 @@ import {
     InfoTip,
     ScreenHeader,
 } from "@shared/components";
-import { View, VStack, HStack, ScrollView } from "@gluestack-ui/themed";
+
+import { View, VStack, HStack } from "@gluestack-ui/themed";
+
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
+
 import { useAcaoSocialForm } from "../hooks/useAcaoForm";
 import { AcoesInformacoesBasicasSection } from "../components/acoesInformacoesBasicasSection";
 import { AcoesItensAcaoSection } from "../components/acoesItensSection";
-
+import { FormContainer } from "@shared/components/form-container";
 
 export function AcoesCadastrar() {
     
@@ -34,68 +37,62 @@ export function AcoesCadastrar() {
     };
 
     return (
-        <View flex={1} bg="$blue100">
+        <FormContainer>
             <ScreenHeader title="Cadastrar Ação Social" backTo="acoesListagem"/>
-            
-            <ScrollView 
+            <VStack
                 flex={1}
-                contentContainerStyle={{ flexGrow: 1 }}
-                showsVerticalScrollIndicator={false}
+                bg="$backgroundLight50"
+                borderTopLeftRadius="$3xl"
+                borderTopRightRadius="$3xl"
+                px="$6"
+                pt="$8"
+                pb="$8"
+                gap="$6"
+                minHeight="100%"
             >
-                <VStack
-                    flex={1}
-                    bg="$backgroundLight50"
-                    borderTopLeftRadius="$3xl"
-                    borderTopRightRadius="$3xl"
-                    px="$6"
-                    pt="$8"
-                    pb="$8"
-                    gap="$6"
-                    minHeight="100%"
-                >
-                    <AcoesInformacoesBasicasSection
-                        titulo={form.titulo}
-                        descricao={form.descricao}
-                        data={form.dataEvento}
-                        tipoAcao={form.tipoAcao}
-                        qtdAcaoSocial={form.qtdAcaoSocial}
-                        onTituloChange={(value: any) => handleChange("titulo", value)}
-                        onDescricaoChange={(value: any) => handleChange("descricao", value)}
-                        onDataChange={(value: any) => handleChange("dataEvento", value)}
-                        onTipoAcaoChange={(value: any) => handleChange("tipoAcao", value)}
-                        onQtdAcaoSocialChange={(value: any) => handleChange("qtdAcaoSocial", value)}
-                    />
+                <AcoesInformacoesBasicasSection
+                    titulo={form.titulo}
+                    descricao={form.descricao}
+                    data={form.dataEvento}
+                    tipoAcao={form.tipoAcao}
+                    qtdAcaoSocial={form.qtdAcaoSocial}
+                    onTituloChange={(value: any) => handleChange("titulo", value)}
+                    onDescricaoChange={(value: any) => handleChange("descricao", value)}
+                    onDataChange={(value: any) => handleChange("dataEvento", value)}
+                    onTipoAcaoChange={(value: any) => handleChange("tipoAcao", value)}
+                    onQtdAcaoSocialChange={(value: any) => handleChange("qtdAcaoSocial", value)}
+                />
 
-                    <AcoesItensAcaoSection
-                        produtos={produtos}
-                        produtosSelecionados={produtosSelecionados}
-                        onProdutoToggle={handleProdutoToggle}
-                        onQuantidadeChange={handleProdutoChangeQuantidade}
-                    />
+                <AcoesItensAcaoSection
+                    produtos={produtos}
+                    produtosSelecionados={produtosSelecionados}
+                    onProdutoToggle={handleProdutoToggle}
+                    onQuantidadeChange={handleProdutoChangeQuantidade}
+                />
 
-                    <InfoTip
-                        title="Organização da ação social"
-                        description="Selecione todos os itens que serão distribuídos. Você pode ajustar as quantidades posteriormente no controle de estoque."
-                    />
+                <InfoTip
+                    title="Organização da ação social"
+                    description="Selecione todos os itens que serão distribuídos. Você pode ajustar as quantidades posteriormente no controle de estoque."
+                />
 
-                    <VStack space="md" mt="$4" pb="$4">
-                        <HStack space="md">
-                            <ButtonCancel 
-                                flex={1} 
-                                title="Cancelar" 
-                                onPress={handleCancel}
-                            />
-                            <Button
-                                flex={1}
-                                title="Cadastrar"
-                                onPress={handleSubmit}
-                                isLoading={formSubmitting}
-                            />
-                        </HStack>
-                        <View h="$8" />
-                    </VStack>
+                <VStack space="md" mt="$4" pb="$4">
+                    <HStack space="md">
+                        <ButtonCancel 
+                            flex={1} 
+                            title="Cancelar" 
+                            onPress={handleCancel}
+                        />
+                        <Button
+                            flex={1}
+                            title="Cadastrar"
+                            onPress={handleSubmit}
+                            isLoading={formSubmitting}
+                        />
+                    </HStack>
+
+                    <View h="$8" />
                 </VStack>
-            </ScrollView>
-        </View>
+            </VStack>
+        </FormContainer>
     );
 }

@@ -38,6 +38,7 @@ export function useAjudaHandles() {
                 }
             };
             await cadastrarAjuda(payload);
+            resetForm();
             showSuccessToast({ title: "Ajuda cadastrada com sucesso!" });
         } catch (error) {
             const isAppError = error instanceof AppError;

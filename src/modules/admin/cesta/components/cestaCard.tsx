@@ -23,6 +23,7 @@ export const CestaCard = ({ cesta, onDetalhes, onEditar, onEntregar }: CestaCard
       p="$4"
       borderLeftWidth="$4"
       borderLeftColor={statusConfig.color + "500"}
+      mb="$4"
     >
       {/* Header */}
       <HStack alignItems="flex-start" mb="$3">
