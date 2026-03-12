@@ -17,9 +17,11 @@ export const CestaListagem = () => {
     error,
     modalVisible,
     cestaSelecionada,
+    pagination,
     refetch,
     abrirDetalhes,
-    fecharDetalhes
+    fecharDetalhes,
+    onChangePage
   } = useCestaData();
 
   const handleFiltroChange = (filtro: string) => {
@@ -83,6 +85,8 @@ export const CestaListagem = () => {
                 onDetalhes={abrirDetalhes}
                 onEditar={handleEditarCesta}
                 onEntregar={handleEntregarCesta}
+                pagination={pagination}
+                onChangePage={onChangePage}
               />
             </>
           )

@@ -5,10 +5,11 @@ import { templateTypesOptions } from "@utils/constantes";
 
 interface ModeloTemplateInformacoesBasicasSectionProps {
   form: TemplateForm;
+  fieldState: any;
   onChange: (field: keyof TemplateForm, value: any) => void;
 }
 
-export const ModeloTemplateInformacoesBasicasSection = ({ form, onChange }: ModeloTemplateInformacoesBasicasSectionProps) => (
+export const ModeloTemplateInformacoesBasicasSection = ({ form, fieldState, onChange }: ModeloTemplateInformacoesBasicasSectionProps) => (
   <VStack gap="$4">
     <Text size="xl" fontWeight="$bold" color="$textDark800">
       Informações Básicas
@@ -18,7 +19,9 @@ export const ModeloTemplateInformacoesBasicasSection = ({ form, onChange }: Mode
       <Input
         placeholder="Nome do template"
         value={form.templateDesc}
-        onChangeText={text => onChange("templateDesc", text)}          
+        onChangeText={text => onChange("templateDesc", text)}    
+        error={fieldState.templateDesc.error}    
+        helperText={fieldState.templateDesc.message}
       />
 
       <CustomSelect
@@ -28,6 +31,8 @@ export const ModeloTemplateInformacoesBasicasSection = ({ form, onChange }: Mode
         variant="underlined"
         selectedValue={form.templateType}
         onValueChange={value => onChange("templateType", value)}
+        error={fieldState.templateDesc.error}   
+        errorMessage={fieldState.templateDesc.message}
       />        
     </Box>
   </VStack>

@@ -1,5 +1,16 @@
-// components/CustomSelect.tsx - SOLUÇÃO DEFINITIVA
-import { Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectItem, SelectDragIndicatorWrapper, SelectDragIndicator, Box, Text } from "@gluestack-ui/themed";
+import { 
+    Select, 
+    SelectTrigger, 
+    SelectIcon, 
+    SelectPortal, 
+    SelectBackdrop, 
+    SelectContent, 
+    SelectItem, 
+    SelectDragIndicatorWrapper, 
+    SelectDragIndicator, 
+    Box, 
+    Text 
+} from "@gluestack-ui/themed";
 import { ChevronDownIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 
@@ -10,6 +21,8 @@ interface CustomSelectProps {
     variant?: "underlined" | "outline" | "rounded";
     selectedValue?: string;
     onValueChange: (value: string) => void;
+    error?: boolean;
+    errorMessage?: string
 }
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({ 
@@ -18,7 +31,9 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     size = "md", 
     variant = "underlined", 
     selectedValue, 
-    onValueChange 
+    error = false,
+    errorMessage = "",
+    onValueChange
 }) => {
     const [displayValue, setDisplayValue] = useState("");
     const [forceRender, setForceRender] = useState(0);
@@ -76,6 +91,17 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     </SelectContent>
                 </SelectPortal>
             </Select>
+
+            {(error && errorMessage) && (
+                <Text
+                    color="$red500"
+                    fontSize="$xs"
+                    px="$1"
+                    mr="auto"
+                >
+                    {errorMessage}
+                </Text>
+            )}
         </Box>
     );
 };

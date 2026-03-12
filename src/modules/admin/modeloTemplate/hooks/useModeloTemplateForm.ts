@@ -6,21 +6,32 @@ import { AppError } from "@shared/utils/app.error";
 import { MESSAGES_ERROR } from "@shared/utils/constantes";
 import { EstoqueStatus, Product, TemplateForm, TemplateItem } from '../types';
 import { useFetchData } from '@hooks/useFetchData';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AppNavigatorRoutesProps } from '@shared/routes/app.routes';
 
-export const initialState: TemplateForm = {
+const createDefaultField = () => ({
+  error: false,
+  message: ""
+});
+
+const createInitialFieldState = () => ({
+  templateDesc: createDefaultField(),
+  templateType: createDefaultField(),
+});
+
+const initialState = () => ({
   qtdGeracaoPossivel: 0,
   templateDesc: "",
   templateType: undefined,
   gerarCestas: false,
   templateItens: [{ itemProdutoId: "", quantidade: 0 }]
-};
+});
 
 export const useModeloTemplateForm = () => {
   const { showErrorToast, showSuccessToast } = useAppToast();
 
-  const [form, setForm] = useState<TemplateForm>(initialState);
+  const [form, setForm] = useState<TemplateForm>(initialState());
+  const [fieldState, setFieldState] = useState(createInitialFieldState());
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [calculatingGenerations, setCalculatingGenerations] = useState(false);
   const [qtdGeracaoPossivelShow, setQtdGeracaoPossivelShow] = useState(false);
@@ -41,12 +52,44 @@ export const useModeloTemplateForm = () => {
     value: item.id.toString() 
   }));
 
+  const requiredFields: (keyof typeof fieldState)[] = [
+    "templateDesc",
+    "templateType"
+  ];
+
+  const resetForm = useCallback(() => {
+    setForm(initialState());
+    setQtdGeracaoPossivelShow(false);
+        setFieldState(createInitialFieldState());
+  }, []);
+
+
   const handleChange = useCallback((field: keyof TemplateForm, value: any) => {
     setForm(prev => ({
       ...prev,
       [field]: value
     }));
   }, []);
+
+  const formValidate = (payload: TemplateForm) => {
+    let hasError = false;
+    const newFieldState = createInitialFieldState();
+
+    requiredFields.forEach(field => {
+      const value = payload[field];
+      if (!value || (typeof value === "string" && !value.trim())) {
+        newFieldState[field] = {
+          error: true,
+          message: "Campo obrigatório"
+        };
+        hasError = true;
+      }
+    });
+
+    setFieldState(newFieldState);
+
+    return !hasError;
+  };
 
   const handleItemChange = useCallback((index: number, field: keyof TemplateItem, value: any) => {
     const newItems = [...form.templateItens];
@@ -124,6 +167,7 @@ export const useModeloTemplateForm = () => {
           templateType: form.templateType,
         } 
       };
+      if (!formValidate(payload)) return;
       await GeracaoTemplateService(payload);
       setForm(initialState);
       showSuccessToast({ title: "Modelo cadastrado com sucesso!" });
@@ -136,11 +180,11 @@ export const useModeloTemplateForm = () => {
     }
   }, [form, showSuccessToast, showErrorToast]);
 
-  const resetForm = useCallback(() => {
-    setForm(initialState);
-    setQtdGeracaoPossivelShow(false);
-    navigation.navigate("modeloTemplateListagem");
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      resetForm();
+    }, [])
+  );
 
   return {
     form,
@@ -149,6 +193,7 @@ export const useModeloTemplateForm = () => {
     qtdGeracaoPossivelShow,
     produtos,
     produtosOptions,
+    fieldState,
     handleChange,
     handleItemChange,
     handleAddItem,

@@ -10,12 +10,14 @@ interface ProdutoInfoSectionProps {
     quantidade?: number;
     onProdutoChange: (value: string) => void;
     onQuantidadeChange: (value: number) => void;
+    fieldState: any;
 }
 
 export const ProdutoInfoSection = ({
     produtosOptions,
     produtoId,
     quantidade,
+    fieldState,
     onProdutoChange,
     onQuantidadeChange
 }: ProdutoInfoSectionProps) => (
@@ -39,6 +41,8 @@ export const ProdutoInfoSection = ({
                         size="md"
                         selectedValue={produtoId?.toString()}
                         onValueChange={onProdutoChange}
+                        error={fieldState.itemProdutoId.error}
+                        errorMessage={fieldState.itemProdutoId.message}
                     />
                 </VStack>
 
@@ -54,10 +58,12 @@ export const ProdutoInfoSection = ({
                         borderRadius="$lg"
                         bg="$backgroundLight50"
                         textAlign="center"
-                        value={String(quantidade || 1)}
+                        value={String(quantidade)}
                         onChangeText={(text) => onQuantidadeChange(Number(text))}
                         keyboardType="numeric"
                         placeholder="0"
+                        error={fieldState.quantidade.error}
+                        helperText={fieldState.quantidade.message}
                     />
                 </VStack>
             </VStack>

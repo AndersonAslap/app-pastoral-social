@@ -18,6 +18,7 @@ export function AjudaCadastrar() {
     
     const {
         form,
+        fieldState,
         formSubmitting,
         familiasOptions,
         tiposAjudaOptions,
@@ -65,9 +66,11 @@ export function AjudaCadastrar() {
                                     familiasOptions={familiasOptions}
                                     familiaId={form.idFamilia}
                                     onFamiliaChange={(value: any) => handleChange("idFamilia", value)}
+                                    fieldState={fieldState}
                                 />
 
                                 <TemplateObservacaoSection
+                                    fieldState={fieldState}
                                     templatesOptions={templatesOptions}
                                     templateId={form.idTemplate}
                                     observacao={form.observacao}
@@ -95,7 +98,6 @@ export function AjudaCadastrar() {
                                             title="Cadastrar"
                                             onPress={handleSubmit}
                                             isLoading={formSubmitting}
-                                            isDisabled={!form.idFamilia || !form.idTipoAjuda || !form.idTemplate}
                                         />
                                     </HStack>
                                     <View h="$8" />

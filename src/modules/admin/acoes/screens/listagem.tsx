@@ -10,11 +10,20 @@ import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { useAcaoListagem } from "../hooks/useAcaoListagem";
 import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
 import { useCallback } from "react";
+import { AcaoDetalheModal } from "../components/acaoDetalheModal";
 
 export const AcoesListagem = () => {
   const navigator = useNavigation<AppNavigatorRoutesProps>();
 
-  const { loading, items, fetchAcoes } = useAcaoListagem();
+  const { 
+    loading, 
+    items, 
+    fetchAcoes,
+    acaoSelecionada,
+    modalVisible,
+    handleAbrirDetalhes,
+    handleFecharDetalhes
+  } = useAcaoListagem();
 
   const handleOpenAcoesCadastrar = () => navigator.navigate("acoesCadastrar");
 
@@ -76,7 +85,7 @@ export const AcoesListagem = () => {
             <AcoesCard
               key={item.id}
               acao={item}
-              onDetalhes={handleDetalhes}
+              onAbrirDetalhes={handleAbrirDetalhes}
               onEditar={handleEditar}
             />
           )}
@@ -90,6 +99,12 @@ export const AcoesListagem = () => {
               py="$0"
             />
           }
+        />
+
+        <AcaoDetalheModal
+          isOpen={modalVisible}
+          acao={acaoSelecionada}
+          onClose={handleFecharDetalhes}
         />
       </VStack>
     </View>

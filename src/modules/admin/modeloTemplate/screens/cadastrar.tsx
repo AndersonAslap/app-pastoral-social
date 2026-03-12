@@ -16,6 +16,7 @@ const ModeloTemplateCadastrarForm = () => {
     qtdGeracaoPossivelShow,
     produtos,
     produtosOptions,
+    fieldState,
     handleChange,
     handleItemChange,
     handleAddItem,
@@ -56,6 +57,7 @@ const ModeloTemplateCadastrarForm = () => {
         <ModeloTemplateInformacoesBasicasSection 
           form={form}
           onChange={handleChange}
+          fieldState={fieldState}
         />
 
         <ModeloTemplateConfiguracaoSection

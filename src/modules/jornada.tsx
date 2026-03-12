@@ -4,9 +4,10 @@ import { HStack } from "@gluestack-ui/themed";
 import { Box } from "@gluestack-ui/themed";
 import { Pressable } from "@gluestack-ui/themed";
 import { ScrollView } from "@gluestack-ui/themed";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ApiStatusBlock } from "@shared/components/api-status-block";
+import { VersionBadge } from "@shared/components/version-badge"; // Ajuste o caminho
 
 export const Jornada = () => {
     const [selectedJourney, setSelectedJourney] = useState(null);
@@ -23,7 +24,7 @@ export const Jornada = () => {
                 "Participe das ações sociais",
                 "Acompanhe o impacto das suas doações"
             ],
-            screen: "doadorListagemAcoes" // Tela de destino
+            screen: "doadorListagemAcoes"
         },
         {
             id: "agente", 
@@ -35,7 +36,7 @@ export const Jornada = () => {
                 "Faça parte da rede de transformação",
                 "Organize e participe das ações sociais"
             ],
-            screen: "signIn" // Tela de destino
+            screen: "signIn"
         }
     ];
 
@@ -43,11 +44,12 @@ export const Jornada = () => {
         if (selectedJourney) {
             const selectedOption = journeyOptions.find(option => option.id === selectedJourney);
             if (selectedOption) {
-                // Navega para a tela correspondente
                 navigation.navigate(selectedOption.screen);
             }
         }
     };
+
+    useEffect(() => {}, [selectedJourney])
 
     return (
         <ScrollView
@@ -66,9 +68,11 @@ export const Jornada = () => {
                 pb="$8"
                 gap="$8"
                 alignItems="center"
+                position="relative" // Para posicionamento absoluto
             >
-                {/* Header Section - Centralizado */}
-                <VStack gap="$3" alignItems="center" width="100%">
+
+                {/* Header Section */}
+                <VStack gap="$3" alignItems="center" width="100%" mt="$4">
                     <Text 
                         fontSize="$2xl" 
                         fontWeight="$bold" 
@@ -88,7 +92,7 @@ export const Jornada = () => {
                     </Text>
                 </VStack>
 
-                {/* Journey Cards - Centralizados */}
+                {/* Journey Cards */}
                 <VStack gap="$5" width="100%" alignItems="center">
                     {journeyOptions.map((journey) => (
                         <Pressable
@@ -112,7 +116,7 @@ export const Jornada = () => {
                                     transition="all 0.2s"
                                 >
                                     <HStack gap="$4" alignItems="flex-start">
-                                        {/* Icon - Centralizado verticalmente */}
+                                        {/* Icon */}
                                         <Box
                                             bg={selectedJourney === journey.id ? journey.color : "$trueGray300"}
                                             borderRadius="$lg"
@@ -127,7 +131,7 @@ export const Jornada = () => {
                                             </Text>
                                         </Box>
 
-                                        {/* Content - Centralizado */}
+                                        {/* Content */}
                                         <VStack flex={1} gap="$2" justifyContent="center">
                                             <Text 
                                                 fontSize="$lg" 
@@ -145,7 +149,7 @@ export const Jornada = () => {
                                                 {journey.description}
                                             </Text>
 
-                                            {/* Benefits List - Centralizada */}
+                                            {/* Benefits List */}
                                             <VStack gap="$1" mt="$1">
                                                 {journey.benefits.map((benefit, index) => (
                                                     <HStack key={index} gap="$2" alignItems="center">
@@ -167,7 +171,7 @@ export const Jornada = () => {
                                             </VStack>
                                         </VStack>
 
-                                        {/* Selection Indicator - Centralizado */}
+                                        {/* Selection Indicator */}
                                         <Box
                                             w="$5"
                                             h="$5"
@@ -195,7 +199,7 @@ export const Jornada = () => {
                     ))}
                 </VStack>
 
-                {/* Action Button - Centralizado */}
+                {/* Action Button */}
                 <Pressable
                     onPress={handleContinue}
                     opacity={selectedJourney ? 1 : 0.5}
@@ -227,9 +231,16 @@ export const Jornada = () => {
                     )}
                 </Pressable>
 
-                <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
-                
-                <ApiStatusBlock />
+                {/* Badge de Versão - Posicionado no canto superior direito */}
+                <VersionBadge />
+
+                {/* Outros componentes comentados */}
+                {
+                    /*
+                        <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
+                        <ApiStatusBlock />
+                    */
+                }
             </VStack>
         </ScrollView>
     );

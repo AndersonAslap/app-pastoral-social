@@ -18,6 +18,7 @@ type DateInputProps = {
   placeholder?: string;
   minimumDate?: Date;
   maximumDate?: Date;
+  error?: boolean;
   errorMessage?: string;
   required?: boolean;
 };
@@ -30,6 +31,7 @@ export function DateInput({
   minimumDate,
   maximumDate,
   errorMessage,
+  error = false,
   required = false,
 }: DateInputProps) {
   const [show, setShow] = useState(false);
@@ -94,11 +96,16 @@ export function DateInput({
           maximumDate={maximumDate}
         />
       )}
-
-      {errorMessage && (
-        <Text color="$error500" fontSize="$sm">
-          {errorMessage}
-        </Text>
+      
+      {(error && errorMessage) && (
+          <Text
+              color="$red500"
+              fontSize="$xs"
+              px="$1"
+              mr="auto"
+          >
+            {errorMessage}
+          </Text>
       )}
     </VStack>
   );

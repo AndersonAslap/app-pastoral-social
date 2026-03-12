@@ -11,7 +11,8 @@ export  function AcoesInformacoesBasicasSection({
     onDescricaoChange,
     onDataChange,
     onQtdAcaoSocialChange,
-    onTipoAcaoChange
+    onTipoAcaoChange,
+    fieldState
 }: any) {
     return (
         <VStack space="md" mb="$6" gap="$2">
@@ -28,6 +29,8 @@ export  function AcoesInformacoesBasicasSection({
                 placeholder="Título"
                 value={titulo}
                 onChangeText={onTituloChange}
+                error={fieldState.titulo.error}
+                helperText={fieldState.titulo.message}
             />
 
             <TextArea
@@ -43,6 +46,8 @@ export  function AcoesInformacoesBasicasSection({
                     value={data}
                     onChange={onDataChange}
                     placeholder="Selecione uma data"
+                    error={fieldState.dataEvento.error}
+                    errorMessage={fieldState.dataEvento.message}
                 />
             </View>
 
@@ -56,6 +61,8 @@ export  function AcoesInformacoesBasicasSection({
                     ]}
                     selectedValue={tipoAcao}
                     onValueChange={onTipoAcaoChange}
+                    error={fieldState.tipoAcao.error}
+                    errorMessage={fieldState.tipoAcao.message}
                 />
             </View>
 

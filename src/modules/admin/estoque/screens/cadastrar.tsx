@@ -5,34 +5,21 @@ import {
     ScreenHeader,
 } from "@shared/components";
 import { View, VStack, HStack, ScrollView } from "@gluestack-ui/themed";
-import { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-
 import { useEstoqueForm } from "../hooks/useEstoqueForm";
 import { ProdutoInfoSection } from "../components/produtoInfoSection";
 import { ProdutoValidadeSection } from "../components/produtoValidadeSection";
 
 export function EstoqueCadastrar() {
-    const navigation = useNavigation();
-    
+
     const {
         form,
+        fieldState,
         formSubmitting,
         produtosOptions,
         handleChange,
         handleSubmit,
-        resetForm,
-        loadProdutosOptions
+        handleCancel,
     } = useEstoqueForm();
-
-    useEffect(() => {
-        loadProdutosOptions();
-    }, []);
-
-    const handleCancel = () => {
-        resetForm();
-        navigation.goBack();
-    };
 
     return (
         <View flex={1} bg="$blue100">
@@ -60,11 +47,13 @@ export function EstoqueCadastrar() {
                         quantidade={form.quantidade}
                         onProdutoChange={(value) => handleChange("itemProdutoId", value)}
                         onQuantidadeChange={(value) => handleChange("quantidade", value)}
+                        fieldState={fieldState}
                     />
 
                     <ProdutoValidadeSection
                         validade={form.validade!}
                         onValidadeChange={(value) => handleChange("validade", value)}
+                        fieldState={fieldState}
                     />
 
                     <InfoTip

@@ -15,138 +15,22 @@ import {
     Text, 
     KeyboardAvoidingView
 } from "@gluestack-ui/themed";
-import { useAppToast } from "@shared/hooks/useAppToast";
-import { listarComunidadeService } from "@shared/services/comunidade.service";
-import { listarDificuldadeService } from "@shared/services/dificuldade.service";
-import { AppError } from "@shared/utils/app.error";
-import { MESSAGES_ERROR } from "@shared/utils/constantes";
-import { useEffect, useState } from "react";
-import { ICriarFamiliaPayload } from "../../../../@shared/types/payload";
-import { createFamiliaService } from "../services";
-import { Masks } from "@utils/masks";
-import { useNavigation } from "@react-navigation/native";
-import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { Platform } from "react-native";
-
-const initialState = {
-    nomeRepresentante: "",
-    idade: "",
-    idComunidade: undefined,
-    idDificuldade: undefined,
-    dificuldades: [],
-    cpfRg: "",
-    telefone: "",
-    endereco: "",
-    qtdPessoasResidencia: "",
-    qtdPessoasEmpregadas: "",
-    criancasFrequentamEscola: false,
-    membroComProblemaSaude: false,
-    jaRecebeuAjuda: false,
-    desejaParticiparCursos: false,
-    observacao: "",
-    outros: ""
-};
+import { useFamilyForm } from "../hooks/useFamilyForm";
 
 export function FamiliaCadastrarForm() {
-    const { showErrorToast, showSuccessToast } = useAppToast();
 
-    const [form, setForm] = useState<ICriarFamiliaPayload>({...initialState});
-    const [formSubmitting, setFormSubmitting] = useState(false);
-    const [dificuldadeOptions, setDificuldadeOptions] = useState<{ label: string, value: string }[]>([]);
-    const [comunidadeOptions, setComunidadeOptions] = useState<{ label: string, value: string }[]>([]);
-
-    const { cpfOrRg, phone, unmask } = Masks;
-
-    const navigation = useNavigation<AppNavigatorRoutesProps>();
-
-    const handleCancel = () => {
-        resetForm();
-        navigation.navigate("familiaListagem");
-    };
-
-    const handleChange = (field: string, value: any) => {
-        if (field === "idDificuldade") {
-            setForm(prev => ({
-                ...prev,
-                [field]: value,
-                dificuldades: [value]
-            }));
-        } else {
-
-            switch(field) {
-                case "cpfRg":
-                    value = cpfOrRg(value);
-                    break;
-                case "telefone":
-                    value = phone(value);
-                    break;
-            }
-
-            setForm(prev => ({
-                ...prev,
-                [field]: value
-            }));
-        }   
-    };
-
-    const handleSubmit = async () => {
-        setFormSubmitting(true);
-        try {
-            const payload = { 
-                ...form, 
-                cpfRg: unmask(form.cpfRg),  
-                telefone: unmask(form.telefone)
-            } as ICriarFamiliaPayload;
-            console.log("Payload para criação da família:", JSON.stringify(payload, null, 2));
-            await createFamiliaService(payload);
-            resetForm();
-            showSuccessToast({ title: "Família cadastrada com sucesso!" });
-        } catch (error) {
-            const isAppError = error instanceof AppError;
-            const title = isAppError ? error.message : MESSAGES_ERROR.DEFAULT_REGISTER;
-            showErrorToast({ title });
-        } finally {
-            setFormSubmitting(false);
-        }
-    };
-
-    const fetchDificuldades = async () => {
-        try {
-            const data = await listarDificuldadeService();
-            return data;
-        } catch (error) {
-            const isAppError = error instanceof AppError;
-            const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_DIFFICULDADES;
-            showErrorToast({ title });
-        }
-    };
-
-    const fetchComunidades = async () => {
-        try {
-            const data = await listarComunidadeService();
-            return data;
-        } catch (error) {
-            const isAppError = error instanceof AppError;
-            const title = isAppError ? error.message : MESSAGES_ERROR.FETCH_COMUNIDADES;
-            showErrorToast({ title });
-        }
-    };
-
-    const resetForm = () => {
-        setForm({...initialState});
-    }
-
-    useEffect(() => {
-        const loadDataSelects = async () => {
-            const promises = [fetchDificuldades(), fetchComunidades()];
-            const [dificuldades, comunidades] = await Promise.all(promises);
-
-            setDificuldadeOptions(dificuldades || []);
-            setComunidadeOptions(comunidades || []);
-        };
-        loadDataSelects();
-    }, []);
-
+    const {
+        form,
+        formSubmitting,
+        dificuldadeOptions,
+        comunidadeOptions,
+        fieldState,
+        handleCancel,
+        handleChange,
+        handleSubmit,
+    } = useFamilyForm();
+    
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -182,6 +66,8 @@ export function FamiliaCadastrarForm() {
                                 placeholder="Nome do Representante"
                                 value={form.nomeRepresentante}
                                 onChangeText={text => handleChange("nomeRepresentante", text)}
+                                error={fieldState.nomeRepresentante.error}
+                                helperText={fieldState.nomeRepresentante.message}
                             />
 
                             <HStack space="md">
@@ -191,6 +77,8 @@ export function FamiliaCadastrarForm() {
                                         keyboardType="numeric"
                                         value={form.idade}
                                         onChangeText={text => handleChange("idade", text)}
+                                        error={fieldState.idade.error}
+                                        helperText={fieldState.idade.message}
                                     />
                                 </Box>
                                 <Box flex={2}>
@@ -199,6 +87,8 @@ export function FamiliaCadastrarForm() {
                                         value={form.cpfRg}
                                         onChangeText={text => handleChange("cpfRg", text)}
                                         keyboardType="numeric"
+                                        error={fieldState.cpfRg.error}
+                                        helperText={fieldState.cpfRg.message}
                                     />
                                 </Box>
                             </HStack>
@@ -208,12 +98,16 @@ export function FamiliaCadastrarForm() {
                                 value={form.telefone}
                                 onChangeText={text => handleChange("telefone", text)}
                                 keyboardType="numeric"
+                                error={fieldState.telefone.error}
+                                helperText={fieldState.telefone.message}
                             />
 
                             <Input
                                 placeholder="Endereço"
                                 value={form.endereco}
                                 onChangeText={text => handleChange("endereco", text)}
+                                error={fieldState.endereco.error}
+                                helperText={fieldState.endereco.message}
                             />
                         </VStack>
                     </Box>
@@ -264,6 +158,8 @@ export function FamiliaCadastrarForm() {
                                     value={form.qtdPessoasResidencia}
                                     onChangeText={text => handleChange("qtdPessoasResidencia", text)}
                                     textAlign="center"
+                                    error={fieldState.qtdPessoasResidencia.error}
+                                    helperText={fieldState.qtdPessoasResidencia.message}
                                 />
                             </Box>
                             
@@ -277,6 +173,8 @@ export function FamiliaCadastrarForm() {
                                     value={form.qtdPessoasEmpregadas}
                                     onChangeText={text => handleChange("qtdPessoasEmpregadas", text)}
                                     textAlign="center"
+                                    error={fieldState.qtdPessoasEmpregadas.error}
+                                    helperText={fieldState.qtdPessoasEmpregadas.message}
                                 />
                             </Box>
                         </HStack>

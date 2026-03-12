@@ -12,13 +12,13 @@ const createFamiliaService = async (payload: ICriarFamiliaPayload) => {
   }
 };
 
-const listarFamiliaService = async () : Promise<IResponseListarFamilias[]> => {
+const listarFamiliaService = async (page = 1) : Promise<any> => {
   try {
     let parseData: IResponseListarFamilias[] = [];
-    const response = await api.get("/familia/listar");
+    const response = await api.get(`/familia/listar?page=${page}`);
     const { data } = response.data;
-    if (data && Array.isArray(data?.familias)) {
-      parseData = data.familias.map((item: any) => ({
+    if (data && Array.isArray(data?.result)) {
+      parseData = data.result.map((item: any) => ({
         id: item?.id || Math.random(),
         nomeRepresentante: item?.representanteFamiliar,
         endereco: item?.endereco || "",
@@ -29,7 +29,12 @@ const listarFamiliaService = async () : Promise<IResponseListarFamilias[]> => {
         criancasFrequentamEscola: item?.criancasFrequentamEscola || false,
       }));
     }
-    return parseData;
+    return {
+      currentPage: data.paginaAtual,
+      totalItens: data.totalItens,
+      totalPages: data.totalPaginas,
+      data: parseData
+    };
   } catch (error) {
     console.log(error);
     logger.error(`listarFamiliaService`, `Error ao listar famílias`, error);

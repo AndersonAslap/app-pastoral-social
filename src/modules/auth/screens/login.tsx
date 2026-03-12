@@ -125,7 +125,7 @@ export function Login() {
                 bg="$white"
                 returnKeyType="done"
                 onSubmitEditing={handleClickSignIn}
-                error={true}
+                error={false}
                 helperText="senha errada"
             />
 

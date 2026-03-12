@@ -5,9 +5,10 @@ import { DateInput } from "@shared/components";
 interface ValidadeSectionProps {
     validade: Date | null;
     onValidadeChange: (value: Date | null) => void;
+    fieldState: any;
 }
 
-export const ProdutoValidadeSection = ({ validade, onValidadeChange }: ValidadeSectionProps) => (
+export const ProdutoValidadeSection = ({ validade, onValidadeChange, fieldState }: ValidadeSectionProps) => (
     <VStack gap="$4">
         <Text size="xl" fontWeight="$bold" color="$textDark800">
             Informações de Validade
@@ -26,6 +27,8 @@ export const ProdutoValidadeSection = ({ validade, onValidadeChange }: ValidadeS
                     value={validade}
                     onChange={onValidadeChange}
                     placeholder="Selecione uma data"
+                    error={fieldState.validade.error}
+                    errorMessage={fieldState.validade.message}
                 />
                 <Text size="xs" color="$textDark500" mt="$1">
                     Selecione a data de validade do produto

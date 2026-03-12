@@ -9,6 +9,15 @@ export interface Help {
   tipoAjuda: string;
   endereco?: string;
   dataEntrega?: string | null;
+  cesta: {
+    identificadorCesta: string;
+    descricao: string;
+    items: {
+      nomeProduto: string;
+      quantidade: number;
+      detalhe: string;
+    }[]
+  }
 }
 
 export interface HelpStats {
@@ -31,8 +40,8 @@ export interface PriorityConfig {
 }
 
 export interface AjudaFormData {
-  idFamilia: string;
-  idTipoAjuda: string;
+  idFamilia: string | undefined;
+  idTipoAjuda: string | undefined;
   observacao: string;
-  idTemplate: string;
+  idTemplate: string | undefined;
 }

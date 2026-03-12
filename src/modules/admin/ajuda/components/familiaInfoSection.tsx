@@ -4,7 +4,8 @@ import { CustomSelect } from "@shared/components";
 export function FamiliaInfoSection({ 
     familiasOptions, 
     familiaId, 
-    onFamiliaChange
+    onFamiliaChange,
+    fieldState
 }: any) {
     return (
         <VStack space="md" gap="$4">
@@ -22,6 +23,8 @@ export function FamiliaInfoSection({
                 options={familiasOptions}
                 selectedValue={familiaId}
                 onValueChange={onFamiliaChange}
+                error={fieldState.idFamilia.error}
+                errorMessage={fieldState.idFamilia.message}
             />
         </VStack>
     );

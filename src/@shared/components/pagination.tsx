@@ -30,38 +30,32 @@ export function Pagination({
 }: PaginationProps) {
     
     const generatePages = () => {
-        const pages: (number | string)[] = [];
+        const pages: number[] = [];
         
-        if (totalPages <= 3 ) {
-            // Mostra todas as páginas se forem poucas
+        if (totalPages <= 3) {
+            // Se tem 3 páginas ou menos, mostra todas
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(i);
             }
         } else {
-            // Lógica para mostrar páginas com ellipsis
-            if (currentPage <= 3) {
-                // Início: 1, 2, 3, 4, ..., totalPages
-                for (let i = 1; i <= 4; i++) {
-                    pages.push(i);
-                }
-                pages.push('...');
-                pages.push(totalPages);
-            } else if (currentPage >= totalPages - 2) {
-                // Final: 1, ..., totalPages-3, totalPages-2, totalPages-1, totalPages
-                pages.push(1);
-                pages.push('...');
-                for (let i = totalPages - 3; i <= totalPages; i++) {
-                    pages.push(i);
-                }
-            } else {
-                // Meio: 1, ..., currentPage-1, currentPage, currentPage+1, ..., totalPages
-                pages.push(1);
-                pages.push('...');
-                for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-                    pages.push(i);
-                }
-                pages.push('...');
-                pages.push(totalPages);
+            // Mostra sempre 3 números consecutivos baseados na página atual
+            let startPage = currentPage;
+            let endPage = currentPage + 2;
+            
+            // Ajusta se estiver no final
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = totalPages - 2;
+            }
+            
+            // Ajusta se estiver no início
+            if (startPage < 1) {
+                startPage = 1;
+                endPage = 3;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
             }
         }
         
@@ -78,7 +72,16 @@ export function Pagination({
     const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
     return (
-        <VStack space="sm" mt="$4" mb="$2" >
+        <VStack space="sm" mt="$4" mb="$2">
+            {/* Informação de total de itens (opcional) */}
+            {showTotalItems && totalItems > 0 && (
+                <Box alignItems="center" mb="$2">
+                    <Text fontSize="$sm" color="$textDark500">
+                        Mostrando {startItem} - {endItem} de {totalItems} itens
+                    </Text>
+                </Box>
+            )}
+
             {/* Controles de paginação */}
             <HStack space="xs" justifyContent="center" alignItems="center" flexWrap="wrap">
                 {/* Botão primeira página */}
@@ -105,19 +108,20 @@ export function Pagination({
                     </Box>
                 </Pressable>
 
-                {/* Números das páginas */}
+                {/* Números das páginas - SEMPRE 3 NÚMEROS CONSECUTIVOS */}
                 <HStack space="xs">
-                    {generatePages().map((page, index) => (
+                    {generatePages().map((page) => (
                         <Pressable
-                            key={`${page}-${index}`}
-                            onPress={() => typeof page === 'number' && handlePageChange(page)}
-                            disabled={page === '...'}
+                            key={page}
+                            onPress={() => handlePageChange(page)}
                         >
                             <Box
                                 px="$3"
                                 py="$2"
                                 borderRadius="$md"
                                 bg={page === currentPage ? "$green600" : "$backgroundLight100"}
+                                minWidth={36}
+                                alignItems="center"
                             >
                                 <Text
                                     fontSize="$sm"
@@ -155,6 +159,37 @@ export function Pagination({
                     </Pressable>
                 )}
             </HStack>
+
+            {/* Seletor de itens por página (opcional) */}
+            {showItemsPerPage && onItemsPerPageChange && (
+                <HStack space="sm" justifyContent="center" alignItems="center" mt="$2">
+                    <Text fontSize="$sm" color="$textDark500">
+                        Itens por página:
+                    </Text>
+                    <HStack space="xs">
+                        {itemsPerPageOptions.map((option) => (
+                            <Pressable
+                                key={option}
+                                onPress={() => onItemsPerPageChange(option)}
+                            >
+                                <Box
+                                    px="$3"
+                                    py="$1"
+                                    borderRadius="$md"
+                                    bg={itemsPerPage === option ? "$green600" : "$backgroundLight100"}
+                                >
+                                    <Text
+                                        fontSize="$sm"
+                                        color={itemsPerPage === option ? "white" : "$textDark400"}
+                                    >
+                                        {option}
+                                    </Text>
+                                </Box>
+                            </Pressable>
+                        ))}
+                    </HStack>
+                </HStack>
+            )}
         </VStack>
     );
 }

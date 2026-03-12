@@ -10,7 +10,8 @@ export function TemplateObservacaoSection({
     onObservacaoChange,
     tipoAjudaOptions,
     tipoAjudaId,
-    onTipoAjudaChange
+    onTipoAjudaChange,
+    fieldState
 }: any) {
 
     const tipo_de_ajuda_cesta_basica = "1";
@@ -31,6 +32,8 @@ export function TemplateObservacaoSection({
                 options={tipoAjudaOptions}
                 selectedValue={tipoAjudaId}
                 onValueChange={onTipoAjudaChange}
+                error={fieldState.idTipoAjuda.error}
+                errorMessage={fieldState.idTipoAjuda.message}
             />
             
             {
@@ -40,6 +43,8 @@ export function TemplateObservacaoSection({
                         options={templatesOptions}
                         selectedValue={templateId}
                         onValueChange={onTemplateChange}
+                        error={fieldState.idTemplate.error}
+                        errorMessage={fieldState.idTemplate.message}
                     />
                 )
             }

@@ -1,3 +1,4 @@
+import { Box } from "@gluestack-ui/themed";
 import { Input as GluestackInput, InputField, Text } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 import { TextInputProps } from "react-native";
@@ -21,7 +22,7 @@ export function Input({
   ...rest 
 }: Props) {
     return (
-        <>
+        <Box>
             <GluestackInput
                 bg="$white"
                 h="$14"
@@ -30,8 +31,8 @@ export function Input({
                 borderColor={error ? "$red500" : "transparent"}
                 borderRadius="$md"
                 $focus={{
-                borderWidth: isDisabled ? 0 : 1,
-                borderColor: error ? "$red500" : "$blue300",
+                    borderWidth: isDisabled ? 0 : 1,
+                    borderColor: error ? "$red500" : "$blue300",
                 }}
                 opacity={isDisabled ? 0.7 : 1}
             >
@@ -55,6 +56,6 @@ export function Input({
                     {helperText}
                 </Text>
             )}
-        </>
+        </Box>
     )
 }

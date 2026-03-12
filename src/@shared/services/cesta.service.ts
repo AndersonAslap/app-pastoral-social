@@ -15,18 +15,18 @@ const listarCestaService = async (page = 1) => {
     const response = await api.get(`/cestas/listar?page=${page}`);
     const { data } = response.data;
     let result = {
-      paginaAtual: null,
-          totalItens: null,
-          totalPaginas: null,
+      currentPage: null,
+      totalItens: null,
+      totalPages: null,
       totalCestas: null,
       cestasEntregues: null,
       cestas: []
     };
     
     if (data && data.result) {
-      result.paginaAtual = data.result.paginaAtual;
-      result.totalItens = data.result.totalItens;
-      result.totalPaginas = data.result.totalPaginas;
+      result.currentPage = data.paginaAtual;
+      result.totalItens = data.totalItens;
+      result.totalPages = data.totalPaginas;
       result.totalCestas = data.result.totalCestas;
       result.cestasEntregues = data.result.cestasEntregues;
 

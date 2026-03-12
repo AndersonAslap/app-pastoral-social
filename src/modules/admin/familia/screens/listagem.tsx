@@ -12,30 +12,15 @@ import { FamilyCardEnhancede } from "../components/familia-card-enhanced";
 import { IResponseListarFamilias } from "../../../../@shared/types/responses";
 import { FamilyFilter } from "../components/familia-filter";
 import { FamiliaStats } from "../components/familia-stats";
-import { useFamiliaData } from "../hooks/useFamilyData";
+import { useFetchDataFamily } from "../hooks/useFamilyData";
 import { useEmptyStateConfig } from "@shared/hooks/useEmptyStateConfig";
 import { FamiliaListagemSkeleton } from "../components/familia-listagem-skeleton";
-import { usePagination } from "@hooks/usePagination";
 import { Pagination } from "@shared/components/pagination";
 
 export function FamiliaListagem() {
     const navigator = useNavigation<AppNavigatorRoutesProps>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const { data, isLoading, error, fetchData } = useFamiliaData();
-    
-    // Hook de paginação
-    const {
-        currentPage,
-        itemsPerPage,
-        totalPages,
-        totalItems,
-        paginatedData,
-        handlePageChange,
-        handleItemsPerPageChange
-    } = usePagination({
-        data: data || [],
-        initialItemsPerPage: 10
-    });
+    const { data, isLoading, error, pagination, fetchData, onChangePage } = useFetchDataFamily();
     
     const handleOpenNewFamily = () => navigator.navigate("familiaCadastrar");
 
@@ -73,7 +58,7 @@ export function FamiliaListagem() {
                     <FamiliaListagemSkeleton />
                 ) : (
                     <>
-                        <FamiliaStats count={totalItems} />
+                        <FamiliaStats count={pagination.totalItens} />
 
                         <HeaderList
                             labelButtonPlus="Nova família"
@@ -83,7 +68,7 @@ export function FamiliaListagem() {
                         />
 
                         <FlatList
-                            data={paginatedData}
+                            data={data}
                             keyExtractor={(item) => (item as IResponseListarFamilias).id.toString()}
                             renderItem={({ item }) => (
                                 <FamilyCardEnhancede familia={item as IResponseListarFamilias}/>
@@ -98,15 +83,15 @@ export function FamiliaListagem() {
                                 />
                             }
                             ListFooterComponent={
-                                totalItems > 0 ? (
+                                pagination.totalItens > 0 ? (
                                     <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        totalItems={totalItems}
-                                        itemsPerPage={itemsPerPage}
-                                        onPageChange={handlePageChange}
-                                        onItemsPerPageChange={handleItemsPerPageChange}
-                                        showItemsPerPage={true}
+                                        currentPage={pagination.currentPage}
+                                        totalPages={pagination.totalPages}
+                                        totalItems={pagination.totalItens}
+                                        itemsPerPage={pagination.itemsPerPage}
+                                        onPageChange={onChangePage}
+                                        onItemsPerPageChange={() => {}}
+                                        showItemsPerPage={false}
                                         showFirstLastButtons={true}
                                         showTotalItems={true}
                                     />

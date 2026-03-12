@@ -4,7 +4,7 @@ import { Help } from "../types";
 
 interface AjudaActionsProps {
   item: Help;
-  onDetalhes: (item: Help) => void;
+  onAbrirDetalhes: (item: Help) => void;
   onCancelar?: (item: Help) => void;
   onAprovar?: (item: Help) => void;
   onRealizada?: (item: Help) => void;
@@ -13,7 +13,7 @@ interface AjudaActionsProps {
 
 export const AjudaActions = ({ 
   item, 
-  onDetalhes, 
+  onAbrirDetalhes, 
   onCancelar, 
   onAprovar, 
   onRealizada, 
@@ -25,7 +25,7 @@ export const AjudaActions = ({
       size="sm" 
       variant="outline" 
       borderColor="$primary500"
-      onPress={() => onDetalhes(item)}
+      onPress={() => onAbrirDetalhes(item)}
       mr="auto"
     >
       <HStack space="xs" alignItems="center">

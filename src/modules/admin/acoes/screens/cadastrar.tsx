@@ -21,6 +21,7 @@ export function AcoesCadastrar() {
     
     const {
         form,
+        fieldState,
         formSubmitting,
         produtos,
         produtosSelecionados,
@@ -61,6 +62,7 @@ export function AcoesCadastrar() {
                     onDataChange={(value: any) => handleChange("dataEvento", value)}
                     onTipoAcaoChange={(value: any) => handleChange("tipoAcao", value)}
                     onQtdAcaoSocialChange={(value: any) => handleChange("qtdAcaoSocial", value)}
+                    fieldState={fieldState}
                 />
 
                 <AcoesItensAcaoSection

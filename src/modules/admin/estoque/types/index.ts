@@ -6,8 +6,14 @@ interface IEstoqueItem {
 
 interface IProduto {
     validade: Date | null;
-    itemProdutoId: string;
+    itemProdutoId: string | undefined;
     quantidade: number;
 };
 
-export { IEstoqueItem, IProduto };
+interface IProdutoPayload {
+    validade: Date | null;
+    itemProdutoId: number;
+    quantidade: number;
+};
+
+export { IEstoqueItem, IProduto, IProdutoPayload };

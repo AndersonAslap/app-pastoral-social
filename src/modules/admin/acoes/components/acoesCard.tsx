@@ -6,11 +6,11 @@ import { getStatusConfig } from "../helper/acoes.helper";
 
 interface AcoesCardProps {
   acao: AcaoSocial;
-  onDetalhes: (acao: AcaoSocial) => void;
+  onAbrirDetalhes: (acao: AcaoSocial) => void;
   onEditar: (acao: AcaoSocial) => void;
 }
 
-export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
+export const AcoesCard = ({ acao, onAbrirDetalhes, onEditar }: AcoesCardProps) => {
   const statusConfig = getStatusConfig("planejada");
 
   return (
@@ -61,7 +61,7 @@ export const AcoesCard = ({ acao, onDetalhes, onEditar }: AcoesCardProps) => {
           bg="$white" 
           flex={1}
           borderColor="$blue300"
-          onPress={() => onDetalhes(acao)}
+          onPress={() => onAbrirDetalhes(acao)}
         >
           <ButtonText fontSize="$sm" color="$blue600">Detalhes</ButtonText>
         </Button>

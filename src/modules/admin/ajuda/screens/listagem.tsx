@@ -2,13 +2,14 @@ import { FilterList, ScreenHeader, HeaderList, Loading, EmptyStateLottie } from 
 import { FlatList, View, VStack } from "@gluestack-ui/themed";
 import { AjudaStats } from "../components/ajudaStats";
 import { AjudaCard } from "../components/ajudaCard";
-import { AjudaEmptyList } from "../components/ajudaEmptyList";
 import { AjudaFiltros } from "../components/ajudaFiltros";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@shared/routes/app.routes";
 import { useAjudaListagem } from "../hooks/useAjudaListagem";
 import { useEmptyStateConfig } from "@hooks/useEmptyStateConfig";
 import { useCallback} from "react";
+import { AjudaDetalheModal } from "../components/ajudaDetalheModal";
+import { Pagination } from "@shared/components/pagination";
 
 export function AjudaListagem() {
   const navigator = useNavigation<AppNavigatorRoutesProps>();
@@ -18,8 +19,12 @@ export function AjudaListagem() {
     items, 
     stats, 
     isFilterOpen,
+    modalVisible,
+    ajudaSelecionada,
+    pagination,
     setIsFilterOpen, 
-    handleDetalhes, 
+    handleAbrirDetalhes,
+    handleFecharDetalhes,
     handleCancelar, 
     handleAprovar, 
     handleRealizada, 
@@ -29,7 +34,8 @@ export function AjudaListagem() {
     handleFiltroData, 
     handleLimparFiltros, 
     handleAplicarFiltros,
-    fetchAjudas
+    fetchAjudas,
+    onChangePage
   } = useAjudaListagem();
 
   const handleOpenAjudaCadastrar = () => navigator.navigate("ajudaCadastrar");
@@ -73,7 +79,7 @@ export function AjudaListagem() {
                 renderItem={({ item }) => (
                   <AjudaCard
                     item={item}
-                    onDetalhes={handleDetalhes}
+                    onAbrirDetalhes={handleAbrirDetalhes}
                     onCancelar={handleCancelar}
                     onAprovar={handleAprovar}
                     onRealizada={handleRealizada}
@@ -90,6 +96,21 @@ export function AjudaListagem() {
                     py="$0"
                   />
                 }
+                ListFooterComponent={
+                  pagination.totalItens > 0 ? (
+                    <Pagination
+                      currentPage={pagination.currentPage}
+                      totalPages={pagination.totalPages}
+                      totalItems={pagination.totalItens}
+                      itemsPerPage={pagination.itemsPerPage}
+                      onPageChange={onChangePage}
+                      onItemsPerPageChange={() => {}}
+                      showItemsPerPage={false}
+                      showFirstLastButtons={true}
+                      showTotalItems={true}
+                    />
+                  ) : null
+              }
               />
 
               <FilterList
@@ -104,6 +125,12 @@ export function AjudaListagem() {
                   onAplicar={handleAplicarFiltros}
                 />
               </FilterList>
+
+              <AjudaDetalheModal
+                isOpen={modalVisible}
+                ajuda={ajudaSelecionada}
+                onClose={handleFecharDetalhes}
+              />
             </>
           )
         }

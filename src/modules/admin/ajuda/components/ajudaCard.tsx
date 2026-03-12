@@ -7,7 +7,7 @@ import { getStatusConfig } from "../helper/ajuda.helper";
 
 interface AjudaCardProps {
   item: Help;
-  onDetalhes: (item: Help) => void;
+  onAbrirDetalhes: (item: Help) => void;
   onCancelar?: (item: Help) => void;
   onAprovar?: (item: Help) => void;
   onRealizada?: (item: Help) => void;
@@ -16,7 +16,7 @@ interface AjudaCardProps {
 
 export const AjudaCard = ({ 
   item, 
-  onDetalhes, 
+  onAbrirDetalhes, 
   onCancelar, 
   onAprovar, 
   onRealizada, 
@@ -73,7 +73,7 @@ export const AjudaCard = ({
         {/* Botões de Ação */}
         <AjudaActions
           item={item}
-          onDetalhes={onDetalhes}
+          onAbrirDetalhes={onAbrirDetalhes}
           onCancelar={onCancelar}
           onAprovar={onAprovar}
           onRealizada={onRealizada}
