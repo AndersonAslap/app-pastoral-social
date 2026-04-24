@@ -1,5 +1,6 @@
 import { Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { AcoesCheckItems } from "./acoesCheckItems";
+import { useMemo } from "react";
 
 export function AcoesItensAcaoSection({ 
     produtos, 
@@ -7,6 +8,10 @@ export function AcoesItensAcaoSection({
     onProdutoToggle,
     onQuantidadeChange
 }: any) {
+
+    const itensSelecionadosCount = useMemo(() => {
+        return produtosSelecionados.length;
+    }, [produtosSelecionados]);
 
     return (
         <VStack space="md">
@@ -27,12 +32,13 @@ export function AcoesItensAcaoSection({
                 {
                     produtos.map((produto: any) => (
                         <AcoesCheckItems
-                            key={produto.value}
+                            key={`${produto.value}-${produtosSelecionados.length}`}
                             label={produto.label}
                             value={produto.value}
                             values={produtosSelecionados}
                             onToggle={onProdutoToggle}
                             onQuantidadeChange={onQuantidadeChange}
+                            quantidadeInicial={produtosSelecionados.find((p: any) => p.itemProdutoId === produto.value)?.quantidade || 1}
                         />
                     ))
                 }
@@ -41,7 +47,7 @@ export function AcoesItensAcaoSection({
             </VStack>
             
             {/* Contador de itens selecionados */}
-            {produtosSelecionados.length > 0 && (
+            {itensSelecionadosCount > 0 && (
                 <HStack
                     mt="$2" 
                     p="$3" 
@@ -55,7 +61,7 @@ export function AcoesItensAcaoSection({
                         Itens selecionados:
                     </Text>
                     <Text fontSize="$sm" fontWeight="$bold" color="$green700">
-                        {produtosSelecionados.length}
+                        {itensSelecionadosCount}
                     </Text>
                 </HStack>
             )}

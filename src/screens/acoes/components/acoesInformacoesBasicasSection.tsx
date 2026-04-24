@@ -12,7 +12,9 @@ export  function AcoesInformacoesBasicasSection({
     onDataChange,
     onQtdAcaoSocialChange,
     onTipoAcaoChange,
-    fieldState
+    fieldState,
+    inicioAcao,
+    onInicioAcaoChange
 }: any) {
     return (
         <VStack space="md" mb="$6" gap="$2">
@@ -39,6 +41,17 @@ export  function AcoesInformacoesBasicasSection({
                 onChangeText={onDescricaoChange}
                 numberOfLines={4}
             />
+
+            <View mt="$2">
+                <DateInput
+                    label="Início da Ação Social"
+                    value={inicioAcao}
+                    onChange={onInicioAcaoChange}
+                    placeholder="Selecione uma data"
+                    error={fieldState.inicioAcao.error}
+                    errorMessage={fieldState.inicioAcao.message}
+                />
+            </View>
                 
             <View mt="$2">
                 <DateInput

@@ -7,13 +7,14 @@ import {
 
 import { View, VStack, HStack } from "@gluestack-ui/themed";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 import { useAcaoSocialForm } from "@hooks/acao/useAcaoForm";
 import { AcoesInformacoesBasicasSection } from "./components/acoesInformacoesBasicasSection";
 import { AcoesItensAcaoSection } from "./components/acoesItensSection";
 import { FormContainer } from "@components/form-container";
+import { useCallback } from "react";
 
 export function AcoesCadastrar() {
     
@@ -37,6 +38,12 @@ export function AcoesCadastrar() {
         return navigation.navigate("acoesListagem");
     };
 
+    useFocusEffect(
+        useCallback(() => {
+        resetForm();
+        }, [])
+    );
+
     return (
         <FormContainer>
             <ScreenHeader title="Cadastrar Ação Social" backTo="acoesListagem"/>
@@ -55,11 +62,13 @@ export function AcoesCadastrar() {
                     titulo={form.titulo}
                     descricao={form.descricao}
                     data={form.dataEvento}
+                    inicioAcao={form.inicioAcao}
                     tipoAcao={form.tipoAcao}
                     qtdAcaoSocial={form.qtdAcaoSocial}
                     onTituloChange={(value: any) => handleChange("titulo", value)}
                     onDescricaoChange={(value: any) => handleChange("descricao", value)}
                     onDataChange={(value: any) => handleChange("dataEvento", value)}
+                    onInicioAcaoChange={(value: any) => handleChange("inicioAcao", value)}
                     onTipoAcaoChange={(value: any) => handleChange("tipoAcao", value)}
                     onQtdAcaoSocialChange={(value: any) => handleChange("qtdAcaoSocial", value)}
                     fieldState={fieldState}

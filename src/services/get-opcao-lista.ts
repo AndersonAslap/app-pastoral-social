@@ -16,21 +16,33 @@ const getOptions = async (endpoint: string) => {
 }
 
 const getFamiliaOpcaoLista = async () => {
-    const endpoint = "/familia/opcao-lista";
-    const options = await getOptions(endpoint);
-    return options;
+  const endpoint = "/familia/opcao-lista";
+  const options = await getOptions(endpoint);
+  return options;
+}
+
+const getFamiliaByAjudaOpcaoLista = async (idAjuda: string) => {
+  const endpoint = `/familia/consulta-familia-prioridade?tipoAjuda=${idAjuda}`;
+  const options = await getOptions(endpoint);
+
+  const parsedOptions = options.map((option: any) => ({
+    value: option.idFamilia.toString(),
+    label: option.nomeRepresentante,
+  }));
+
+  return parsedOptions;
 }
 
 const getTipoAjudaOpcaoLista = async () => {
-    const endpoint = "/ajuda/opcao-lista";
-    const options = await getOptions(endpoint);
-    return options;
+  const endpoint = "/ajuda/opcao-lista";
+  const options = await getOptions(endpoint);
+  return options;
 }
 
 const getTemplateOpcaoLista = async () => {
-    const endpoint = "/template/opcao-lista";
-    const options = await getOptions(endpoint);
-    return options;
+  const endpoint = "/template/opcao-lista";
+  const options = await getOptions(endpoint);
+  return options;
 }
 
 const getItemProdutosOpcaoLista = async () => {
@@ -51,4 +63,4 @@ const getItemProdutosOpcaoLista = async () => {
   }
 };
 
-export { getFamiliaOpcaoLista, getTipoAjudaOpcaoLista, getTemplateOpcaoLista, getItemProdutosOpcaoLista};
+export { getFamiliaOpcaoLista, getTipoAjudaOpcaoLista, getTemplateOpcaoLista, getItemProdutosOpcaoLista, getFamiliaByAjudaOpcaoLista};

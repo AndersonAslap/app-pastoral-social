@@ -32,6 +32,7 @@ export interface AcaoSocialFormData {
   titulo: string;
   descricao: string;
   dataEvento: string;
+  inicioAcao: string;
   tipoAcao: string;
   qtdAcaoSocial: number;
   itens: Array<{ itemProdutoId: number, quantidade: number }>;

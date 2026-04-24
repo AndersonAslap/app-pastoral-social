@@ -28,9 +28,7 @@ export const AcoesListagem = () => {
     handleFecharDetalhes
   } = useAcaoListagem();
 
-  const handleOpenAcoesCadastrar = () => navigator.navigate("acoesCadastrar");
-
-   const EMPTY_STATE_CONFIG = useEmptyStateConfig('ação');
+  const EMPTY_STATE_CONFIG = useEmptyStateConfig('ação');
 
   const stats = calculateStats(items);
 
@@ -39,11 +37,7 @@ export const AcoesListagem = () => {
   };
 
   const handleNovaAcao = () => {
-    handleOpenAcoesCadastrar();
-  };
-
-  const handleDetalhes = (acao: AcaoSocial) => {
-    console.log("Detalhes da ação:", acao);
+    navigator.navigate("acoesCadastrar");
   };
 
   const handleEditar = (acao: AcaoSocial) => {
@@ -87,10 +81,9 @@ export const AcoesListagem = () => {
 
               <FlatList
                 data={items}
-                keyExtractor={(item) => item.titulo}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <AcoesCard
-                    key={item.id}
                     acao={item}
                     onAbrirDetalhes={handleAbrirDetalhes}
                     onEditar={handleEditar}

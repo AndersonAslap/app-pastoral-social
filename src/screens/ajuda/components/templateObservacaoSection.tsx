@@ -17,7 +17,7 @@ export function TemplateObservacaoSection({
     const tipo_de_ajuda_cesta_basica = "1";
 
     return (
-        <VStack space="md" gap="$4" mb="$6" mt="$2">
+        <VStack space="md" gap="$4" mb="$2" mt="$2">
             <Text
                 fontSize="$lg" 
                 fontWeight="$bold" 
@@ -48,13 +48,6 @@ export function TemplateObservacaoSection({
                     />
                 )
             }
-            
-            <TextArea
-                placeholder="Descreva detalhes adicionais sobre a ajuda..."
-                value={observacao}
-                onChangeText={onObservacaoChange}
-                numberOfLines={4}
-            />
         </VStack>
     );
 }

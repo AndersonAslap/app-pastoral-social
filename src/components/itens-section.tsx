@@ -127,26 +127,30 @@ export function ItensSection({
     produtosSelecionados,
     onProdutoToggle,
     onQuantidadeChange,
-    bg = "$backgroundLight50"
+    bg = "$backgroundLight50",
+    isVisibleSubTitle = true
 }: any) {
 
     return (
         <VStack space="md">
             
-            <Text fontSize="$sm" color="$text600" mb="$2">
-                Selecione os produtos que serão doados nesta ação
-            </Text>
+            {isVisibleSubTitle && (
+                <Text fontSize="$sm" color="$text600" mb="$2">
+                    Selecione os produtos que serão doados nesta ação
+                </Text>
+            )}
 
-            <VStack space="lg" bg={bg} p="$4" borderRadius="$lg">
+            <VStack space="lg" borderRadius="$lg">
                 {
                     produtos.map((produto: any) => (
                         <CheckItems
-                            key={produto.value}
+                            key={`${produto.value}-${produtosSelecionados.length}`}
                             label={produto.label}
                             value={produto.value}
                             values={produtosSelecionados}
                             onToggle={onProdutoToggle}
                             onQuantidadeChange={onQuantidadeChange}
+                            quantidadeInicial={produtosSelecionados.find((p: any) => p.itemProdutoId === produto.value)?.quantidade || 1}
                         />
                     ))
                 }

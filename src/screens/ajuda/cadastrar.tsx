@@ -4,14 +4,16 @@ import {
     InfoTip,
     Loading,
     ScreenHeader,
+    TextArea,
 } from "@components/index";
 import { View, VStack, HStack, ScrollView, Text, KeyboardAvoidingView } from "@gluestack-ui/themed";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useAjudaHandles } from "@hooks/ajuda/useAjudaHandles";
 import { FamiliaInfoSection } from "./components/familiaInfoSection";
 import { TemplateObservacaoSection } from "./components/templateObservacaoSection";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Platform } from "react-native";
+import { useCallback } from "react";
 
 export function AjudaCadastrar() {
     const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -33,6 +35,12 @@ export function AjudaCadastrar() {
         resetForm();
         navigation.navigate("ajudaListagem");
     };
+
+    useFocusEffect(
+        useCallback(() => {
+        resetForm();
+        }, [])
+    );
 
     return (
         <KeyboardAvoidingView
@@ -62,13 +70,6 @@ export function AjudaCadastrar() {
                         ? <Loading />
                         : (
                             <>
-                                <FamiliaInfoSection
-                                    familiasOptions={familiasOptions}
-                                    familiaId={form.idFamilia}
-                                    onFamiliaChange={(value: any) => handleChange("idFamilia", value)}
-                                    fieldState={fieldState}
-                                />
-
                                 <TemplateObservacaoSection
                                     fieldState={fieldState}
                                     templatesOptions={templatesOptions}
@@ -81,27 +82,49 @@ export function AjudaCadastrar() {
                                     onTipoAjudaChange={(value: any) => handleChange("idTipoAjuda", value)}
                                 />
 
-                                <InfoTip
-                                    title="Dica importante"
-                                    description="Preencha todas as informações com atenção para garantir o registro correto da ajuda familiar."
-                                />
+                                {
+                                    form.idTipoAjuda && familiasOptions && (
+                                        <>
+                                            <FamiliaInfoSection
+                                                familiasOptions={familiasOptions}
+                                                familiaId={form.idFamilia}
+                                                onFamiliaChange={(value: any) => handleChange("idFamilia", value)}
+                                                fieldState={fieldState}
+                                            />
 
-                                <VStack space="md" mt="$4" pb="$4">
-                                    <HStack space="md">
-                                        <ButtonCancel 
-                                            flex={1} 
-                                            title="Cancelar" 
-                                            onPress={handleCancel}
-                                        />
-                                        <Button
-                                            flex={1}
-                                            title="Cadastrar"
-                                            onPress={handleSubmit}
-                                            isLoading={formSubmitting}
-                                        />
-                                    </HStack>
-                                    <View h="$8" />
-                                </VStack>
+                                            <VStack space="md" gap="$4" mb="$6" mt="$2">       
+                                                <TextArea
+                                                    placeholder="Descreva detalhes adicionais sobre a ajuda..."
+                                                    value={form.observacao}
+                                                    onChangeText={(value: any) => handleChange("observacao", value)}
+                                                    numberOfLines={4}
+                                                />
+                                            </VStack>
+
+                                            <InfoTip
+                                                title="Dica importante"
+                                                description="Preencha todas as informações com atenção para garantir o registro correto da ajuda familiar."
+                                            />
+
+                                            <VStack space="md" mt="$4" pb="$4">
+                                                <HStack space="md">
+                                                    <ButtonCancel 
+                                                        flex={1} 
+                                                        title="Cancelar" 
+                                                        onPress={handleCancel}
+                                                    />
+                                                    <Button
+                                                        flex={1}
+                                                        title="Cadastrar"
+                                                        onPress={handleSubmit}
+                                                        isLoading={formSubmitting}
+                                                    />
+                                                </HStack>
+                                                <View h="$8" />
+                                            </VStack>
+                                        </>
+                                    )
+                                }
                             </>
                         )
                     }

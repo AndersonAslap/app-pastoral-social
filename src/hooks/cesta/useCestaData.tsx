@@ -79,7 +79,6 @@ export const useCestaData = () => {
 
   const onHandleCancelarCesta = useCallback(async (idCesta: number) => {
     try {
-      console.log("cancelar cesta")
       await cancelarCesta(idCesta);
       if (dados.cestas.length > 1) {
         await fetchData(pagination.currentPage);

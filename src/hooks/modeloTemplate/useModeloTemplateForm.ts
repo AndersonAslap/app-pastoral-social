@@ -36,6 +36,8 @@ export const useModeloTemplateForm = () => {
   const [calculatingGenerations, setCalculatingGenerations] = useState(false);
   const [qtdGeracaoPossivelShow, setQtdGeracaoPossivelShow] = useState(false);
 
+  const [produtosSelecionados, setProdutosSelecionados] = useState<{itemProdutoId: number, quantidade: number}[]>([]);
+
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   // Hook genérico para fetch de produtos
@@ -47,7 +49,7 @@ export const useModeloTemplateForm = () => {
     initialData: []
   });
 
-  const produtosOptions = produtos.map((item: Product) => ({ 
+  const produtosOptions = produtos?.filter((item: Product) => item.quantidadeEstoque > 0).map((item: Product) => ({ 
     label: item.nome, 
     value: item.id.toString() 
   }));
@@ -58,9 +60,10 @@ export const useModeloTemplateForm = () => {
   ];
 
   const resetForm = useCallback(() => {
+    setProdutosSelecionados([]);
     setForm(initialState());
     setQtdGeracaoPossivelShow(false);
-        setFieldState(createInitialFieldState());
+    setFieldState(createInitialFieldState());
   }, []);
 
 
@@ -162,6 +165,7 @@ export const useModeloTemplateForm = () => {
     try {
       const payload = { 
         ...form, 
+        templateItens: produtosSelecionados.map(item => ({ itemProdutoId: item.itemProdutoId?.toString(), quantidade: item.quantidade })),
         template: {
           templateDesc: form.templateDesc,
           templateType: form.templateType,
@@ -169,7 +173,7 @@ export const useModeloTemplateForm = () => {
       };
       if (!formValidate(payload)) return;
       await GeracaoTemplateService(payload);
-      setForm(initialState);
+      resetForm();
       showSuccessToast({ title: "Modelo cadastrado com sucesso!" });
     } catch (error) {
       const isAppError = error instanceof AppError;
@@ -180,11 +184,29 @@ export const useModeloTemplateForm = () => {
     }
   }, [form, showSuccessToast, showErrorToast]);
 
-  useFocusEffect(
-    useCallback(() => {
-      resetForm();
-    }, [])
-  );
+  const handleProdutoToggle = (produtoId: number) => {
+    setProdutosSelecionados(prev => {
+        const itemIndex = prev.findIndex(item => item.itemProdutoId === produtoId);
+        if (itemIndex !== -1) {
+          return prev.filter((_, index) => index !== itemIndex);
+        } else {
+          return [...prev, { itemProdutoId: produtoId, quantidade: 1 }];
+        }
+    });
+  }
+
+  const handleProdutoChangeQuantidade = (produtoId: number, quantidade: number) => {
+      setProdutosSelecionados(prev => {
+          const itemIndex = prev.findIndex(item => item.itemProdutoId === produtoId);
+          if (itemIndex !== -1) {
+              return prev.map((item, index) => 
+                  index === itemIndex ? { ...item, quantidade } : item
+              );
+          } else {
+              return [...prev, { itemProdutoId: produtoId, quantidade }];
+          }
+      });
+  }
 
   return {
     form,
@@ -204,6 +226,9 @@ export const useModeloTemplateForm = () => {
     handleCalculateGenerations,
     handleSubmit,
     resetForm,
-    fetchProdutos
+    fetchProdutos,
+    produtosSelecionados,
+    handleProdutoToggle,
+    handleProdutoChangeQuantidade
   };
 };

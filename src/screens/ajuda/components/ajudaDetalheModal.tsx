@@ -28,28 +28,32 @@ interface AjudaDetalheModalProps {
 
 // Configurações de status
 const getStatusConfig = (status: string) => {
-    const configs: Record<string, { color: string; bg: string; icon: any; label: string }> = {
+    const configs: Record<string, { color: string; bg: string; icon: any; label: string, iconColor: string }> = {
         'AGUARDANDO_APROVACAO': {
             color: '$orange500',
             bg: '$orange50',
             icon: Clock,
+            iconColor: '#f97316',
             label: 'Aguardando Aprovação'
         },
         'APROVADA': {
             color: '$green500',
             bg: '$green50',
             icon: CheckCircle,
+            iconColor: '#10b981',
             label: 'Aprovada'
         },
         'ENTREGUE': {
             color: '$blue500',
             bg: '$blue50',
             icon: CheckCircle,
+            iconColor: '#3b82f6',
             label: 'Entregue'
         },
         'CANCELADA': {
             color: '$red500',
             bg: '$red50',
+            iconColor: '#ef4444',
             icon: AlertCircle,
             label: 'Cancelada'
         }
@@ -59,12 +63,12 @@ const getStatusConfig = (status: string) => {
 
 // Configurações de tipo de ajuda
 const getTipoAjudaConfig = (tipo: string) => {
-    const configs: Record<string, { color: string; bg: string; icon: any }> = {
-        'Cesta Básica': { color: '$green500', bg: '$green50', icon: Package },
-        'Alimentação': { color: '$orange500', bg: '$orange50', icon: Heart },
-        'Educação': { color: '$purple500', bg: '$purple50', icon: Heart },
-        'Saúde': { color: '$red500', bg: '$red50', icon: Heart },
-        'Moradia': { color: '$blue500', bg: '$blue50', icon: Heart }
+    const configs: Record<string, { color: string; bg: string; icon: any; iconColor: string }> = {
+        'Cesta Básica': { color: '$green500', bg: '$green50', icon: Package, iconColor: '#10b981' },
+        'Alimentação': { color: '$orange500', bg: '$orange50', icon: Heart, iconColor: '#f97316' },
+        'Educação': { color: '$purple500', bg: '$purple50', icon: Heart, iconColor: '#8b5cf6' },
+        'Saúde': { color: '$red500', bg: '$red50', icon: Heart, iconColor: '#ef4444' },
+        'Moradia': { color: '$blue500', bg: '$blue50', icon: Heart, iconColor: '#3b82f6' }
     };
     return configs[tipo] || { color: '$primary500', bg: '$primary50', icon: Heart };
 };
@@ -133,7 +137,7 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                                         borderWidth="$1"
                                         borderColor={tipoConfig.color}
                                     >
-                                        <TipoIcon size={12} color={tipoConfig.color} />
+                                        <TipoIcon size={12} color={tipoConfig.iconColor} />
                                         <BadgeText color={tipoConfig.color} ml="$1" fontSize="$2xs" fontWeight="$bold">
                                             {ajuda.tipoAjuda}
                                         </BadgeText>
@@ -145,7 +149,7 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                                         borderWidth="$1"
                                         borderColor={statusConfig.color}
                                     >
-                                        <StatusIcon size={12} color={statusConfig.color} />
+                                        <StatusIcon size={12} color={statusConfig.iconColor} />
                                         <BadgeText color={statusConfig.color} ml="$1" fontSize="$2xs" fontWeight="$bold">
                                             {statusConfig.label}
                                         </BadgeText>

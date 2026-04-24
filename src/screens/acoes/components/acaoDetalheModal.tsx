@@ -102,13 +102,13 @@ const calcularPercentual = (recebido: number, total: number) => {
 
 // Configurações baseadas no tipo de ação
 const getTipoAcaoConfig = (tipo: string) => {
-    const configs: Record<string, { color: string; bg: string; icon: any }> = {
-        "Refeições": { color: "$orange500", bg: "$orange50", icon: Heart },
-        "Cestas Básicas": { color: "$green500", bg: "$green50", icon: Package },
-        "Roupas": { color: "$blue500", bg: "$blue50", icon: Gift },
-        "Educação": { color: "$purple500", bg: "$purple50", icon: Target },
+    const configs: Record<string, { color: string; bg: string; icon: any; iconColor: string }> = {
+        "Refeições": { color: "$orange500", iconColor: "#f97316", bg: "$orange50", icon: Heart },
+        "Cestas Básicas": { color: "$green500", iconColor: "#10b981", bg: "$green50", icon: Package },
+        "Roupas": { color: "$blue500", iconColor: "#3b82f6", bg: "$blue50", icon: Gift },
+        "Educação": { color: "$purple500", iconColor: "#8b5cf6", bg: "$purple50", icon: Target },
     };
-    return configs[tipo] || { color: "$primary500", bg: "$primary50", icon: Heart };
+    return configs[tipo] || { color: "$primary500", bg: "$primary50", icon: Heart, iconColor: "#f97316" };
 };
 
 export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
@@ -117,6 +117,7 @@ export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
     onClose
 }) => {
     if (!acao) return null;
+
 
     const tipoConfig = getTipoAcaoConfig(acao.tipoAcao);
     const TipoIcon = tipoConfig.icon;
@@ -164,7 +165,7 @@ export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
                                         borderWidth="$1"
                                         borderColor={tipoConfig.color}
                                     >
-                                        <TipoIcon size={12} color={tipoConfig.color} />
+                                        <TipoIcon size={12} color={tipoConfig.iconColor} />
                                         <BadgeText color={tipoConfig.color} ml="$1" fontSize="$2xs" fontWeight="$bold">
                                             {acao.tipoAcao}
                                         </BadgeText>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { AjudaFormData } from "@tipagens/ajuda";
-import { getFamiliaOpcaoLista, getTemplateOpcaoLista, getTipoAjudaOpcaoLista } from "@services/get-opcao-lista";
+import { getFamiliaByAjudaOpcaoLista, getFamiliaOpcaoLista, getTemplateOpcaoLista, getTipoAjudaOpcaoLista } from "@services/get-opcao-lista";
 import { cadastrarAjuda } from "@services/ajuda";
 import { useAppToast } from "@hooks/useAppToast";
 import { AppError } from "@utils/app.error";
@@ -37,8 +37,7 @@ export function useAjudaHandles() {
 
     const requiredFields: (keyof typeof fieldState)[] = [
         "idFamilia",
-        "idTipoAjuda",
-        "idTemplate"
+        "idTipoAjuda"
     ];
 
     const resetForm = useCallback(() => {
@@ -56,6 +55,7 @@ export function useAjudaHandles() {
 
         requiredFields.forEach(field => {
             const value = payload[field];
+
             if (!value || (typeof value === "string" && !value.trim())) {
                 newFieldState[field] = {
                     error: true,
@@ -64,6 +64,18 @@ export function useAjudaHandles() {
                 hasError = true;
             }
         });
+
+        const tipoAjudaCestaBasicaId = "1"; 
+
+        if (form.idTipoAjuda === tipoAjudaCestaBasicaId) {
+            if (!payload.idTemplate) {
+                newFieldState.idTemplate = {
+                    error: true,
+                    message: "Campo obrigatório para o tipo de ajuda selecionado"
+                };
+                hasError = true;
+            } 
+        }
 
         setFieldState(newFieldState);
 
@@ -99,15 +111,23 @@ export function useAjudaHandles() {
     const loadOptions = async () => {
         setLoading(true);
         try {
-            const [familias, tiposAjuda, templates] = await Promise.all([
-                getFamiliaOpcaoLista(),
+            const [tiposAjuda, templates] = await Promise.all([
                 getTipoAjudaOpcaoLista(),
                 getTemplateOpcaoLista()
             ]);
 
-            setFamiliasOptions(familias);
             setTiposAjudaOptions(tiposAjuda);
             setTemplatesOptions(templates);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadOptionsFamiliaByTipoAjuda = async (idTipoAjuda: string) => {
+        setLoading(true);
+        try {
+            const familias = await getFamiliaByAjudaOpcaoLista(idTipoAjuda);
+            setFamiliasOptions(familias);
         } finally {
             setLoading(false);
         }
@@ -116,6 +136,16 @@ export function useAjudaHandles() {
     useEffect(() => {
         loadOptions();
     }, []);
+
+    useEffect(() => {
+        setFamiliasOptions([]);
+
+        if (form.idTipoAjuda) {
+            loadOptionsFamiliaByTipoAjuda(form.idTipoAjuda);
+        } else {
+            setForm(prev => ({ ...prev, idFamilia: undefined }));
+        } 
+    }, [form.idTipoAjuda]);
 
     return {
         form,

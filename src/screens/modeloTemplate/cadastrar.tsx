@@ -7,6 +7,9 @@ import { ModeloTemplateInformacoesBasicasSection } from "./components/modeloTemp
 import { ModeloTemplateConfiguracaoSection } from "./components/modeloTemplateConfiguracaoSection";
 import { ModeloTemplateProdutosSection } from "./components/modeloTemplateProdutoSection";
 import { ModeloTemplateStatusEAcoesSection } from "./components/modeloTemplateStatusEAcoesSection";
+import { Seccao } from "@screens/doador/components/seccao";
+import { ItensSection } from "@components/itens-section";
+import { CustomSection } from "@components/custom-section";
 
 const ModeloTemplateCadastrarForm = () => {
   const {
@@ -27,13 +30,18 @@ const ModeloTemplateCadastrarForm = () => {
     handleCalculateGenerations,
     handleSubmit,
     resetForm,
-    fetchProdutos
+    fetchProdutos,
+
+    produtosSelecionados,
+    handleProdutoToggle,
+    handleProdutoChangeQuantidade
   } = useModeloTemplateForm();
 
   useFocusEffect(
     useCallback(() => {
+      resetForm();
       fetchProdutos();
-    }, [fetchProdutos])
+    }, [])
   );
 
   return (
@@ -65,17 +73,37 @@ const ModeloTemplateCadastrarForm = () => {
           onChange={handleChange}
         />
 
-        <ModeloTemplateProdutosSection
-          form={form}
-          produtosOptions={produtosOptions}
-          produtos={produtos}
-          onItemChange={handleItemChange}
-          onAddItem={handleAddItem}
-          onRemoveItem={handleRemoveItem}
-          getProdutoInfo={getProdutoInfo}
-          getEstoqueStatus={getEstoqueStatus}
-          getQuantidadeEstoque={getQuantidadeEstoque}
-        />
+        {
+          /*
+            Modelo antigo, onde os itens eram gerenciados em uma seção à parte. Mantido aqui para referência de código, caso seja necessário reutilizar alguma lógica ou componente específico.
+            
+            <ModeloTemplateProdutosSection
+              form={form}
+              produtosOptions={produtosOptions}
+              produtos={produtos}
+              onItemChange={handleItemChange}
+              onAddItem={handleAddItem}
+              onRemoveItem={handleRemoveItem}
+              getProdutoInfo={getProdutoInfo}
+              getEstoqueStatus={getEstoqueStatus}
+              getQuantidadeEstoque={getQuantidadeEstoque}
+            />
+          
+          */
+        }
+
+        
+
+        <CustomSection titulo="Itens da cesta">
+          <ItensSection
+            produtos={produtosOptions}
+            produtosSelecionados={produtosSelecionados}
+            onProdutoToggle={handleProdutoToggle}
+            onQuantidadeChange={handleProdutoChangeQuantidade}
+            bg="$blue50"
+            isVisibleSubTitle={false}
+          />
+        </CustomSection>
 
         <ModeloTemplateStatusEAcoesSection
           form={form}

@@ -3,6 +3,8 @@ import { AcaoSocialFormData } from "@tipagens/acao";
 import { getItemProdutosOpcaoLista } from "@services/get-opcao-lista";
 import { cadastrarAcao } from "@services/acoes";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAppToast } from "@hooks/useAppToast";
+import { AppError } from "@utils/app.error";
 
 const createDefaultField = () => ({
   error: false,
@@ -12,6 +14,7 @@ const createDefaultField = () => ({
 const createInitialFieldState = () => ({
     titulo: createDefaultField(),
     dataEvento: createDefaultField(),
+    inicioAcao: createDefaultField(),
     tipoAcao: createDefaultField()
 });
 
@@ -19,12 +22,14 @@ const initialState = () => ({
     titulo: "",
     descricao: "",
     dataEvento: "",
+    inicioAcao: "",
     tipoAcao: "",
     qtdAcaoSocial: 0,
     itens: []
 });
 
 export function useAcaoSocialForm() {
+    const { showErrorToast, showSuccessToast } = useAppToast();
     const [form, setForm] = useState<AcaoSocialFormData>(initialState());
     const [fieldState, setFieldState] = useState(createInitialFieldState());
     const [formSubmitting, setFormSubmitting] = useState(false);
@@ -33,6 +38,7 @@ export function useAcaoSocialForm() {
 
     const requiredFields: (keyof typeof fieldState)[] = [
         "dataEvento",
+        "inicioAcao",
         "tipoAcao",
         "titulo"
     ];
@@ -75,16 +81,24 @@ export function useAcaoSocialForm() {
             const payload = {
                 titulo: form.titulo,
                 descricao: form.descricao,
-                dataEvento: "2026-03-28",
-                inicioAcao: "2026-03-28",
+                dataEvento: form.dataEvento,
+                inicioAcao: form.inicioAcao,
                 tipoAcao: form.tipoAcao,
                 qtdAcaoSocial: parseInt(form.qtdAcaoSocial.toString()),
                 itens: produtosSelecionados
             };
+
             await cadastrarAcao(payload);
+            showSuccessToast({ title: "Ação social cadastrada com sucesso!" });
             resetForm();
         } catch (error) {
-            console.error(error);
+            const isAppError = error instanceof AppError;
+            
+            showErrorToast({
+                title: isAppError
+                    ? error.message
+                    : "Não foi possível cadastrar a ação social"
+            });
         } finally {
             setFormSubmitting(false);
         }
