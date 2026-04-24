@@ -64,7 +64,7 @@ export function FamiliaListagem() {
                         <HeaderList
                             labelButtonPlus="Nova família"
                             onSetShowFilter={setIsFilterOpen}
-                            showIconFilter={true}
+                            showIconFilter={false}
                             onPress={handleOpenNewFamily}
                         />
 

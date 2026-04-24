@@ -11,6 +11,7 @@ export interface AcaoSocial {
   itensGerados: string;
   itens: string[];
   status: string;
+  statusAcao?: "EM_ANDAMENTO" | "PLANEJADA" | "CONCLUIDA";
 }
 
 export interface AcaoSocialDetalhe extends AcaoSocial {
@@ -25,7 +26,7 @@ export interface AcaoSocialDetalhe extends AcaoSocial {
 }
 
 export interface FiltroStatus {
-  id: "ativas" | "concluida" | "todas";
+  id: "EM_ANDAMENTO" | "PLANEJADA" | "CONCLUIDA" | "TODAS";
   nome: string;
   icone: string;
 }

@@ -3,11 +3,13 @@ import { DoadorDetalheAcao, DoadorListagemAcoes, DoacaoAcao } from "@screens/doa
 import { Jornada } from "@screens/jornada";
 import { Login } from "@screens/auth/login";
 import { DoacaoAgradecimento } from "@screens/doador/doacao-agradecimento";
+import { DoadorForm } from "@screens/doador/doador-form";
 
 export type AuthRoutes = {
     jornada: undefined;
     signIn: undefined;
     doadorListagemAcoes: undefined;
+    sejaDoadorForm: undefined;
     doadorDetalheAcao: { id: number };
     doacaoAcao: { id: number };
     doacaoAgradecimento: { nome: string };
@@ -48,6 +50,11 @@ export function AuthRoutes() {
             <Screen
                 name="doacaoAgradecimento"
                 component={DoacaoAgradecimento}
+            /> 
+
+            <Screen
+                name="sejaDoadorForm"
+                component={DoadorForm}
             />     
         </Navigator>
     )

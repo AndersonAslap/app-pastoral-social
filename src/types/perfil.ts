@@ -1,5 +1,6 @@
 export interface PerfilFormData {
   nome: string;
+  telefone: string;
   nickName: string;
   novaSenha: string;
   confirmarSenha: string;
@@ -19,4 +20,5 @@ export interface PerfilFormProps {
 export interface UserInfo {
   nickName: string;
   nome: string;
+  telefone: string;
 }

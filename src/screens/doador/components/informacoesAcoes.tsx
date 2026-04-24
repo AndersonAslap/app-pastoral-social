@@ -24,7 +24,24 @@ export const InformacoesAcao: React.FC<InformacoesAcaoProps> = ({
         
         <VStack gap="$3">
 
-          <HStack gap="$3" alignItems="flex-start">
+          {acao.statusAcao === "CONCLUIDA" && (
+            <HStack gap="$3" alignItems="flex-start">
+            <Box mt="$1">
+              <Clock size={18} color="#3B82F6" />
+            </Box>
+            <VStack flex={1} gap="$1">
+              <Text fontSize="$md" fontWeight="$medium" color="$textDark900">
+                Data da Conclusão da Ação
+              </Text>
+              <Text fontSize="$sm" color="$textDark600">
+                {formatDate(acao.dataConclusaoAcao)}
+              </Text>
+            </VStack>
+          </HStack>
+          )}
+
+          {acao.statusAcao !== "CONCLUIDA" && (
+            <HStack gap="$3" alignItems="flex-start">
             <Box mt="$1">
               <Clock size={18} color="#3B82F6" />
             </Box>
@@ -37,6 +54,9 @@ export const InformacoesAcao: React.FC<InformacoesAcaoProps> = ({
               </Text>
             </VStack>
           </HStack>
+          )}
+
+          
 
           <HStack gap="$3" alignItems="flex-start">
             <Box mt="$1">

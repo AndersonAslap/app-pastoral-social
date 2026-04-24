@@ -3,12 +3,10 @@ import { Box, VStack, Text } from "@gluestack-ui/themed";
 
 interface AcoesSociaisEmptyStateProps {
   filtroStatus: string;
-  onVerTodas: () => void;
 }
 
 export const AcoesSociaisEmptyState: React.FC<AcoesSociaisEmptyStateProps> = ({
-  filtroStatus,
-  onVerTodas
+  filtroStatus
 }) => {
   return (
     <Box 
@@ -35,11 +33,30 @@ export const AcoesSociaisEmptyState: React.FC<AcoesSociaisEmptyStateProps> = ({
           <Text fontSize="$xl" fontWeight="$bold" color="$textDark900" textAlign="center">
             Nenhuma ação encontrada
           </Text>
-          <Text fontSize="$md" color="$textDark600" textAlign="center" lineHeight="$lg">
-            {filtroStatus === "concluida" 
-              ? "Não há ações concluídas no momento." 
-              : "Não há ações ativas no momento. Volte em breve!"}
-          </Text>
+
+          {
+            filtroStatus === "EM_ANDAMENTO" && (
+              <Text fontSize="$md" color="$textDark600" textAlign="center" lineHeight="$lg">
+                Não há ações ativas no momento.
+              </Text>
+            )
+          }
+
+          {
+            filtroStatus === "PLANEJADA" && (
+              <Text fontSize="$md" color="$textDark600" textAlign="center" lineHeight="$lg">
+                Não há ações planejadas no momento.
+              </Text>
+            )
+          }
+
+          {
+            filtroStatus === "CONCLUIDA" && (
+              <Text fontSize="$md" color="$textDark600" textAlign="center" lineHeight="$lg">
+                Não há ações concluídas no momento.
+              </Text>
+            )
+          }
         </VStack>
       </VStack>
     </Box>

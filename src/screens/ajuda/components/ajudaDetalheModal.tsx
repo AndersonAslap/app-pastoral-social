@@ -97,9 +97,6 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
     const TipoIcon = tipoConfig.icon;
     const isCestaBasica = ajuda.tipoAjuda === "Cesta Básica";
 
-    // Texto de observação fixo (lorem ipsum)
-    const observacao = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="full">
             <ModalBackdrop />
@@ -127,7 +124,7 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                 
                 <ModalBody px="$4" py="$6">
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <VStack space="lg">
+                        <VStack space="lg" mb="$16">
                             {/* Header com Tipo e Status */}
                             <VStack>
                                 <HStack justifyContent="space-between" alignItems="center" mb="$2">
@@ -197,7 +194,7 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                             {isCestaBasica && ajuda.cesta && (
                                 <VStack space="md">
                                     <HStack alignItems="center" mb="$1">
-                                        <Package size={20} color={tipoConfig.color} />
+                                        <Package size={20} color={tipoConfig.iconColor} />
                                         <Text fontSize="$md" fontWeight="$bold" color="$textDark800" ml="$2">
                                             {ajuda.cesta.identificadorCesta}
                                         </Text>
@@ -221,20 +218,21 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                                                 justifyContent="space-between"
                                                 alignItems="center"
                                                 bg="$backgroundLight50"
-                                                p="$3"
+                                                px="$3"
+                                                py="$1"
                                                 borderRadius="$lg"
                                                 borderWidth={1}
                                                 borderColor="$borderLight200"
                                             >
                                                 <VStack flex={1}>
                                                     <Text fontSize="$sm" fontWeight="$medium" color="$textDark800">
-                                                        {item.nomeProduto}
+                                                        {item.nomeProduto} &nbsp; • &nbsp;
+                                                        {item.detalhe && (
+                                                            <Text fontSize="$xs" color="$textDark500">
+                                                                {item.detalhe}
+                                                            </Text>
+                                                        )}
                                                     </Text>
-                                                    {item.detalhe && (
-                                                        <Text fontSize="$xs" color="$textDark500">
-                                                            {item.detalhe}
-                                                        </Text>
-                                                    )}
                                                 </VStack>
                                                 <Box
                                                     bg={tipoConfig.bg}
@@ -292,86 +290,39 @@ export const AjudaDetalheModal: React.FC<AjudaDetalheModalProps> = ({
                             )}
 
                             {/* Campo de Observação - NOVO */}
-                            <Box 
-                                bg="$backgroundLight50"
-                                p="$4" 
-                                borderRadius="$lg"
-                                borderWidth={1}
-                                borderColor="$borderLight200"
-                            >
-                                <HStack alignItems="center" mb="$3">
-                                    <FileText size={18} color="#6B7280" />
-                                    <Text fontSize="$md" fontWeight="$medium" color="$textDark700" ml="$2">
-                                        Observações
-                                    </Text>
-                                </HStack>
-                                
-                                <Box
-                                    bg="$white"
-                                    p="$3"
-                                    borderRadius="$md"
-                                    borderWidth={1}
-                                    borderColor="$borderLight200"
-                                >
-                                    <Text fontSize="$sm" color="$textDark600" lineHeight="$sm">
-                                        {ajuda.observacao}
-                                    </Text>
-                                </Box>
-                            </Box>
-
-                            {/* Informações de Status */}
-                            <Box 
-                                bg="$backgroundLight50"
-                                p="$3" 
-                                borderRadius="$lg"
-                                borderWidth={1}
-                                borderColor="$borderLight200"
-                            >
-                                <HStack justifyContent="space-between" alignItems="center">
-                                    <Text fontSize="$sm" color="$textDark600">Status da Ajuda</Text>
-                                    <Badge size="sm" bg={statusConfig.bg}>
-                                        <BadgeText color={statusConfig.color} fontSize="$2xs">
-                                            {statusConfig.label}
-                                        </BadgeText>
-                                    </Badge>
-                                </HStack>
-                            </Box>
+                            {
+                                ajuda.observacao && (
+                                    <Box 
+                                        bg="$backgroundLight50"
+                                        p="$4" 
+                                        borderRadius="$lg"
+                                        borderWidth={1}
+                                        borderColor="$borderLight200"
+                                    >
+                                        <HStack alignItems="center" mb="$3">
+                                            <FileText size={18} color="#6B7280" />
+                                            <Text fontSize="$md" fontWeight="$medium" color="$textDark700" ml="$2">
+                                                Observações
+                                            </Text>
+                                        </HStack>
+                                        
+                                        <Box
+                                            bg="$white"
+                                            p="$3"
+                                            borderRadius="$md"
+                                            borderWidth={1}
+                                            borderColor="$borderLight200"
+                                        >
+                                            <Text fontSize="$sm" color="$textDark600" lineHeight="$sm">
+                                                {ajuda.observacao}
+                                            </Text>
+                                        </Box>
+                                    </Box>
+                                )
+                            }
                         </VStack>
                     </ScrollView>
                 </ModalBody>
-
-                <ModalFooter 
-                    backgroundColor="$backgroundLight50" 
-                    borderBottomLeftRadius="$3xl" 
-                    borderBottomRightRadius="$3xl"
-                >
-                    <HStack space="sm" width="100%">
-                        <Button 
-                            flex={1} 
-                            size="md" 
-                            variant="outline" 
-                            bg="$white"
-                            onPress={onClose}
-                            borderWidth={1}
-                            borderColor="$borderLight300"
-                        >
-                            <ButtonText color="$textDark600">Fechar</ButtonText>
-                        </Button>
-                        
-                        {/* Botões condicionais baseados no status - descomente quando necessário */}
-                        {/* {ajuda.statusAjuda === 'AGUARDANDO_APROVACAO' && (
-                            <Button flex={1} size="md" bg="$green600" onPress={onAprovar}>
-                                <ButtonText color="$white">Aprovar</ButtonText>
-                            </Button>
-                        )}
-                        
-                        {ajuda.statusAjuda === 'APROVADA' && (
-                            <Button flex={1} size="md" bg="$blue600" onPress={onRegistrarEntrega}>
-                                <ButtonText color="$white">Registrar Entrega</ButtonText>
-                            </Button>
-                        )} */}
-                    </HStack>
-                </ModalFooter>
             </ModalContent>
         </Modal>
     );

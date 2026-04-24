@@ -66,7 +66,7 @@ export const Jornada = () => {
                 px="$6"
                 pt="$12"
                 pb="$8"
-                gap="$8"
+                gap="$4"
                 alignItems="center"
                 position="relative" // Para posicionamento absoluto
             >
@@ -218,7 +218,6 @@ export const Jornada = () => {
                             style={{
                                 transform: [{ scale: pressed && selectedJourney ? 0.98 : 1 }]
                             }}
-                            transition="all 0.2s"
                         >
                             <Text 
                                 fontSize="$lg" 

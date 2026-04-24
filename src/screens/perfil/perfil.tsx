@@ -21,8 +21,6 @@ export const Perfil: React.FC = () => {
     onCancel
   } = usePerfil();
 
-  console.log(JSON.stringify(user, null, 2))
-
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}

@@ -36,7 +36,7 @@ const getImage = (tipo: string) => {
         return "🛒";
       case "Refeições":
         return "🍽️";
-      case "roupas":
+      case "Doação Roupas":
         return "🧥";
       default:
         return "👨‍👩‍👧‍👦";

@@ -32,7 +32,7 @@ export const DoacaoAcaoDadosPessoaisSection: React.FC<DoacaoAcaoDadosPessoaisSec
 
       <Box>
         <Text fontSize="$sm" fontWeight="$medium" color="$textDark700">
-          Telefone *
+          Telefone WhatsApp *
         </Text>
 
         <Input

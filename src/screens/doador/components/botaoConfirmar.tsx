@@ -25,6 +25,7 @@ export const BotaoConfirmar: React.FC<BotaoConfirmarProps> = ({
           justifyContent="center"
           flexDirection="row"
           gap="$3"
+          mb="$8"
           style={{
             transform: [{ scale: pressed && true ? 0.95 : 1 }]
           }}

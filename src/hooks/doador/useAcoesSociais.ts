@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { AcaoSocial, FiltroStatus, StatusInfo } from "@tipagens/doador";
 import { listarAcoes } from "@services/acoes";
 import { useAppToast } from "@hooks/useAppToast";
@@ -13,12 +13,20 @@ export const useAcoesSociais = () => {
     totalPages: 0,
     itemsPerPage: 10
   });
-  const [filtroStatus, setFiltroStatus] = useState<FiltroStatus["id"]>("ativas");
-
+  const [filtroStatus, setFiltroStatus] = useState<FiltroStatus["id"]>("EM_ANDAMENTO");
+  
+  // Usar ref para armazenar o valor atual do filtro
+  const filtroStatusRef = useRef(filtroStatus);
+  
+  // Atualizar ref quando filtro mudar
+  useEffect(() => {
+    filtroStatusRef.current = filtroStatus;
+  }, [filtroStatus]);
 
   const filtros: FiltroStatus[] = [
-    { id: "ativas", nome: "Ações Ativas", icone: "🟢" },
-    { id: "concluida", nome: "Concluídas", icone: "✅" }
+    { id: "EM_ANDAMENTO", nome: "Ações Ativas", icone: "🟢" },
+    { id: "PLANEJADA", nome: "Planejadas", icone: "📅" },
+    { id: "CONCLUIDA", nome: "Concluídas", icone: "✅" }
   ];
 
   const getImage = (tipo: string) => {
@@ -27,7 +35,7 @@ export const useAcoesSociais = () => {
         return "🛒";
       case "Refeições":
         return "🍽️";
-      case "roupas":
+      case "Doação Roupas":
         return "🧥";
       default:
         return "👨‍👩‍👧‍👦";
@@ -36,36 +44,44 @@ export const useAcoesSociais = () => {
 
   const getStatusInfo = (status: AcaoSocial["status"]): StatusInfo => {
     switch (status) {
-      case "ativa":
+      case "EM_ANDAMENTO":
         return { label: "Ativa", cor: "#10B981", icone: "🟢" };
-      case "concluida":
-        return { label: "Concluída", cor: "#6B7280", icone: "✅" };
+      case "CONCLUIDA":
+        return { label: "Concluída", cor: "#6B7280", icone: "⚫" };
+      case "PLANEJADA":
+        return { label: "Planejada", cor: "#3B82F6", icone: "🔵" };
       default:
         return { label: "Ativa", cor: "#10B981", icone: "🟢" };
     }
   };
 
-  const fetchAcoes = async (page = 1) => {
-      setLoading(true);
-      try {
-          const output = await listarAcoes(page);
-          setAcoes(output.data);
-          setPagination({
-              ...pagination,
-              currentPage: output.currentPage,
-              totalItens: output.totalItens,
-              totalPages: output.totalPages
-          });
-      }  catch (error) {
-          showErrorToast({ title: "Erro ao carregar ações." });
-      } finally {
-          setLoading(false);
-      }
-  }
+  // fetchAcoes SEM dependências externas
+  const fetchAcoes = useCallback(async (page = 1) => {
+    setLoading(true);
+    try {
+      // Usar o ref para pegar o valor mais atualizado sem criar dependência
+      const output = await listarAcoes(page, filtroStatusRef.current);
+      setAcoes(output.data);
+      setPagination({
+        currentPage: output.currentPage,
+        totalItens: output.totalItens,
+        totalPages: output.totalPages,
+        itemsPerPage: 10
+      });
+    } catch (error) {
+      showErrorToast({ title: "Erro ao carregar ações." });
+    } finally {
+      setLoading(false);
+    }
+  }, [showErrorToast]); // Só depende de showErrorToast
 
   const onChangePage = useCallback(async (page: number) => {
     await fetchAcoes(page);
-  }, []);
+  }, [fetchAcoes]);
+
+  useEffect(() => {
+    fetchAcoes(1);
+  }, [filtroStatus]); // Só depende do filtroStatus
 
   return {
     loading,

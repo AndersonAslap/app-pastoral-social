@@ -43,20 +43,22 @@ export function AcoesItensAcaoSection({
                     ))
                 }
 
-                <Divider mt="$2" />
+                
             </VStack>
             
             {/* Contador de itens selecionados */}
             {itensSelecionadosCount > 0 && (
-                <HStack
-                    mt="$2" 
-                    p="$3" 
-                    bg="$green50" 
-                    borderRadius="$lg"
-                    borderWidth={1}
-                    borderColor="$green200"
-                    justifyContent="space-between"
-                >
+                <>
+                    <Divider mt="$2" />
+                    <HStack
+                        mt="$2" 
+                        p="$3" 
+                        bg="$green50" 
+                        borderRadius="$lg"
+                        borderWidth={1}
+                        borderColor="$green200"
+                        justifyContent="space-between"
+                    >
                     <Text fontSize="$sm" color="$green700">
                         Itens selecionados:
                     </Text>
@@ -64,6 +66,8 @@ export function AcoesItensAcaoSection({
                         {itensSelecionadosCount}
                     </Text>
                 </HStack>
+                </>
+                
             )}
         </VStack>
     );

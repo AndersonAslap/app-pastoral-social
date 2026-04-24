@@ -36,7 +36,6 @@ const listarFamiliaService = async (page = 1) : Promise<any> => {
       data: parseData
     };
   } catch (error) {
-    console.log(error);
     logger.error(`listarFamiliaService`, `Error ao listar famílias`, error);
     throw error;
   }

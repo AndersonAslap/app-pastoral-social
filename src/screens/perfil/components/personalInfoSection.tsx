@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, VStack, HStack, Box } from "@gluestack-ui/themed";
-import { User, Mail } from "lucide-react-native";
+import { User, Mail, Phone } from "lucide-react-native";
 import { Input } from "@components/index";
 import { PerfilFormProps } from '@tipagens/perfil';
 
@@ -20,7 +20,7 @@ export const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({
       </Text>
       
       <Box bg="$backgroundLight0" p="$5" borderRadius="$2xl">
-        <VStack gap="$4">
+        <VStack gap="$3">
           {/* Campo Nome */}
           <VStack gap="$2">
             <HStack space="sm" alignItems="center">
@@ -33,7 +33,23 @@ export const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({
               placeholder="Digite seu nome completo"
               value={form.nome}
               onChangeText={(text: string) => onFormChange("nome", text)}
-              size="md"
+              size="sm"
+            />
+          </VStack>
+
+          {/* Campo Telefone */}
+          <VStack gap="$2">
+            <HStack space="sm" alignItems="center">
+              <Phone size={16} color="#3b82f6" />
+              <Text size="sm" fontWeight="$medium" color="$textDark700">
+                Telefone
+              </Text>
+            </HStack>
+            <Input
+              placeholder="Digite seu telefone"
+              value={form.telefone}
+              onChangeText={(text: string) => onFormChange("telefone", text)}
+              size="sm"
             />
           </VStack>
 

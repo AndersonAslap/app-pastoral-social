@@ -81,10 +81,14 @@ export function AcoesCadastrar() {
                     onQuantidadeChange={handleProdutoChangeQuantidade}
                 />
 
-                <InfoTip
-                    title="Organização da ação social"
-                    description="Selecione todos os itens que serão distribuídos. Você pode ajustar as quantidades posteriormente no controle de estoque."
-                />
+                {
+                    /*
+                        <InfoTip
+                            title="Organização da ação social"
+                            description="Selecione todos os itens que serão distribuídos. Você pode ajustar as quantidades posteriormente no controle de estoque."
+                        />
+                    */
+                }   
 
                 <VStack space="md" mt="$4" pb="$4">
                     <HStack space="md">

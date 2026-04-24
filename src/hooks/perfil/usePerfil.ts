@@ -7,15 +7,17 @@ import { MESSAGES_ERROR } from "@utils/constantes";
 import { atualizarPerfil } from "../../services/perfil";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { Masks } from "@utils/masks";
 
 export const usePerfil = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { showErrorToast, showSuccessToast } = useAppToast();
   const { user } = useAuth();
-  const { nome, nickName } = user;
+  const { nome, nickName, telefone } = user;
 
   const [form, setForm] = useState<PerfilFormData>({
     nome: nome || "",
+    telefone: Masks.phone(telefone?.replace("55", "")) || "",
     nickName: nickName ||"",
     novaSenha: "",
     confirmarSenha: ""
@@ -26,6 +28,8 @@ export const usePerfil = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (field: keyof PerfilFormData, value: string) => {
+    if (field === "telefone") value = Masks.phone(value);
+
     setForm(prev => ({
       ...prev,
       [field]: value
@@ -35,7 +39,7 @@ export const usePerfil = () => {
   const handleSubmit = async () => {
     setFormSubmitting(true);
     try {
-      const payload = { ...form };
+      const payload = { ...form, telefone: "55" + Masks.unmask(form.telefone) };
 
       if (payload.novaSenha !== "" && payload.novaSenha !== payload.confirmarSenha) {
         showErrorToast({ title: "As senhas não coincidem!" });

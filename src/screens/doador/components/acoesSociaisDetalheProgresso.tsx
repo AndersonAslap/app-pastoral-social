@@ -36,7 +36,7 @@ export const AcoesSociaisDetalheProgresso: React.FC<AcoesSociaisDetalheProgresso
             width={`${parseInt(acao.percentualRecebido)}%`}
           />
         </Box>
-        
+
         <HStack justifyContent="space-between">
           <Text fontSize="$sm" color="$textDark500">
             {acao.percentualRecebido}% da meta alcançada

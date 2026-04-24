@@ -11,10 +11,10 @@ const cadastrarAcao = async (payload: any) => {
     }
 }
 
-const listarAcoes = async (page: number) : Promise<any> => {
+const listarAcoes = async (page: number, status?: string) : Promise<any> => {
   try {
     let parseData: any[] = [];
-    const response = await api.get(`/acao/listar?page=${page}`);
+    const response = await api.get(`/acao/listar?page=${page}${status ? `&statusAcao=${status}` : ''}`);
     const { data } = response.data;
     const { result, paginaAtual, totalItens, totalPaginas } = data;
     if (result && Array.isArray(result)) {
@@ -47,12 +47,14 @@ const listarAcoesPorId = async (id: number) : Promise<any> => {
         itensRecebidos: data.itensRecebidos ? data.itensRecebidos : 0,
         qtdDoadores: data.qtdDoadores ? data.qtdDoadores : 0,
 
+        
+
         imagem: getImage(data.tipoAcao),
         responsavel: "Pastoral Social - Paróquia São Francisco",
         telefone: "(11) 9999-9999",
         email: "contato@pastoralsocial.org",
 
-        beneficiarios: "Famílias em situação de vulnerabilidade social cadastradas no programa",
+        beneficiarios: "Famílias em situação de vulnerabilidade assistidas pela pastoral",
         impacto: "185 famílias beneficiadas mensalmente",
 
         itens: data.itens ? data.itens.map((item: any) => `${item.nomeProduto} (${item.unidadeMedida}) - (${item.nivelNecessidadeDoacao === "CRITICAL" ? "CRÍTICO" : item.nivelNecessidadeDoacao === "HIGH" ? "ALTO" : "MODERADO"})`) : [],

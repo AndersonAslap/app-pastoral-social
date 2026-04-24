@@ -109,16 +109,6 @@ export function useAjudaListagem() {
   const handleAprovar = useCallback(async (idAjuda: number) => {
     try {
       await aprovarAjuda(idAjuda);
-
-      // atualização leve ao invés de refetch completo
-      setItems(prev =>
-        prev.map(item =>
-          item.id === idAjuda
-            ? { ...item, status: "APROVADO" }
-            : item
-        )
-      );
-
     } catch (error) {
       const isAppError = error instanceof AppError;
 

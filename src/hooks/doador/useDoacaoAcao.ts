@@ -90,6 +90,7 @@ export const useDoacaoAcao = () => {
     try {
       const payload = {
         ...formData,
+        itensProduto: produtosSelecionados.map(item => ({ itemProdutoId: item.itemProdutoId, quantidade: item.quantidade }))
       };
 
       if (!formValidate(payload)){
@@ -105,10 +106,10 @@ export const useDoacaoAcao = () => {
       const payloadToSubmit = {
         idAcao: payload.idAcao,
         tipoDoacao: "PRODUTO",
-        dataEntrega: payload.dataEntrega.toString().split("T")[0],
+        dataEntrega: payload.dataEntrega,
         doador: {
           nomeDoador: payload.nome,
-          telefone: unmask(payload.telefone)
+          telefone: "55" + unmask(payload.telefone)
         },
         itensProduto: payload.itensProduto.map((item: any) => ({
           idItemProduto: parseInt(item.itemProdutoId),
@@ -124,7 +125,9 @@ export const useDoacaoAcao = () => {
       console.error("Erro ao processar doação:", error);
       showErrorToast({title: "Ocorreu um erro ao processar sua doação. Por favor, tente novamente."});
       return;
-    } 
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleProdutoToggle = (produtoId: number) => {
@@ -136,12 +139,6 @@ export const useDoacaoAcao = () => {
               return [...prev, { itemProdutoId: produtoId, quantidade: 1 }];
           }
       });
-  
-      
-      setFormData(prevForm => ({
-          ...prevForm,
-          itensProduto: produtosSelecionados.map(item => ({ itemProdutoId: item.itemProdutoId, quantidade: item.quantidade }))
-      }));
     }
   
     const handleProdutoChangeQuantidade = (produtoId: number, quantidade: number) => {
@@ -155,12 +152,6 @@ export const useDoacaoAcao = () => {
                 return [...prev, { itemProdutoId: produtoId, quantidade }];
             }
         });
-  
-        
-        setFormData(prevForm => ({
-            ...prevForm,
-            itensProduto: produtosSelecionados.map(item => ({ itemProdutoId: item.itemProdutoId, quantidade: item.quantidade }))
-        }));
     }
   
 

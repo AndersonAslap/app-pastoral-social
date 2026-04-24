@@ -35,8 +35,8 @@ export const DoadorListagemAcoes: React.FC = () => {
     navigation.navigate("doacaoAcao", { id: acaoId });
   };
 
-  const handleVerTodas = () => {
-    setFiltroStatus("todas");
+  const handlerSejaDoador = () => {
+    navigation.navigate("sejaDoadorForm");
   };
 
   useFocusEffect(
@@ -71,9 +71,10 @@ export const DoadorListagemAcoes: React.FC = () => {
                 <AcoesSociaisCard
                   key={item.id}
                   acao={item}
-                  statusInfo={getStatusInfo(item.status)}
+                  statusInfo={getStatusInfo(item.statusAcao)}
                   onVerDetalhes={handleVerDetalhes}
                   onDoarItens={handleDoarItens}
+                  onHandleSejaDoador={handlerSejaDoador}
                 />
               )}
               showsVerticalScrollIndicator={false}
@@ -81,7 +82,6 @@ export const DoadorListagemAcoes: React.FC = () => {
               ListEmptyComponent={
                 <AcoesSociaisEmptyState
                   filtroStatus={filtroStatus}
-                  onVerTodas={handleVerTodas}
                 />
               }
               ListFooterComponent={

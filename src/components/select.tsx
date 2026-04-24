@@ -12,7 +12,8 @@ import {
     Text 
 } from "@gluestack-ui/themed";
 import { ChevronDownIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Platform } from "react-native";
 
 interface CustomSelectProps {
     options: { label: string, value: string, isDisabled?: boolean }[];
@@ -36,13 +37,13 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     onValueChange
 }) => {
     const [displayValue, setDisplayValue] = useState("");
-    const [forceRender, setForceRender] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+    const triggerRef = useRef<any>(null);
 
     // Atualiza o display value baseado no selectedValue
     useEffect(() => {
         if (selectedValue === "" || selectedValue === undefined) {
             setDisplayValue("");
-            setForceRender(prev => prev + 1); // Force reset
         } else {
             const selectedOption = options.find(opt => opt.value === selectedValue);
             setDisplayValue(selectedOption?.label || "");
@@ -53,20 +54,23 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         const selectedOption = options.find(opt => opt.value === value);
         setDisplayValue(selectedOption?.label || "");
         onValueChange(value);
+        setIsOpen(false);
     };
 
-    // Key para forçar rerender quando necessário
-    const selectKey = `select-${forceRender}-${selectedValue || 'empty'}`;
-
     return (
-        <Box key={selectKey}>
+        <Box>
             <Select 
-                px="$1" 
                 onValueChange={handleValueChange}
                 selectedValue={selectedValue || ""}
+                isOpen={isOpen}
+                onOpen={() => setIsOpen(true)}
+                onClose={() => setIsOpen(false)}
             >
-                <SelectTrigger variant={variant} size={size}>
-                    {/* Input customizado que mostra o label */}
+                <SelectTrigger 
+                    variant={variant} 
+                    size={size}
+                    ref={triggerRef}
+                >
                     <Box flex={1} px="$2" justifyContent="center" minHeight={40}>
                         <Text color={displayValue ? "$textDark800" : "$textDark500"}>
                             {displayValue || placeholder}
@@ -74,12 +78,34 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     </Box>
                     <SelectIcon as={ChevronDownIcon} mr="$3" />
                 </SelectTrigger>
+                
                 <SelectPortal>
                     <SelectBackdrop />
-                    <SelectContent>
+                    <SelectContent
+                        // Força o alinhamento inferior
+                        placement="top"
+                        // Para web, usa posicionamento fixo
+                        {...(Platform.OS === 'web' && {
+                            style: {
+                                position: 'fixed',
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                top: 'auto',
+                                maxHeight: '80%',
+                                transform: 'translateY(0)',
+                            }
+                        })}
+                        // Para mobile, força a âncora na parte inferior
+                        {...(Platform.OS !== 'web' && {
+                            anchorPosition: 'bottom',
+                        })}
+                        pb="$16"
+                    >
                         <SelectDragIndicatorWrapper>
                             <SelectDragIndicator />
                         </SelectDragIndicatorWrapper>
+                        
                         {options.map((option) => (
                             <SelectItem
                                 key={option.value}

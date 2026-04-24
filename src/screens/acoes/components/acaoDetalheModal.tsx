@@ -150,7 +150,7 @@ export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
                     </HStack>
                 </ModalHeader>
                 
-                <ModalBody px="$4" py="$6">
+                <ModalBody px="$4" py="$6" mb="$16">
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <VStack space="lg">
                             {/* Título e Tipo */}
@@ -328,33 +328,6 @@ export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
                         </VStack>
                     </ScrollView>
                 </ModalBody>
-
-                <ModalFooter 
-                    backgroundColor="$backgroundLight50" 
-                    borderBottomLeftRadius="$3xl" 
-                    borderBottomRightRadius="$3xl"
-                >
-                    <HStack space="sm" width="100%">
-                        <Button 
-                            flex={1} 
-                            size="md" 
-                            variant="outline" 
-                            bg="$white"
-                            onPress={onClose}
-                            borderWidth={1}
-                            borderColor="$borderLight300"
-                        >
-                            <ButtonText color="$textDark600">Fechar</ButtonText>
-                        </Button>
-                        
-                        {/* Botões condicionais baseados no status da ação - descomente quando tiver a lógica */}
-                        {/* {acao.status === 'EM_ANDAMENTO' && (
-                            <Button flex={1} size="md" bg={tipoConfig.color} onPress={onRegistrarEntrega}>
-                                <ButtonText color="$white">Registrar Progresso</ButtonText>
-                            </Button>
-                        )} */}
-                    </HStack>
-                </ModalFooter>
             </ModalContent>
         </Modal>
     );

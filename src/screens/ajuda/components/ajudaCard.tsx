@@ -63,7 +63,7 @@ export const AjudaCard = ({
           <HStack space="sm" alignItems="center">
             <Package size={14} color="#64748b" />
             <Text size="sm" color="$textDark600" fontWeight="$medium">
-              {item.tipoAjuda}
+              {item.tipoAjuda} {item?.cesta?.identificadorCesta && ` - ${item.cesta.identificadorCesta}`}
             </Text>
           </HStack>
         </VStack>

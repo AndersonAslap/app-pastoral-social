@@ -45,6 +45,30 @@ export function AjudaListagem() {
       }, [])
   );
 
+  const onHandleAprovar = async (idAjuda: number) => {
+    await handleAprovar(idAjuda);
+
+    setTimeout(async () => {
+      if (items.length > 1) {
+        await fetchAjudas(pagination.currentPage);
+      } else {
+        await fetchAjudas();
+      }
+    }, 0); 
+  }
+
+  const onHandleCancelar = async (idAjuda: number) => {
+    await handleCancelar(idAjuda);
+
+    setTimeout(async () => {
+      if (items.length > 1) {
+        await fetchAjudas(pagination.currentPage);
+      } else {
+        await fetchAjudas();
+      }
+    }, 0); 
+  }
+
   return (
     <View flex={1} bg="$blue100">
       <ScreenHeader title="Ajudas" />
@@ -66,7 +90,7 @@ export function AjudaListagem() {
               <HeaderList
                 labelButtonPlus="Nova ajuda"
                 onSetShowFilter={setIsFilterOpen}
-                showIconFilter={true}
+                showIconFilter={false}
                 onPress={handleOpenAjudaCadastrar}
               />
 
@@ -77,8 +101,8 @@ export function AjudaListagem() {
                   <AjudaCard
                     item={item}
                     onAbrirDetalhes={handleAbrirDetalhes}
-                    onCancelar={handleCancelar}
-                    onAprovar={handleAprovar}
+                    onCancelar={onHandleCancelar}
+                    onAprovar={onHandleAprovar}
                     onRealizada={handleRealizada}
                   />
                 )}

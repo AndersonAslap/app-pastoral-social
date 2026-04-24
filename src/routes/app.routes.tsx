@@ -58,14 +58,13 @@ export function AppRoutes() {
         <Navigator
             screenOptions={{
                 headerShown: false,
-                tabBarShowLabel: true,
+                tabBarShowLabel: false,
                 tabBarActiveTintColor: tokens.colors.blue500,
                 tabBarInactiveTintColor: tokens.colors.gray200,
                 tabBarStyle: {
                     borderTopWidth: 0,
-                    height: Platform.OS === "android" ? "auto" : 96,
-                    paddingBottom: tokens.space["10"],
-                    paddingTop: tokens.space["6"]
+                    height: Platform.OS === "android" ? 100 : 96,
+                    paddingBottom: tokens.space["8"]
                 }
             }}
         >

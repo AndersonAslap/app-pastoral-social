@@ -112,10 +112,6 @@ export const DoacaoAcao: React.FC = () => {
           onPress={handleSubmit}
           submitting={submitting}
         />
-
-        <Text fontSize="$xs" color="$textDark500" textAlign="center" px="$4">
-          * Campos obrigatórios. Após o envio, entraremos em contato para confirmar os detalhes.
-        </Text>
       </VStack>
         )
       }

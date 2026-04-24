@@ -10,13 +10,15 @@ interface AcoesSociaisCardProps {
   statusInfo: StatusInfo;
   onVerDetalhes: (acao: AcaoSocial) => void;
   onDoarItens: (id: number) => void;
+  onHandleSejaDoador: () => void;
 }
 
 export const AcoesSociaisCard: React.FC<AcoesSociaisCardProps> = ({
   acao,
   statusInfo,
   onVerDetalhes,
-  onDoarItens
+  onDoarItens,
+  onHandleSejaDoador
 }) => {
 
   const { getImage } = useAcoesSociais();
@@ -59,22 +61,13 @@ export const AcoesSociaisCard: React.FC<AcoesSociaisCardProps> = ({
               >
                 {acao.titulo}
               </Text>
-              <Box
-                bg="$white"
-                px="$2"
-                py="$1"
-                borderRadius="$full"
-                borderWidth={1}
-                borderColor={statusInfo.cor}
-              >
-                <Text 
+              <Text 
                   fontSize="$2xs" 
                   fontWeight="$bold" 
                   color={statusInfo.cor}
                 >
-                  {statusInfo.icone} {statusInfo.label}
+                  {statusInfo.icone}
                 </Text>
-              </Box>
             </HStack>
             
             <Text 
@@ -87,55 +80,62 @@ export const AcoesSociaisCard: React.FC<AcoesSociaisCardProps> = ({
           </VStack>
         </HStack>
 
-        {/* Item e Progresso */}
-        <VStack gap="$2">
-          <Text fontSize="$md" fontWeight="$bold" color="$textDark900">
-            {acao.titulo}
-          </Text>
-          
-          <HStack justifyContent="space-between" alignItems="center">
-            <Text fontSize="$lg" fontWeight="$bold" color="$primary600">
-              {formatarNumero(acao.itensRecebidos)}/{formatarNumero(acao.totalAcaoSocial)}
-            </Text>
-            <HStack alignItems="center" gap="$1" bg="$blue50" px="$2" py="$1" borderRadius="$md">
-              <Package size={14} color="#3B82F6" />
-              <Text fontSize="$sm" fontWeight="$medium" color="$primary600">
-                {acao.percentualRecebido}%
-              </Text>
-            </HStack>
-          </HStack>
-          
-          {/* Barra de Progresso */}
-          <Box bg="$trueGray200" borderRadius="$full" height="$2">
-            <Box 
-              bg={acao.status === "concluida" ? "#10B981" : "$primary500"} 
-              borderRadius="$full" 
-              height="$2"
-              width={`${parseInt(acao.percentualRecebido)}%`}
-            />
-          </Box>
-        </VStack>
+        {acao.statusAcao === "EM_ANDAMENTO" && (
+              /* Item e Progresso */
+              <VStack gap="$2">
+                <Text fontSize="$md" fontWeight="$bold" color="$textDark900">
+                  {acao.titulo}
+                </Text>
+                
+                <HStack justifyContent="space-between" alignItems="center">
+                  <Text fontSize="$lg" fontWeight="$bold" color="$primary600">
+                    {acao.itensGerados}
+                  </Text>
+                  <HStack alignItems="center" gap="$1" bg="$blue50" px="$2" py="$1" borderRadius="$md">
+                    <Package size={14} color="#3B82F6" />
+                    <Text fontSize="$sm" fontWeight="$medium" color="$primary600">
+                      {acao.percentualRecebido}%
+                    </Text>
+                  </HStack>
+                </HStack>
+                
+                {/* Barra de Progresso */}
+                <Box bg="$trueGray200" borderRadius="$full" height="$2">
+                  <Box 
+                    bg={acao.status === "concluida" ? "#10B981" : "$primary500"} 
+                    borderRadius="$full" 
+                    height="$2"
+                    width={`${parseInt(acao.percentualRecebido)}%`}
+                  />
+                </Box>
+              </VStack>
+            )
+          }
 
         {/* Estatísticas e Informações */}
-        <VStack gap="$2">
-          <HStack justifyContent="space-between">
-            <Text fontSize="$sm" color="$textDark500">
-              {formatarNumero(acao.itensRecebidos)} itens recebidos
-            </Text>
-            <Text fontSize="$sm" color="$textDark500">
-              {acao.qtdDoadores} doadores
-            </Text>
-          </HStack>
-          
-          <HStack justifyContent="space-between" alignItems="center">
-            <HStack alignItems="center" gap="$1">
-              <Clock size={14} color="#6B7280" />
-              <Text fontSize="$sm" color="$textDark500">
-                Até {formatDate(acao.dataConclusaoAcao)}
-              </Text>
-            </HStack>
-          </HStack>
-        </VStack>
+              <VStack gap="$2">
+                {acao.statusAcao === "EM_ANDAMENTO" && (
+                  <HStack justifyContent="space-between">
+                    <Text fontSize="$sm" color="$textDark500">
+                      {formatarNumero(acao.itensRecebidos)} itens recebidos
+                    </Text>
+                    <Text fontSize="$sm" color="$textDark500">
+                      {acao.qtdDoadores} doadores
+                    </Text>
+                  </HStack>
+                )}
+                
+                {acao.statusAcao !== "CONCLUIDA" && (
+                  <HStack justifyContent="space-between" alignItems="center">
+                    <HStack alignItems="center" gap="$1">
+                      <Clock size={14} color="#6B7280" />
+                      <Text fontSize="$sm" color="$textDark500">
+                        Até {formatDate(acao.dataConclusaoAcao)}
+                      </Text>
+                    </HStack>
+                  </HStack>
+                )}
+              </VStack>
 
         {/* Botões de Ação - Apenas para ações ativas */}
         {true && (
@@ -170,36 +170,75 @@ export const AcoesSociaisCard: React.FC<AcoesSociaisCardProps> = ({
               )}
             </Pressable>
 
-            <Pressable
-              flex={1}
-              onPress={() => onDoarItens(acao.id)}
-            >
-              {({ pressed }) => (
-                <Box
-                  bg="$primary500"
-                  borderRadius="$lg"
-                  py="$3"
-                  alignItems="center"
-                  justifyContent="center"
-                  flexDirection="row"
-                  gap="$2"
-                  style={{
-                    transform: [{ scale: pressed ? 0.95 : 1 }]
-                  }}
-                  /*transition="all 0.2s"*/
-                  shadowColor="$primary600"
-                >
-                  <Heart size={18} color="#FFFFFF" />
-                  <Text 
-                    fontSize="$sm" 
-                    fontWeight="$bold" 
-                    color="$white"
+              {
+                acao.statusAcao === "EM_ANDAMENTO" && (
+                  <Pressable
+                    flex={1}
+                    onPress={() => onDoarItens(acao.id)}
                   >
-                    Doar Itens
-                  </Text>
-                </Box>
-              )}
-            </Pressable>
+                    {({ pressed }) => (
+                      <Box
+                        bg="$primary500"
+                        borderRadius="$lg"
+                        py="$3"
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="row"
+                        gap="$2"
+                        style={{
+                          transform: [{ scale: pressed ? 0.95 : 1 }]
+                        }}
+                        /*transition="all 0.2s"*/
+                        shadowColor="$primary600"
+                      >
+                        <Heart size={18} color="#FFFFFF" />
+                        <Text 
+                          fontSize="$sm" 
+                          fontWeight="$bold" 
+                          color="$white"
+                        >
+                          Doar Itens
+                        </Text>
+                      </Box>
+                    )}
+                  </Pressable>
+                )
+              }
+
+              {
+                acao.statusAcao === "PLANEJADA" && (
+                  <Pressable
+                    flex={1}
+                    onPress={() => onHandleSejaDoador()}
+                  >
+                    {({ pressed }) => (
+                      <Box
+                        bg="$primary500"
+                        borderRadius="$lg"
+                        py="$3"
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="row"
+                        gap="$2"
+                        style={{
+                          transform: [{ scale: pressed ? 0.95 : 1 }]
+                        }}
+                        /*transition="all 0.2s"*/
+                        shadowColor="$primary600"
+                      >
+                        <Heart size={18} color="#FFFFFF" />
+                        <Text 
+                          fontSize="$sm" 
+                          fontWeight="$bold" 
+                          color="$white"
+                        >
+                          Seja doador
+                        </Text>
+                      </Box>
+                    )}
+                  </Pressable>
+                )
+              }
           </HStack>
         )}
       </VStack>

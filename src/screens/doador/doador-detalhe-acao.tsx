@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Loading, ScreenHeader } from "@components/index";
-import { VStack, ScrollView, Box } from "@gluestack-ui/themed";
+import { VStack, ScrollView, Box, Text, Pressable } from "@gluestack-ui/themed";
 import { AcoesSociaisDetalheHeader } from './components/acoesSociaisDetalheHeader';
 import { AcoesSociaisDetalheProgresso } from './components/acoesSociaisDetalheProgresso';
 import { InformacoesAcao } from './components/informacoesAcoes';
@@ -45,6 +45,10 @@ export const DoadorDetalheAcao: React.FC = () => {
     }, [])
   );
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -53,38 +57,62 @@ export const DoadorDetalheAcao: React.FC = () => {
       flex={1}
     >
       <ScreenHeader title="Detalhes da Ação" />
-      <Box mt="$4" mx="$4" mb="$6" bg="$white" borderRadius="$2xl">
-        
-      
+      <Box flex={1} bg="$blue50">
       {
         isLoading 
         ? <Loading /> 
         : acao && (
           <VStack
             flex={1}
-            bg="$blue50"
-            borderTopLeftRadius="$3xl"
-            borderTopRightRadius="$3xl"
             px="$6"
             pt="$8"
-            pb="$8"
+            pb="$16"
             gap="$6"
           >
             <AcoesSociaisDetalheHeader acao={acao} />
-            
-            <AcoesSociaisDetalheProgresso 
-              acao={acao} 
-            />
 
+            {acao.statusAcao === "EM_ANDAMENTO" && (
+              <AcoesSociaisDetalheProgresso acao={acao} />   
+            )}
+            
             <InformacoesAcao
               acao={acao} 
             />
 
-            <AcoesSociaisDetalheItensCesta acao={acao} />
+            {acao.statusAcao !== "CONCLUIDA" && (acao.tipoAcao === "Cestas Básicas" || acao.tipoAcao === "Refeições") && (
+              <AcoesSociaisDetalheItensCesta acao={acao} />
+            )}
 
             <ImpactoSocial acao={acao} />
 
-            <BotaoDoacao onPress={handleDoar} />
+            {acao.statusAcao === "EM_ANDAMENTO" && <BotaoDoacao onPress={handleDoar} />}
+            {acao.statusAcao !== "EM_ANDAMENTO" && (
+              <Pressable onPress={handleGoBack} mt="$4">
+                    {({ pressed }) => (
+                      <Box
+                        bg="$primary500"
+                        borderRadius="$xl"
+                        py="$4"
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="row"
+                        gap="$3"
+                        style={{
+                          transform: [{ scale: pressed ? 0.95 : 1 }]
+                        }}
+                        /*transition="all 0.2s"*/
+                      >
+                        <Text
+                          fontSize="$lg" 
+                          fontWeight="$bold" 
+                          color="$white"
+                        >
+                          Fechar
+                        </Text>
+                      </Box>
+                    )}
+                  </Pressable>
+            )}
           </VStack>
         )
       }

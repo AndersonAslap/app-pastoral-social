@@ -60,7 +60,16 @@ const cancelarCesta = async (idCesta: number) => {
   try {
     await api.post("/cestas/cancelar", {idCesta});
   } catch (error) {
-    logger.error(`cancelarCestaService`, `Error ao entregar ajuda`, error);
+    logger.error(`cancelarCestaService`, `Error ao cancelar cesta`, error);
+    throw error;
+  }
+}
+
+const entregarCesta = async (idCesta: number) => {
+  try {
+    await api.post("/cestas/cancelar", {idCesta});
+  } catch (error) {
+    logger.error(`cancelarCestaService`, `Error ao cancelar cesta`, error);
     throw error;
   }
 }

@@ -101,11 +101,6 @@ export function AjudaCadastrar() {
                                                 />
                                             </VStack>
 
-                                            <InfoTip
-                                                title="Dica importante"
-                                                description="Preencha todas as informações com atenção para garantir o registro correto da ajuda familiar."
-                                            />
-
                                             <VStack space="md" mt="$4" pb="$4">
                                                 <HStack space="md">
                                                     <ButtonCancel 
