@@ -130,6 +130,13 @@ export const AcoesSociaisCard: React.FC<AcoesSociaisCardProps> = ({
                     <HStack alignItems="center" gap="$1">
                       <Clock size={14} color="#6B7280" />
                       <Text fontSize="$sm" color="$textDark500">
+                        De {formatDate(acao.inicioAcao)}
+                      </Text>
+                    </HStack>
+
+                    <HStack alignItems="center" gap="$1">
+                      <Clock size={14} color="#6B7280" />
+                      <Text fontSize="$sm" color="$textDark500">
                         Até {formatDate(acao.dataConclusaoAcao)}
                       </Text>
                     </HStack>

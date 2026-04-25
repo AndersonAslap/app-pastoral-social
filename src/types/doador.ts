@@ -5,6 +5,7 @@ export interface AcaoSocial {
   tipoAcao: string;
   totalAcaoSocial: number;
   dataConclusaoAcao: string;
+  inicioAcao: string;
   percentualRecebido: string;
   itensRecebidos: number;
   qtdDoadores: number;

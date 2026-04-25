@@ -119,13 +119,6 @@ export const CestaCard = ({ cesta, onDetalhes, onCancelar, onEntregar }: CestaCa
             <ButtonText color="white" ml="$1">Cancelar</ButtonText>
           </Button>
         )}
-        
-        {cesta.status === 'RESERVADA' && (
-          <Button size="sm" bg="$green600" onPress={() => onEntregar(cesta.idCesta)}>
-            <Truck size={14} color="white" />
-            <ButtonText color="white" ml="$1">Entregar</ButtonText>
-          </Button>
-        )}
       </HStack>
 
       <ConfirmationDialog

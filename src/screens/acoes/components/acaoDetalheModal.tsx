@@ -200,7 +200,24 @@ export const AcaoDetalheModal: React.FC<AcaoDetalheModalProps> = ({
                                     <Text fontSize="$xs" color="$textDark500">pessoas</Text>
                                 </Box>
 
-                                {/* Data de Conclusão */}
+                                {/* Data de Início */}
+                                <Box 
+                                    flex={1} 
+                                    bg="$backgroundLight50" 
+                                    p="$3" 
+                                    borderRadius="$lg"
+                                    borderWidth={1}
+                                    borderColor="$borderLight200"
+                                >
+                                    <HStack space="sm" alignItems="center" mb="$1">
+                                        <Calendar size={16} color="#6B7280" />
+                                        <Text fontSize="$xs" color="$textDark600">Início</Text>
+                                    </HStack>
+                                    <Text fontSize="$sm" fontWeight="$bold" color="$textDark800">
+                                        {formatDate(acao.inicioAcao)}
+                                    </Text>
+                                </Box>
+
                                 <Box 
                                     flex={1} 
                                     bg="$backgroundLight50" 

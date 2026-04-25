@@ -48,7 +48,7 @@ export const AcoesCard = ({ acao, onAbrirDetalhes, onEditar }: AcoesCardProps) =
       </HStack>
 
       {/* Informações da Ação */}
-      <AcoesInfo data={acao.dataConclusaoAcao} local={acao.tipoAcao} />
+      <AcoesInfo data={acao.dataConclusaoAcao} inicioAcao={acao.inicioAcao} local={acao.tipoAcao} />
 
       {/* Itens para Arrecadar */}
       <AcoesItensArrecadacao itens={acao.itens} />

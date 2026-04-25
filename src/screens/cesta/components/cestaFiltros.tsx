@@ -8,7 +8,7 @@ interface FiltroItem {
 const filtros: FiltroItem[] = [
   { label: "Criadas", value: "CRIADA" },
   { label: "Reservadas", value: "RESERVADA" },
-  { label: "Canceladas", value: "CANCELADA" }
+  /*{ label: "Canceladas", value: "CANCELADA" }*/
 ];
 
 interface CestaFiltrosProps {

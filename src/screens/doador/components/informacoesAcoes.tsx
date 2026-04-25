@@ -50,7 +50,7 @@ export const InformacoesAcao: React.FC<InformacoesAcaoProps> = ({
                 Prazo para Doações
               </Text>
               <Text fontSize="$sm" color="$textDark600">
-                Até {formatDate(acao.dataConclusaoAcao)}
+                De {formatDate(acao.inicioAcao)} até {formatDate(acao.dataConclusaoAcao)}
               </Text>
             </VStack>
           </HStack>
