@@ -2,6 +2,7 @@ import { Box, VStack, HStack, Text, Button, ButtonText, Badge, BadgeText } from 
 import { Package, MapPin, Calendar, Trash2, Barcode } from "lucide-react-native";
 import { getExpiryConfig } from "../../../helper/estoque.helper";
 import { formatDate } from "@utils/functions";
+import { Can } from "@components/can";
 
 type Product = {
     id: number
@@ -91,23 +92,25 @@ export const ProductoCardItemDetalhe = ({ product, productName, onDelete }: Prod
             </HStack>
 
             {/* Botão de Exclusão */}
-            <Button
-                onPress={() => onDelete(product)}
-                size="sm"
-                variant="outline"
-                action="negative"
-                borderColor="$red300"
-                mt="$3"
-                $hover={{
-                    borderColor: "$red400",
-                    bg: "$red50"
-                }}
-            >
-                <Trash2 size={14} color="#DC2626" />
-                <ButtonText color="$red600" ml="$2" fontSize="$sm">
-                    Excluir
-                </ButtonText>
-            </Button>
+            <Can permission="deletar_estoque">
+                <Button
+                    onPress={() => onDelete(product)}
+                    size="sm"
+                    variant="outline"
+                    action="negative"
+                    borderColor="$red300"
+                    mt="$3"
+                    $hover={{
+                        borderColor: "$red400",
+                        bg: "$red50"
+                    }}
+                >
+                    <Trash2 size={14} color="#DC2626" />
+                    <ButtonText color="$red600" ml="$2" fontSize="$sm">
+                        Excluir
+                    </ButtonText>
+                </Button>
+            </Can>
         </Box>
     );
 };

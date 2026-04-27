@@ -74,12 +74,16 @@ export function AcoesCadastrar() {
                     fieldState={fieldState}
                 />
 
-                <AcoesItensAcaoSection
-                    produtos={produtos}
-                    produtosSelecionados={produtosSelecionados}
-                    onProdutoToggle={handleProdutoToggle}
-                    onQuantidadeChange={handleProdutoChangeQuantidade}
-                />
+                {
+                    (form.tipoAcao !== "DOACAO_ROUPA") && (
+                        <AcoesItensAcaoSection
+                            produtos={produtos}
+                            produtosSelecionados={produtosSelecionados}
+                            onProdutoToggle={handleProdutoToggle}
+                            onQuantidadeChange={handleProdutoChangeQuantidade}
+                        />
+                    )
+                }
 
                 {
                     /*

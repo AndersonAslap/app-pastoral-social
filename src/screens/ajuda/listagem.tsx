@@ -92,6 +92,7 @@ export function AjudaListagem() {
                 onSetShowFilter={setIsFilterOpen}
                 showIconFilter={false}
                 onPress={handleOpenAjudaCadastrar}
+                permission="associar_familia_ajuda"
               />
 
               <FlatList

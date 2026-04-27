@@ -63,6 +63,7 @@ const ModeloTemplateListagem: React.FC = () => {
           onSetShowFilter={setIsFilterOpen}
           showIconFilter={false}
           onPress={handleRedirectToModeloTemplateCadastrar}
+          permission="criar_modelo_template"
         />
 
         {/* Lista de Modelos de Cesta */}

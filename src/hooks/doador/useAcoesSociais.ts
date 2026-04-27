@@ -17,11 +17,6 @@ export const useAcoesSociais = () => {
   
   // Usar ref para armazenar o valor atual do filtro
   const filtroStatusRef = useRef(filtroStatus);
-  
-  // Atualizar ref quando filtro mudar
-  useEffect(() => {
-    filtroStatusRef.current = filtroStatus;
-  }, [filtroStatus]);
 
   const filtros: FiltroStatus[] = [
     { id: "EM_ANDAMENTO", nome: "Ações Ativas", icone: "🟢" },
@@ -79,9 +74,11 @@ export const useAcoesSociais = () => {
     await fetchAcoes(page);
   }, [fetchAcoes]);
 
+  // Atualizar ref quando filtro mudar
   useEffect(() => {
+    filtroStatusRef.current = filtroStatus;
     fetchAcoes(1);
-  }, [filtroStatus]); // Só depende do filtroStatus
+  }, [filtroStatus]);
 
   return {
     loading,

@@ -17,11 +17,14 @@ const listarAcoes = async (page: number, status?: string) : Promise<any> => {
     const response = await api.get(`/acao/listar?page=${page}${status ? `&statusAcao=${status}` : ''}`);
     const { data } = response.data;
     const { result, paginaAtual, totalItens, totalPaginas } = data;
-    if (result && Array.isArray(result)) {
-      parseData = result.map((acao: any) => ({...acao, id: acao.acaoId}));
+    if (result && Array.isArray(result.data)) {
+      parseData = result.data.map((acao: any) => ({...acao, id: acao.acaoId}));
     }
     return {
-      data: parseData, 
+      data: parseData,
+      statsPlanejadas: result.planejadas,
+      statsEmAndamento: result.emAndamento,
+      statsConcluidas: result.concluidas, 
       currentPage: paginaAtual,
       totalItens: totalItens,
       totalPages: totalPaginas  

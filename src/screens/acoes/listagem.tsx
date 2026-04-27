@@ -25,16 +25,15 @@ export const AcoesListagem = () => {
     pagination,
     onChangePage,
     handleAbrirDetalhes,
-    handleFecharDetalhes
+    handleFecharDetalhes,
+    statsAcoes,
+    acaoStatusFilter,
+    setAcaoStatusFilter
   } = useAcaoListagem();
 
   const EMPTY_STATE_CONFIG = useEmptyStateConfig('ação');
 
   const stats = calculateStats(items);
-
-  const handleFiltrar = () => {
-    console.log("Abrir filtros");
-  };
 
   const handleNovaAcao = () => {
     navigator.navigate("acoesCadastrar");
@@ -43,6 +42,16 @@ export const AcoesListagem = () => {
   const handleEditar = (acao: AcaoSocial) => {
     console.log("Editar ação:", acao);
   };
+
+  const getTitleMessage = () => {
+    if (acaoStatusFilter === "EM_ANDAMENTO")
+      return "Nenhuma ação em andamento";
+    if (acaoStatusFilter === "CONCLUIDA")
+      return "Nenhuma ação concluída";
+    if (acaoStatusFilter === "PLANEJADA")
+      return "Nenhuma ação planejada";
+    return "Nenhuma ação foi encontrada";
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -72,12 +81,10 @@ export const AcoesListagem = () => {
           : (
             <>
               <AcoesHeader
-                totalAcoes={stats.total}
-                onFiltrar={handleFiltrar}
                 onNovaAcao={handleNovaAcao}
               />
 
-              <AcoesStats stats={stats} />
+              <AcoesStats onStatPress={setAcaoStatusFilter} statusFilter={acaoStatusFilter} stats={statsAcoes} />
 
               <FlatList
                 data={items}
@@ -94,8 +101,8 @@ export const AcoesListagem = () => {
                 ListEmptyComponent={
                   <EmptyStateLottie
                     animationSource={EMPTY_STATE_CONFIG.animation}
-                    title={EMPTY_STATE_CONFIG.title}
-                    description={EMPTY_STATE_CONFIG.description}
+                    title={getTitleMessage()}
+                    description=""
                     py="$0"
                   />
                 }

@@ -59,6 +59,7 @@ export function EstoqueListagem() {
                 <HeaderList
                   labelButtonPlus="Novo produto"
                   onPress={handleClickGoRegisterProduct}
+                  permission="cadastrar_item_estoque"
                 />
 
                 <FlatList

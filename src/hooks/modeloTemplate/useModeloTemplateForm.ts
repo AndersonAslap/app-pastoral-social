@@ -149,7 +149,7 @@ export const useModeloTemplateForm = () => {
     setQtdGeracaoPossivelShow(false);
     setCalculatingGenerations(true);
     try {
-      const payload = { templateItens: [...form.templateItens] };
+      const payload = { templateItens: [...produtosSelecionados] };
       const quantidadePossivel = await consultaGeracaoTemplateService(payload);
       setForm(prev => ({ ...prev, qtdGeracaoPossivel: quantidadePossivel }));
       setQtdGeracaoPossivelShow(true);

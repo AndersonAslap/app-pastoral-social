@@ -5,6 +5,7 @@ import api from "../helper/api";
 import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from "@storage/storageAuthToken";
 import { storageUserGet, storageUserRemove, storageUserSave } from "@storage/storageUser";
 import { createContext, useEffect, useState } from "react";
+import { usePermissions } from "./permission.context";
 
 export type AuthContextDataProps = {
     user: UserDTO;
@@ -23,6 +24,7 @@ type AuthContextProviderProps = {
 }
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
+    const { setPermissions } = usePermissions();
     const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true);
     const [user, setUser] = useState<UserDTO>({} as UserDTO);
 
@@ -55,6 +57,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
             const response = await api.post("/security/login", { nickName, senha });
             const { data } = response.data;
             if (data.user && data.security) {
+                setPermissions(data.user.permissions);
                 await storageUserAndSecuritySave(data.user, data.security);
                 userAndSecurityUpdate(data.user, data.security);
             }

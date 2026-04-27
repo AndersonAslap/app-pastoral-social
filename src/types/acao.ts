@@ -13,10 +13,10 @@ export interface AcaoSocial {
   qtdDoadores: number;
   itensGerados: number;
   itens: string[];
+  statusAcao: string;
 }
 
 export interface AcaoSocialStats {
-  total: number;
   planejadas: number;
   emAndamento: number;
   concluidas: number;

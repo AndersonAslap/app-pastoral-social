@@ -2,6 +2,8 @@ import { VStack, HStack, Text, Pressable, Icon, Center, Box } from "@gluestack-u
 import { Package, Boxes, ShoppingBasket, BarChart2, User, Users, HomeIcon, HeartHandshakeIcon, Calendar } from "lucide-react-native";
 import { config } from "../../../../config/gluestack-ui.config";
 import { useNavigation } from "@react-navigation/native";
+import { Can } from "@components/can";
+import { Permission } from "@tipagens/permission";
 
 const actions = [
   {
@@ -10,7 +12,8 @@ const actions = [
     route: 'familiaListagem',
     color: "$primary600",
     bgColor: "$primary50",
-    description: "Gerenciar famílias cadastradas"
+    description: "Gerenciar famílias cadastradas",
+    permission: "listar_familia"
   },
   {
     label: "Produtos",
@@ -18,7 +21,8 @@ const actions = [
     route: 'estoqueListagem',
     color: "$emerald600",
     bgColor: "$emerald50",
-    description: "Controle de estoque"
+    description: "Controle de estoque",
+    permission: "listar_estoque"
   },
   {
     label: "Modelos",
@@ -26,7 +30,8 @@ const actions = [
     route: 'modeloTemplateListagem',
     color: "$orange600",
     bgColor: "$orange50",
-    description: "Modelos de cestas básicas"
+    description: "Modelos de cestas básicas",
+    permission: "listar_template"
   },
   {
     label: "Cestas",
@@ -34,7 +39,8 @@ const actions = [
     route: 'cestaListagem',
     color: "$purple600",
     bgColor: "$purple50",
-    description: "Cestas geradas"
+    description: "Cestas geradas",
+    permission: "listar_cesta"
   },
   {
     label: "Ajudas",
@@ -42,7 +48,8 @@ const actions = [
     route: 'ajudaListagem',
     color: "$pink600",        
     bgColor: "$pink50",       
-    description: "Solicitações e distribuições de ajuda"
+    description: "Solicitações e distribuições de ajuda",
+    permission: "listar_ajuda"
   },
   {
     label: "Ações",
@@ -50,7 +57,8 @@ const actions = [
     route: 'acoesListagem',
     color: "$amber600",        
     bgColor: "$amber50",
-    description: "Eventos e atividades programadas"
+    description: "Eventos e atividades programadas",
+    permission: null
   },
   /*{
     label: "Relatórios",
@@ -58,7 +66,8 @@ const actions = [
     route: 'relatorio',
     color: "$blue600",
     bgColor: "$blue50",
-    description: "Relatórios e estatísticas"
+    description: "Relatórios e estatísticas",
+    permission: "visualizar_relatorios"
   }*/
 ];
 
@@ -82,7 +91,8 @@ export default function HomeMenu() {
         
         <HStack flexWrap="wrap" justifyContent="space-between" gap="$4">
           {actions.map((item, index) => (
-            <Pressable
+            <Can key={index} permission={item.permission as Permission | null}>
+              <Pressable
               key={index}
               w="47%"
               minHeight="$24"
@@ -156,6 +166,7 @@ export default function HomeMenu() {
                 />
               </VStack>
             </Pressable>
+            </Can>
           ))}
         </HStack>
       </VStack>

@@ -1,6 +1,7 @@
 import { Box, VStack, HStack, Text, Button, ButtonText, Badge, BadgeText, ButtonIcon } from "@gluestack-ui/themed";
 import { Package, Eye } from "lucide-react-native";
 import { ModeloTemplateCesta } from "@tipagens/modeloTemplate";
+import { Can } from "@components/can";
 
 interface ModeloTemplateCestaCardProps {
   item: ModeloTemplateCesta;
@@ -75,17 +76,19 @@ export const ModeloTemplateCestaCard = ({
         </Button>
         
         {item.qtdPossivelGeracao > 0 && (
-          <Button 
-            size="sm" 
-            bg="$blue600"
-            flex={1}
-            onPress={onPressGerar}
-            /*isLoading={isGerandoCesta}*/
-          >
-            <ButtonText fontSize="$sm" color="$white">
-              {isGerandoCesta ? "Gerando..." : "Gerar Cestas"}
-            </ButtonText>
-          </Button>
+          <Can permission="gerar_cesta">
+            <Button 
+              size="sm" 
+              bg="$blue600"
+              flex={1}
+              onPress={onPressGerar}
+              /*isLoading={isGerandoCesta}*/
+            >
+              <ButtonText fontSize="$sm" color="$white">
+                {isGerandoCesta ? "Gerando..." : "Gerar Cestas"}
+              </ButtonText>
+            </Button>
+          </Can>
         )}
       </HStack>
     </Box>

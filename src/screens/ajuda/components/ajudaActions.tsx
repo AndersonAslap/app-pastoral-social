@@ -3,6 +3,7 @@ import { Eye, X, Check, CheckCircle } from "lucide-react-native";
 import { Help } from "@tipagens/ajuda";
 import { useState } from "react";
 import { ConfirmationDialog } from "@components/confirmation-dialog";
+import { Can } from "@components/can";
 
 interface AjudaActionsProps {
   item: Help;
@@ -66,50 +67,56 @@ export const AjudaActions = ({
       {/* Botões Condicionais por Status */}
       {item.statusAjuda === 'AGUARDANDO_APROVACAO' && (
         <>
-          <Button 
-            size="sm" 
-            variant="solid" 
-            bg="$red500"
-            onPress={() => setDialogConfirmCancelarAjuda(true)}
-          >
-            <HStack space="xs" alignItems="center">
-              <X size={14} color="white" />
-              <Text size="xs" color="white">
-                Cancelar
-              </Text>
-            </HStack>
-          </Button>
+          <Can permission="cancelar_ajuda">
+            <Button 
+              size="sm" 
+              variant="solid" 
+              bg="$red500"
+              onPress={() => setDialogConfirmCancelarAjuda(true)}
+            >
+              <HStack space="xs" alignItems="center">
+                <X size={14} color="white" />
+                <Text size="xs" color="white">
+                  Cancelar
+                </Text>
+              </HStack>
+            </Button>
+          </Can>
           
-          <Button 
-            size="sm" 
-            variant="solid" 
-            bg="$green500"
-            onPress={() => setDialogConfirmAprovarAjuda(true)}
-          >
-            <HStack space="xs" alignItems="center">
-              <Check size={14} color="white" />
-              <Text size="xs" color="white">
-                Aprovar
-              </Text>
-            </HStack>
-          </Button>
+          <Can permission="aprovar_ajuda">
+            <Button 
+              size="sm" 
+              variant="solid" 
+              bg="$green500"
+              onPress={() => setDialogConfirmAprovarAjuda(true)}
+            >
+              <HStack space="xs" alignItems="center">
+                <Check size={14} color="white" />
+                <Text size="xs" color="white">
+                  Aprovar
+                </Text>
+              </HStack>
+            </Button>
+          </Can>
         </>
       )}
 
       {item.statusAjuda === 'EM_ENTREGA' && (
-        <Button 
-          size="sm" 
-          variant="solid" 
-          bg="$emerald500"
-          onPress={() => setDialogConfirmEntregarAjuda(true)}
-        >
-          <HStack space="xs" alignItems="center">
-            <CheckCircle size={14} color="white" />
-            <Text size="xs" color="white">
-              Realizada
-            </Text>
-          </HStack>
-        </Button>
+        <Can permission="entregar_ajuda">
+          <Button 
+            size="sm" 
+            variant="solid" 
+            bg="$emerald500"
+            onPress={() => setDialogConfirmEntregarAjuda(true)}
+          >
+            <HStack space="xs" alignItems="center">
+              <CheckCircle size={14} color="white" />
+              <Text size="xs" color="white">
+                Entregar
+              </Text>
+            </HStack>
+          </Button>
+        </Can>
       )}
 
       <ConfirmationDialog

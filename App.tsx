@@ -4,11 +4,11 @@ import {
   Roboto_700Bold,
   Roboto_400Regular,
 } from '@expo-google-fonts/roboto';
-import { GluestackUIProvider, Text } from '@gluestack-ui/themed';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { config } from './config/gluestack-ui.config';
 import { Loading } from '@components/index';
 import { Routes } from '@routes/index';
-import { AuthContextProvider } from '@contexts/auth.context';
+import { Provider } from '@components/Provider';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_700Bold, Roboto_400Regular });
@@ -20,9 +20,9 @@ export default function App() {
         translucent
       />
 
-      <AuthContextProvider>
+      <Provider>
         {fontsLoaded ? <Routes /> : <Loading />}
-      </AuthContextProvider>
+      </Provider>
     </GluestackUIProvider>
   );
 }

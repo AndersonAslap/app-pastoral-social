@@ -31,22 +31,35 @@ const formatarNumero = (numero: number): string => {
 };
 
 const getImage = (tipo: string) => {
-    switch (tipo) {
-      case "Cestas Básicas":
-        return "🛒";
-      case "Refeições":
-        return "🍽️";
-      case "Doação Roupas":
-        return "🧥";
-      default:
-        return "👨‍👩‍👧‍👦";
-    }
+  switch (tipo) {
+    case "Cestas Básicas":
+      return "🛒";
+    case "Refeições":
+      return "🍽️";
+    case "Doação Roupas":
+      return "🧥";
+    default:
+      return "👨‍👩‍👧‍👦";
   }
+}
+
+function getPrimeiroEUltimoNome(nomeCompleto: string): string {
+    const nomes = nomeCompleto.trim().split(' ');
+    
+    if (nomes.length === 0) return '';
+    if (nomes.length === 1) return nomes[0];
+    
+    const primeiroNome = nomes[0];
+    const ultimoNome = nomes[nomes.length - 1];
+    
+    return `${primeiroNome} ${ultimoNome}`;
+}
 
 export {
     formatarNumero,
     formatDate,
     getExpiryStatus,
     getDaysDifference,
-    getImage
+    getImage,
+    getPrimeiroEUltimoNome
 }

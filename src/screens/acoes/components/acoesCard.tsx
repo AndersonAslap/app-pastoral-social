@@ -11,7 +11,8 @@ interface AcoesCardProps {
 }
 
 export const AcoesCard = ({ acao, onAbrirDetalhes, onEditar }: AcoesCardProps) => {
-  const statusConfig = getStatusConfig("planejada");
+  
+  const statusConfig = getStatusConfig(acao.statusAcao.toLowerCase());
 
   return (
     <Box

@@ -66,6 +66,7 @@ export function FamiliaListagem() {
                             onSetShowFilter={setIsFilterOpen}
                             showIconFilter={false}
                             onPress={handleOpenNewFamily}
+                            permission="cadastrar_familia"
                         />
 
                         <FlatList

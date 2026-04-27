@@ -2,6 +2,7 @@ import { VStack, Box, HStack, Text, Button, Icon, ButtonSpinner } from "@gluesta
 import { ButtonCancel } from "@components/index";
 import { CalculatorIcon } from "lucide-react-native";
 import { TemplateForm } from "../../../types/modeloTemplate";
+import { Can } from "@components/can";
 
 interface ModeloTemplateStatusEAcoesSectionProps {
   form: TemplateForm;
@@ -43,21 +44,23 @@ export const ModeloTemplateStatusEAcoesSection = ({
     )}
 
     {/* Botão Verificar Gerações */}
-    <Button
-      onPress={onCalculateGenerations}
-      bg="$yellow500"
-      borderRadius="$lg"
-      size="lg"
-      disabled={calculatingGenerations}
-    > 
-      {calculatingGenerations ? (
-        <ButtonSpinner color="$white" />
-      ) : (
-        <Text color="white" fontWeight="$bold" size="sm">
-          Verificar Quantidade de Gerações Possíveis
-        </Text>
-      )}    
-    </Button>
+    <Can permission="consultar_geracao_modelo">
+      <Button
+        onPress={onCalculateGenerations}
+        bg="$yellow500"
+        borderRadius="$lg"
+        size="lg"
+        disabled={calculatingGenerations}
+      > 
+        {calculatingGenerations ? (
+          <ButtonSpinner color="$white" />
+        ) : (
+          <Text color="white" fontWeight="$bold" size="sm">
+            Verificar Quantidade de Gerações Possíveis
+          </Text>
+        )}    
+      </Button>
+    </Can>
 
     {/* Botões de Ação */}
     <HStack space="md" mt="$4">

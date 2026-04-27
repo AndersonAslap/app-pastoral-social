@@ -4,6 +4,7 @@ import { ICesta } from "@tipagens/cesta";
 import { getStatusConfig, getProgressValue } from "@helper/cesta.helper";
 import { ConfirmationDialog } from "@components/confirmation-dialog";
 import { useState } from "react";
+import { Can } from "@components/can";
 
 interface CestaCardProps {
   cesta: ICesta;
@@ -114,10 +115,12 @@ export const CestaCard = ({ cesta, onDetalhes, onCancelar, onEntregar }: CestaCa
         </Button>
 
         {cesta.status === 'CRIADA' && (
-          <Button size="sm" bg="$red600" onPress={handleOpenConfirmCancelarCesta}>
-            <Trash size={14} color="white" />
-            <ButtonText color="white" ml="$1">Cancelar</ButtonText>
-          </Button>
+          <Can permission="cancelar_cesta">
+            <Button size="sm" bg="$red600" onPress={handleOpenConfirmCancelarCesta}>
+              <Trash size={14} color="white" />
+              <ButtonText color="white" ml="$1">Cancelar</ButtonText>
+            </Button>
+          </Can>
         )}
       </HStack>
 
