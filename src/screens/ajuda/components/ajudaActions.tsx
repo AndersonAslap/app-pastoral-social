@@ -101,7 +101,7 @@ export const AjudaActions = ({
         </>
       )}
 
-      {item.statusAjuda === 'EM_ENTREGA' && (
+      {item.statusAjuda === 'APROVADA' && (
         <Can permission="entregar_ajuda">
           <Button 
             size="sm" 

@@ -4,4 +4,5 @@ gerar build interna
 
 gerar build produção 
 
+> npx expo prebuild --clean
 > eas build -p android --profile production --message "<mensagem>"

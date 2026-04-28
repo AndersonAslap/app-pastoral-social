@@ -10,10 +10,10 @@ const cadastrarAjuda = async (payload: any) => {
   }
 };
 
-const listarAjuda = async (page = 1) : Promise<any> => {
+const listarAjuda = async (page = 1, status = "") : Promise<any> => {
   try {
     let parseData: any[] = [];
-    const response = await api.get(`/ajuda/listar?page=${page}`);
+    const response = await api.get(`/ajuda/listar?page=${page}${status ? `&statusAjuda=${status}` : ''}`);
     const { data } = response.data;
     const { result, paginaAtual, totalItens, totalPaginas } = data;
     if (result?.data && Array.isArray(result.data)) {
@@ -32,7 +32,8 @@ const listarAjuda = async (page = 1) : Promise<any> => {
         stats: {
             total: result.total,
             pendentes: result.pendentes,
-            concluidas: result.concluidas
+            concluidas: result.concluidas,
+            novas: result?.novas || 0
         },
         data: parseData, 
         currentPage: paginaAtual,

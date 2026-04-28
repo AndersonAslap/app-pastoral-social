@@ -32,7 +32,9 @@ export function AjudaListagem() {
     handleLimparFiltros, 
     handleAplicarFiltros,
     fetchAjudas,
-    onChangePage
+    onChangePage,
+    ajudaStatusFilter, 
+    setAjudaStatusFilter
   } = useAjudaListagem();
 
   const handleOpenAjudaCadastrar = () => navigator.navigate("ajudaCadastrar");
@@ -85,7 +87,7 @@ export function AjudaListagem() {
           ? <Loading />
           : (
             <>
-              <AjudaStats stats={stats} />
+              <AjudaStats stats={stats} activeFilter={ajudaStatusFilter} onFilterPress={setAjudaStatusFilter}/>
 
               <HeaderList
                 labelButtonPlus="Nova ajuda"

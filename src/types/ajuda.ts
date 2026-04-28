@@ -22,6 +22,7 @@ export interface Help {
 
 export interface HelpStats {
   total: number;
+  new: number;
   pending: number;
   completed: number;
 }

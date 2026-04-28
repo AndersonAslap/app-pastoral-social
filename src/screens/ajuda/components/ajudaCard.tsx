@@ -4,6 +4,7 @@ import { Help } from "@tipagens/ajuda";
 import { AjudaBadges } from "./ajudaBadges";
 import { AjudaActions } from "./ajudaActions";
 import { getStatusConfig } from "@helper/ajuda.helper";
+import { getPrimeiroEUltimoNome } from "@utils/functions";
 
 interface AjudaCardProps {
   item: Help;
@@ -38,7 +39,7 @@ export const AjudaCard = ({
             <HStack space="sm" alignItems="center">
               <Users size={16} color="#64748b" />
               <Text fontWeight="$bold" size="lg" color="$textDark800">
-                {item.representante}
+                {getPrimeiroEUltimoNome(item.representante)}
               </Text>
             </HStack>
           </VStack>

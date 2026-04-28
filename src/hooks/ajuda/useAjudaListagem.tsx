@@ -1,5 +1,5 @@
 import { useAppToast } from "@hooks/useAppToast";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Help, HelpStats } from "@tipagens/ajuda";
 import {
   aprovarAjuda,
@@ -16,6 +16,7 @@ export function useAjudaListagem() {
   const [items, setItems] = useState<Help[]>([]);
   const [stats, setStats] = useState<HelpStats>({
     total: 0,
+    new: 0,
     pending: 0,
     completed: 0
   });
@@ -31,19 +32,25 @@ export function useAjudaListagem() {
   const [modalVisible, setModalVisible] = useState(false);
   const [ajudaSelecionada, setAjudaSelecionada] = useState<Help | null>(null);
 
+  const [ajudaStatusFilter, setAjudaStatusFilter] = useState<'AGUARDANDO_APROVACAO' | 'APROVADA' | 'ENTREGUE'>('AGUARDANDO_APROVACAO'); 
+
+  // Usar ref para armazenar o valor atual do filtro
+  const filtroStatusRef = useRef(ajudaStatusFilter);
+
   // ✅ FETCH MEMOIZADO
   const fetchAjudas = useCallback(async (page = 1) => {
     setLoading(true);
 
     try {
-      const output = await listarAjuda(page);
+      const output = await listarAjuda(page, filtroStatusRef.current);
 
       setItems(output.data);
 
       setStats({
         total: output.stats?.total || 0,
         pending: output.stats?.pendentes || 0,
-        completed: output.stats?.concluidas || 0
+        completed: output.stats?.concluidas || 0,
+        new: output.stats?.novas || 0,
       });
 
       setPagination(prev => ({
@@ -109,6 +116,7 @@ export function useAjudaListagem() {
   const handleAprovar = useCallback(async (idAjuda: number) => {
     try {
       await aprovarAjuda(idAjuda);
+      await fetchAjudas();
     } catch (error) {
       const isAppError = error instanceof AppError;
 
@@ -124,15 +132,7 @@ export function useAjudaListagem() {
   const handleRealizada = useCallback(async (idAjuda: number) => {
     try {
       await entregarAjuda(idAjuda);
-
-      setItems(prev =>
-        prev.map(item =>
-          item.id === idAjuda
-            ? { ...item, status: "CONCLUIDO" }
-            : item
-        )
-      );
-
+      await fetchAjudas();
     } catch (error) {
       const isAppError = error instanceof AppError;
 
@@ -152,6 +152,12 @@ export function useAjudaListagem() {
   const handleAplicarFiltros = useCallback(() => {
     setIsFilterOpen(false);
   }, []);
+
+  // Atualizar ref quando filtro mudar
+  useEffect(() => {
+      filtroStatusRef.current = ajudaStatusFilter;
+      fetchAjudas(1);
+  }, [ajudaStatusFilter]);
 
   return {
     loading,
@@ -175,6 +181,9 @@ export function useAjudaListagem() {
     handleRealizada,
 
     handleLimparFiltros,
-    handleAplicarFiltros
+    handleAplicarFiltros,
+
+    ajudaStatusFilter, 
+    setAjudaStatusFilter
   };
 }
