@@ -167,6 +167,7 @@ export const useModeloTemplateForm = () => {
         ...form, 
         templateItens: produtosSelecionados.map(item => ({ itemProdutoId: item.itemProdutoId?.toString(), quantidade: item.quantidade })),
         template: {
+          gerarCestas: form.gerarCestas,
           templateDesc: form.templateDesc,
           templateType: form.templateType,
         } 
