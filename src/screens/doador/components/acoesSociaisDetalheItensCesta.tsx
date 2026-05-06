@@ -71,7 +71,7 @@ export const AcoesSociaisDetalheItensCesta: React.FC<AcoesSociaisDetalheItensCes
 
   // Ordenar itens por criticidade (crítico primeiro)
   const itensOrdenados = [...itensParseados].sort((a, b) => {
-    const ordem: StatusLevel[] = ['critico', 'alto', 'medio', 'baixo'];
+    const ordem: StatusLevel[] = ['crítico', 'alto', 'medio', 'baixo'];
     return ordem.indexOf(a.status) - ordem.indexOf(b.status);
   });
 

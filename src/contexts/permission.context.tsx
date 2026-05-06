@@ -1,6 +1,7 @@
 // contexts/PermissionContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Permission, PermissionContextType } from '@tipagens/permission';
+import { storageUserGet } from '@storage/storageUser';
 
 const PermissionContext = createContext<PermissionContextType | undefined>(undefined);
 
@@ -17,9 +18,8 @@ interface PermissionProviderProps {
 }
 
 export const PermissionProvider: React.FC<PermissionProviderProps> = ({ children }) => {
-  const [userPermissions, setUserPermissions] = useState<Permission[]>([]);
 
-  console.log('Current user permissions:', JSON.stringify(userPermissions, null, 2));
+  const [userPermissions, setUserPermissions] = useState<Permission[]>([]);
 
   const setPermissions = (permissions: Permission[]): void => {
     setUserPermissions(permissions);
@@ -36,6 +36,17 @@ export const PermissionProvider: React.FC<PermissionProviderProps> = ({ children
   const hasAllPermissions = (permissions: Permission[]): boolean => {
     return permissions.every(permission => userPermissions.includes(permission));
   };
+
+  useEffect(() => {
+    const loadUserPermissions = async () => {
+      const userLogged = await storageUserGet();
+      if (userLogged && userLogged.permissions) {
+        setUserPermissions(userLogged.permissions as Permission[]);
+      }
+    };
+    
+    loadUserPermissions();
+  }, []);
 
   const value: PermissionContextType = {
     userPermissions,

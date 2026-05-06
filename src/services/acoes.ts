@@ -60,7 +60,7 @@ const listarAcoesPorId = async (id: number) : Promise<any> => {
         beneficiarios: "Famílias em situação de vulnerabilidade assistidas pela pastoral",
         impacto: "185 famílias beneficiadas mensalmente",
 
-        itens: data.itens ? data.itens.map((item: any) => `${item.nomeProduto} (${item.unidadeMedida}) - (${item.nivelNecessidadeDoacao === "CRITICAL" ? "CRÍTICO" : item.nivelNecessidadeDoacao === "HIGH" ? "ALTO" : "MODERADO"})`) : [],
+        itens: data.itens ? data.itens.map((item: any) => `${item.nomeProduto} (${item.unidadeMedida}) - (${item.nivelNecessidadeDoacao === "CRITICAL" ? "CRÍTICO" : item.nivelNecessidadeDoacao === "HIGH" ? "ALTO" : item.nivelNecessidadeDoacao === "MEDIUM" ? "MODERADO" : "BAIXO"})`) : [],
         products: data?.itens?.map((item: any) => ({ ...item, value: item.idItemProduto.toString(), label: `${item.nomeProduto} (${item.unidadeMedida})` })) || []
       };
     }
